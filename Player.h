@@ -1,37 +1,45 @@
 #pragma once
 #include "Key.h"
-#include "Player.h"
+#include "Vector2.h"
 
-class GameScene {
+class Player {
 	/// --メンバ変数-- ///
 public:
 
 private:
 	// --インスタンス-- //
-	static GameScene* myInstance;
+	static Player* myInstance;
 
-#pragma region クラス宣言
+	// --クラス宣言-- //
+	Key* key;
 
-	// --キーボード入力-- //
-	Key * key;
+	// --座標-- //
+	Vector2 pos[2];
 
-	// --プレイヤー-- //
-	Player* player;
+	// --半径-- //
+	float radius;
 
-#pragma endregion
+	// --横移動速度の基礎値-- //
+	const float defaultSpeedX;
+
+	// --横移動の速度-- //
+	float speedX;
+
+	// --移動する向き-- //
+	int direction;
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///
 	/// --メンバ関数-- ///
 public:
 	// --インスタンス取得-- //
-	static GameScene* GetInstance();
+	static Player* GetInstance();
 
 	// --メモリ解放-- //
 	static void Release();
 
 	// --デストラクタ-- //
-	~GameScene();
+	~Player();
 
 	// --初期化処理-- //
 	void Initialize();
@@ -44,7 +52,7 @@ public:
 
 private:
 	// --コンストラクタ-- //
-	GameScene();
+	Player();
 
 	/// --メンバ関数END-- ///
 };

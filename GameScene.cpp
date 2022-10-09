@@ -23,25 +23,36 @@ void GameScene::Release() {
 
 // --コンストラクタ-- //
 GameScene::GameScene() {
+#pragma region クラス定義
 
+	// --キーボード入力-- //
+	key = Key::GetInstance();
+
+	// --プレイヤー-- //
+	player = Player::GetInstance();
+
+#pragma endregion
 }
 
 // --デストラクタ-- //
 GameScene::~GameScene() {
-
+	// --メモリ解放-- //
+	player->Release();
 }
 
 // --初期化処理-- //
 void GameScene::Initialize() {
-
+	// --プレイヤー-- //
+	player->Initialize();
 }
 
 // --更新処理-- //
 void GameScene::Update() {
-
+	// --プレイヤー-- //
+	player->Update();
 }
 
 // --描画処理-- //
 void GameScene::Draw() {
-
+	player->Draw();
 }

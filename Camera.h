@@ -1,37 +1,25 @@
 #pragma once
-#include "Key.h"
-#include "Player.h"
 
-class GameScene {
+class Camera {
 	/// --メンバ変数-- ///
 public:
 
 private:
 	// --インスタンス-- //
-	static GameScene* myInstance;
-
-#pragma region クラス宣言
-
-	// --キーボード入力-- //
-	Key * key;
-
-	// --プレイヤー-- //
-	Player* player;
-
-#pragma endregion
+	static Camera* myInstance;
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///
 	/// --メンバ関数-- ///
 public:
 	// --インスタンス取得-- //
-	static GameScene* GetInstance();
+	static Camera* GetInstance();
 
 	// --メモリ解放-- //
 	static void Release();
 
 	// --デストラクタ-- //
-	~GameScene();
+	~Camera();
 
 	// --初期化処理-- //
 	void Initialize();
@@ -44,7 +32,7 @@ public:
 
 private:
 	// --コンストラクタ-- //
-	GameScene();
+	Camera();
 
 	/// --メンバ関数END-- ///
 };
