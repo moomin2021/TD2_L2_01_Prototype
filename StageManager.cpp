@@ -48,18 +48,31 @@ void StageManager::Draw()
     size_t loopCount = 0;
     for (size_t y = 0; y < blocks_.size(); y++) {
         for (size_t x = 0; x < blocks_[loopCount].size(); x++) {
-            if (blocks_.at(y).at(x) == static_cast<int>(BlockId::Wall)) {
+            if (blocks_.at(y).at(x) == static_cast<int>(BlockId::White)) {
                 // ŠO˜g
                 DrawBox(blockSize_ * x, blockSize_ * y,
                         blockSize_ * (x + 1), blockSize_ * (y + 1),
-                        0xffffff, true
+                        0x8d8d8d, true
                 );
 
                 // “à‘¤
-                /*DrawBox((blockSize_ - 1) * x, (blockSize_ - 1) * y,
-                        (blockSize_ - 1) * (x + 1), (blockSize_ - 1) * (y + 1),
+                DrawBox((blockSize_ * x) + 5, (blockSize_ * y) + 5,
+                        (blockSize_ * (x + 1)) - 5, (blockSize_ * (y + 1)) - 5,
+                        0xffffff, true
+                );
+            }
+            else if (blocks_.at(y).at(x) == static_cast<int>(BlockId::Black)) {
+                // ŠO˜g
+                DrawBox(blockSize_ * x, blockSize_ * y,
+                        blockSize_ * (x + 1), blockSize_ * (y + 1),
                         0x8d8d8d, true
-                );*/
+                );
+
+                // “à‘¤
+                DrawBox((blockSize_ * x) + 5, (blockSize_ * y) + 5,
+                        (blockSize_ * (x + 1)) - 5, (blockSize_ * (y + 1)) - 5,
+                        0x000000, true
+                );
             }
         }
         loopCount++;

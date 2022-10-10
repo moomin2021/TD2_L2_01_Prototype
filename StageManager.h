@@ -6,7 +6,8 @@
 enum struct BlockId
 {
     None,   // 0
-    Wall    // 1
+    White,  // 1
+    Black   // 2
 };
 
 class StageManager
@@ -15,9 +16,9 @@ public: // 静的関数
     static StageManager* GetInstance();
 
 private: // 静的変数
-    static const size_t blockSize_ = 32; // 定数
+    static const size_t blockSize_ = 64; // 定数
 
-    static const size_t elemsX = 18; // 要素数
+    static const size_t elemsX = 10; // 要素数
     static const size_t elemsY = 12; //
 
 public: // 関数

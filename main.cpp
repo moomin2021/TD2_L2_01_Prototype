@@ -6,7 +6,7 @@
 const char TITLE[] = "LE2A_14_タムラ_フミヤ: タイトル";
 
 // ウィンドウ横幅
-const int WIN_WIDTH = 600;
+const int WIN_WIDTH = 640;
 
 // ウィンドウ縦幅
 const int WIN_HEIGHT = 400;
@@ -30,7 +30,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	SetWindowSizeExtendRate(1.0);
 
 	// 画面の背景色を設定する
-	SetBackgroundColor(0x00, 0x00, 0x00);
+	SetBackgroundColor(255, 225, 117);
 
 	// DXlibの初期化
 	if (DxLib_Init() == -1) { return -1; }

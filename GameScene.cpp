@@ -33,7 +33,9 @@ GameScene::~GameScene() {
 
 // --‰Šú‰»ˆ—-- //
 void GameScene::Initialize() {
-
+	stageManager_ = StageManager::GetInstance();
+	stageManager_->Init();
+	stageManager_->LoadCSV("proto.csv");
 }
 
 // --XVˆ—-- //
@@ -43,5 +45,5 @@ void GameScene::Update() {
 
 // --•`‰æˆ—-- //
 void GameScene::Draw() {
-
+	stageManager_->Draw();
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include "StageManager.h"
 
 class GameScene {
 	/// --メンバ変数-- ///
@@ -7,7 +8,7 @@ public:
 private:
 	// --インスタンス-- //
 	static GameScene* myInstance;
-
+	StageManager* stageManager_ = nullptr;
 	
 
 	/// --メンバ変数END-- ///
