@@ -45,7 +45,7 @@ Player::Player() :
 #pragma region 定数メンバの初期化
 
 	// --横移動速度の基礎値-- //
-	defaultSpeedX(10.0f)
+	defaultSpeedX(5.0f)
 
 #pragma endregion
 {
@@ -53,10 +53,10 @@ Player::Player() :
 	key = Key::GetInstance();
 
 	// --白いプレイヤーオブジェクト-- //
-	whiteObj = { {300.0f, 700.0f}, 16.0f };
+	whiteObj = { {300.0f, 700.0f}, 32.0f };
 
 	// --黒いプレイヤーオブジェクト-- //
-	blackObj = { {900.0f, 700.0f}, 16.0f };
+	blackObj = { {900.0f, 700.0f}, 32.0f };
 
 	// --横移動の速度-- //
 	speedX = defaultSpeedX;
@@ -73,10 +73,10 @@ Player::~Player() {
 // --初期化処理-- //
 void Player::Initialize() {
 	// --白いプレイヤーオブジェクト-- //
-	whiteObj = { {300.0f, 700.0f}, 16.0f };
+	whiteObj = { {300.0f, 700.0f}, 32.0f };
 
 	// --黒いプレイヤーオブジェクト-- //
-	blackObj = { {900.0f, 700.0f}, 16.0f };
+	blackObj = { {900.0f, 700.0f}, 32.0f };
 
 	// --横移動の速度-- //
 	speedX = defaultSpeedX;

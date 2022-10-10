@@ -6,7 +6,7 @@
 const char TITLE[] = "LE2A_14_タムラ_フミヤ: タイトル";
 
 // ウィンドウ横幅
-const int WIN_WIDTH = 600;
+const int WIN_WIDTH = 640;
 
 // ウィンドウ縦幅
 const int WIN_HEIGHT = 800;
