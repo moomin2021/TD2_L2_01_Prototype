@@ -1,4 +1,5 @@
 #pragma once
+#include "StageManager.h"
 #include "Key.h"
 #include "Player.h"
 
@@ -9,6 +10,8 @@ public:
 private:
 	// --インスタンス-- //
 	static GameScene* myInstance;
+	StageManager* stageManager_ = nullptr;
+	
 
 #pragma region クラス宣言
 
