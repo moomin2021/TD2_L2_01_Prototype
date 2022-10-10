@@ -2,6 +2,14 @@
 #include "Key.h"
 #include "Vector2.h"
 
+struct Object {
+	// --座標-- //
+	Vector2 pos;
+
+	// --半径-- //
+	float radius;
+};
+
 class Player {
 	/// --メンバ変数-- ///
 public:
@@ -13,11 +21,11 @@ private:
 	// --クラス宣言-- //
 	Key* key;
 
-	// --座標-- //
-	Vector2 pos[2];
+	// --白いプレイヤーオブジェクト-- //
+	Object whiteObj;
 
-	// --半径-- //
-	float radius;
+	// --黒いプレイヤーオブジェクト-- //
+	Object blackObj;
 
 	// --横移動速度の基礎値-- //
 	const float defaultSpeedX;

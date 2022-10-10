@@ -11,6 +11,14 @@
 #define LEFT -1
 #define RIGHT 1
 
+// --オブジェクトの描画用の関数-- //
+void DrawBoxAA(Object obj, bool fillFlag) {
+	DrawBoxAA(
+		obj.pos.x - obj.radius, obj.pos.y - obj.radius,
+		obj.pos.x + obj.radius, obj.pos.y + obj.radius,
+		0xFFFFFF, fillFlag);
+}
+
 // --インスタンスにNULLを代入-- //
 Player* Player::myInstance = nullptr;
 
@@ -44,12 +52,11 @@ Player::Player() :
 	// --クラス定義-- //
 	key = Key::GetInstance();
 
-	// --座標-- //
-	pos[0] = { 300.0f, 700.0f };
-	pos[1] = { 900.0f, 700.0f };
+	// --白いプレイヤーオブジェクト-- //
+	whiteObj = { {300.0f, 700.0f}, 16.0f };
 
-	// --半径-- //
-	radius = 16.0f;
+	// --黒いプレイヤーオブジェクト-- //
+	blackObj = { {900.0f, 700.0f}, 16.0f };
 
 	// --横移動の速度-- //
 	speedX = defaultSpeedX;
@@ -65,12 +72,11 @@ Player::~Player() {
 
 // --初期化処理-- //
 void Player::Initialize() {
-	// --座標-- //
-	pos[0] = { 300.0f, 700.0f };
-	pos[1] = { 900.0f, 700.0f };
+	// --白いプレイヤーオブジェクト-- //
+	whiteObj = { {300.0f, 700.0f}, 16.0f };
 
-	// --半径-- //
-	radius = 16.0f;
+	// --黒いプレイヤーオブジェクト-- //
+	blackObj = { {900.0f, 700.0f}, 16.0f };
 
 	// --横移動の速度-- //
 	speedX = defaultSpeedX;
@@ -90,24 +96,23 @@ void Player::Update() {
 		else if (direction == LEFT) direction = RIGHT;
 	}
 
-	// --プレイヤーのX座標に速度を加算-- //
-	pos[0].x += speedX * direction;
-	pos[1].x += speedX * direction;
+	// --プレイヤーオブジェクトのX座標に速度を加算-- //
+	whiteObj.pos.x += speedX * direction;
+	blackObj.pos.x += speedX * direction;
 
 	// --一定まで行くとプレイヤーの座標を反対側に変更-- //
-	if (pos[0].x >= 900.0f) pos[0].x -= 1200.0f;
-	else if (pos[0].x <= -300.0f) pos[0].x += 1200.0f;
+	if (whiteObj.pos.x >= 900.0f) whiteObj.pos.x -= 1200.0f;
+	else if (whiteObj.pos.x <= -300.0f) whiteObj.pos.x += 1200.0f;
 
-	if (pos[1].x >= 900.0f) pos[1].x -= 1200.0f;
-	else if (pos[1].x <= -300.0f) pos[1].x += 1200.0f;
+	if (blackObj.pos.x >= 900.0f) blackObj.pos.x -= 1200.0f;
+	else if (blackObj.pos.x <= -300.0f) blackObj.pos.x += 1200.0f;
 }
 
 // --描画処理-- //
 void Player::Draw() {
-	// --プレイヤー描画-- //
-	DrawBoxAA(pos[0].x - radius, pos[0].y - radius, pos[0].x + radius, pos[0].y + radius,
-		WHITE, true);
+	// --白いプレイヤー描画-- //
+	DrawBoxAA(whiteObj, true);
 
-	DrawBoxAA(pos[1].x - radius, pos[1].y - radius, pos[1].x + radius, pos[1].y + radius,
-		WHITE, false);
+	// --黒いプレイヤー描画-- //
+	DrawBoxAA(blackObj, false);
 }
