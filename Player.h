@@ -1,13 +1,11 @@
 #pragma once
 #include "Key.h"
-#include "Vector2.h"
+#include "Util.h"
 
-struct Object {
-	// --座標-- //
-	Vector2 pos;
-
-	// --半径-- //
-	float radius;
+enum State {
+	Normal,// -> 通常状態
+	Knock,// --> ノックバック状態
+	Boost// ---> ブースト状態
 };
 
 class Player {
@@ -26,6 +24,9 @@ private:
 
 	// --黒いプレイヤーオブジェクト-- //
 	Object blackObj;
+
+	// --プレイヤーの状態-- //
+	int state;
 
 	// --横移動速度の基礎値-- //
 	const float defaultSpeedX;
@@ -57,6 +58,15 @@ public:
 
 	// --描画処理-- //
 	void Draw();
+
+	// --白いオブジェクトの参照-- //
+	Object GetWhiteObj();
+
+	// --黒いオブジェクトの参照-- //
+	Object GetBlackObj();
+
+	// --プレイヤーの状態を変更-- //
+	void SetState(int state);
 
 private:
 	// --コンストラクタ-- //

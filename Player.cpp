@@ -58,6 +58,9 @@ Player::Player() :
 	// --黒いプレイヤーオブジェクト-- //
 	blackObj = { {900.0f, 700.0f}, 32.0f };
 
+	// --プレイヤーの状態-- //
+	state = Normal;
+
 	// --横移動の速度-- //
 	speedX = defaultSpeedX;
 
@@ -77,6 +80,9 @@ void Player::Initialize() {
 
 	// --黒いプレイヤーオブジェクト-- //
 	blackObj = { {900.0f, 700.0f}, 32.0f };
+
+	// --プレイヤーの状態-- //
+	state = Normal;
 
 	// --横移動の速度-- //
 	speedX = defaultSpeedX;
@@ -116,3 +122,12 @@ void Player::Draw() {
 	// --黒いプレイヤー描画-- //
 	DrawBoxAA(blackObj, false);
 }
+
+// --白いオブジェクトの参照-- //
+Object Player::GetWhiteObj() { return whiteObj; }
+
+// --黒いオブジェクトの参照-- //
+Object Player::GetBlackObj() { return blackObj; }
+
+// --プレイヤーの状態を変更-- //
+void Player::SetState(int state) { this->state = state; }
