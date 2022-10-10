@@ -13,11 +13,11 @@
 #define RIGHT 1
 
 // --オブジェクトの描画用の関数-- //
-void DrawBoxAA(Object obj, bool fillFlag) {
+void DrawBoxAA(Object obj, unsigned int color,  bool fillFlag) {
 	DrawBoxAA(
 		obj.pos.x - obj.radius, obj.pos.y - obj.radius,
 		obj.pos.x + obj.radius, obj.pos.y + obj.radius,
-		0xFFFFFF, fillFlag);
+		color, fillFlag);
 }
 
 // --インスタンスにNULLを代入-- //
@@ -85,10 +85,10 @@ Player::~Player() {
 // --初期化処理-- //
 void Player::Initialize() {
 	// --白いプレイヤーオブジェクト-- //
-	whiteObj = { {300.0f, 700.0f}, 32.0f };
+	whiteObj = { {320.0f, 700.0f}, 32.0f };
 
 	// --黒いプレイヤーオブジェクト-- //
-	blackObj = { {900.0f, 700.0f}, 32.0f };
+	blackObj = { {960.0f, 700.0f}, 32.0f };
 
 	// --プレイヤーの状態-- //
 	state = Normal;
@@ -119,11 +119,11 @@ void Player::Update() {
 	blackObj.pos.x += speedX * direction;
 
 	// --一定まで行くとプレイヤーの座標を反対側に変更-- //
-	if (whiteObj.pos.x >= 900.0f) whiteObj.pos.x -= 1200.0f;
-	else if (whiteObj.pos.x <= -300.0f) whiteObj.pos.x += 1200.0f;
+	if (whiteObj.pos.x >= 960.0f) whiteObj.pos.x -= 1280.0f;
+	else if (whiteObj.pos.x <= -320.0f) whiteObj.pos.x += 1280.0f;
 
-	if (blackObj.pos.x >= 900.0f) blackObj.pos.x -= 1200.0f;
-	else if (blackObj.pos.x <= -300.0f) blackObj.pos.x += 1200.0f;
+	if (blackObj.pos.x >= 960.0f) blackObj.pos.x -= 1280.0f;
+	else if (blackObj.pos.x <= -320.0f) blackObj.pos.x += 1280.0f;
 
 	// --プレイヤーの移動分スクロール-- //
 	Camera::AddScroll(-speedY);
@@ -132,10 +132,10 @@ void Player::Update() {
 // --描画処理-- //
 void Player::Draw() {
 	// --白いプレイヤー描画-- //
-	DrawBoxAA(whiteObj, true);
+	DrawBoxAA(whiteObj, 0xFFFFFF, true);
 
 	// --黒いプレイヤー描画-- //
-	DrawBoxAA(blackObj, false);
+	DrawBoxAA(blackObj, 0x000000, true);
 }
 
 // --白いオブジェクトの参照-- //
