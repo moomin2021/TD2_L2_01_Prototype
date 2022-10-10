@@ -65,6 +65,11 @@ Player::Player() :
 	direction = RIGHT;
 }
 
+void Player::Coliision()
+{
+
+}
+
 // --デストラクタ-- //
 Player::~Player() {
 	

@@ -19,7 +19,7 @@ private: // Ã“I•Ï”
     static const size_t blockSize_ = 64; // ’è”
 
     static const size_t elemsX = 10; // —v‘f”
-    static const size_t elemsY = 12; //
+    static const size_t elemsY = 50; //
 
 public: // ŠÖ”
     void LoadCSV(std::string path); // CSV“Ç‚İ‚İ

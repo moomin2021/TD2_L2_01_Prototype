@@ -10,6 +10,13 @@ struct Object {
 	float radius;
 };
 
+struct Vertex {
+	size_t LeftTop;
+	size_t LeftBottom;
+	size_t RightTop;
+	size_t RightBottom;
+};
+
 class Player {
 	/// --メンバ変数-- ///
 public:
@@ -36,6 +43,10 @@ private:
 	// --移動する向き-- //
 	int direction;
 
+
+	// Collision()
+	Vertex vPos;
+
 	/// --メンバ変数END-- ///
 	/// --------------- ///
 	/// --メンバ関数-- ///
@@ -61,6 +72,8 @@ public:
 private:
 	// --コンストラクタ-- //
 	Player();
+
+	void Coliision();
 
 	/// --メンバ関数END-- ///
 };
