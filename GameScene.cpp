@@ -31,6 +31,9 @@ GameScene::GameScene() {
 	// --プレイヤー-- //
 	player = Player::GetInstance();
 
+	// --カメラ-- //
+	camera = Camera::GetInstance();
+
 #pragma endregion
 }
 
@@ -38,6 +41,7 @@ GameScene::GameScene() {
 GameScene::~GameScene() {
 	// --メモリ解放-- //
 	player->Release();
+	camera->Release();
 }
 
 // --初期化処理-- //

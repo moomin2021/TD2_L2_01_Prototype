@@ -1,5 +1,6 @@
 #include "DxLib.h"
 #include "Player.h"
+#include "Camera.h"
 
 // --黒-- //
 #define BLACK 0x000000
@@ -66,6 +67,9 @@ Player::Player() :
 
 	// --移動する向き-- //
 	direction = RIGHT;
+
+	// --縦移動の速度-- //
+	speedY = 10.0f;
 }
 
 void Player::Coliision()
@@ -94,6 +98,9 @@ void Player::Initialize() {
 
 	// --移動する向き-- //
 	direction = RIGHT;
+
+	// --縦移動の速度-- //
+	speedY = 10.0f;
 }
 
 // --更新処理-- //
@@ -117,6 +124,9 @@ void Player::Update() {
 
 	if (blackObj.pos.x >= 900.0f) blackObj.pos.x -= 1200.0f;
 	else if (blackObj.pos.x <= -300.0f) blackObj.pos.x += 1200.0f;
+
+	// --プレイヤーの移動分スクロール-- //
+	Camera::AddScroll(-speedY);
 }
 
 // --描画処理-- //

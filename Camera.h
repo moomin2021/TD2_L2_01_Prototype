@@ -8,6 +8,9 @@ private:
 	// --インスタンス-- //
 	static Camera* myInstance;
 
+	// --スクロール-- //
+	static float scrollY;
+
 	/// --メンバ変数END-- ///
 	/// --------------- ///
 	/// --メンバ関数-- ///
@@ -27,8 +30,11 @@ public:
 	// --更新処理-- //
 	void Update();
 
-	// --描画処理-- //
-	void Draw();
+	// --スクロールの値に加算-- //
+	static void AddScroll(float value);
+
+	// --スクロールの値を参照-- //
+	static float GetScroll();
 
 private:
 	// --コンストラクタ-- //

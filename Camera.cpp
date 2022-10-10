@@ -3,6 +3,9 @@
 // --インスタンスにNULLを代入-- //
 Camera* Camera::myInstance = nullptr;
 
+// --スクロール値-- //
+float Camera::scrollY = 2400;
+
 // --インスタンス読み込み-- //
 Camera* Camera::GetInstance() {
 	// --インスタンスが無かったら生成する-- //
@@ -40,3 +43,9 @@ void Camera::Initialize() {
 void Camera::Update() {
 
 }
+
+// --スクロールの値に加算-- //
+void Camera::AddScroll(float value) { scrollY += value; }
+
+// --スクロールの値を参照-- //
+float Camera::GetScroll() { return scrollY; }

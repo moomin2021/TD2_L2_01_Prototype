@@ -44,6 +44,9 @@ private:
 	// --ˆÚ“®‚·‚éŒü‚«-- //
 	int direction;
 
+	// --cˆÚ“®‚Ì‘¬“x-- //
+	float speedY;
+
 
 	// Collision()
 	Vertex vPos;
