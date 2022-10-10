@@ -70,6 +70,15 @@ Player::Player() :
 
 	// --縦移動の速度-- //
 	speedY = 10.0f;
+
+	// --ブーストの時間[s]-- //
+	boostTime = 5.0f;
+
+	// --ブーストの経過時間[s]-- //
+	boostTimer = 0.0f;
+
+	// --ブーストが始まった時の時間-- //
+	boostStartTime = 0;
 }
 
 void Player::Coliision()
@@ -101,6 +110,9 @@ void Player::Initialize() {
 
 	// --縦移動の速度-- //
 	speedY = 10.0f;
+
+	// --ブーストの経過時間[s]-- //
+	boostTimer = 0.0f;
 }
 
 // --更新処理-- //
@@ -114,9 +126,32 @@ void Player::Update() {
 		else if (direction == LEFT) direction = RIGHT;
 	}
 
-	// --プレイヤーオブジェクトのX座標に速度を加算-- //
-	whiteObj.pos.x += speedX * direction;
-	blackObj.pos.x += speedX * direction;
+	// --通常状態だったら-- //
+	if (state == Normal) {
+		// --プレイヤーオブジェクトのX座標に速度を加算-- //
+		whiteObj.pos.x += speedX * direction;
+		blackObj.pos.x += speedX * direction;
+
+		// --プレイヤーの移動分スクロール-- //
+		Camera::AddScroll(-speedY);
+	}
+
+	// --ノックバック状態だったら-- //
+	else if (state == Knock) {
+
+	}
+
+	// --ブースト状態だったら-- //
+	else if (state == Boost) {
+		// --ブースト状態になってからの経過時間-- //
+		float nowTime = (GetNowCount() - boostStartTime) / 1000.0f;
+
+		// --指定されているブースト時間が過ぎたら-- //
+		if (boostTime <= nowTime) {
+			// --ブースト状態から通常状態に変更-- //
+			state = Normal;
+		}
+	}
 
 	// --一定まで行くとプレイヤーの座標を反対側に変更-- //
 	if (whiteObj.pos.x >= 960.0f) whiteObj.pos.x -= 1280.0f;
@@ -124,9 +159,6 @@ void Player::Update() {
 
 	if (blackObj.pos.x >= 960.0f) blackObj.pos.x -= 1280.0f;
 	else if (blackObj.pos.x <= -320.0f) blackObj.pos.x += 1280.0f;
-
-	// --プレイヤーの移動分スクロール-- //
-	Camera::AddScroll(-speedY);
 }
 
 // --描画処理-- //
