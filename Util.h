@@ -8,3 +8,5 @@ struct Object {
 	// --”¼Œa-- //
 	float radius;
 };
+
+double Sign(double a);

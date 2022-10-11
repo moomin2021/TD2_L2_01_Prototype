@@ -99,7 +99,7 @@ private:
 	// --コンストラクタ-- //
 	Player();
 
-	void Coliision();
+	void Collision();
 
 	/// --メンバ関数END-- ///
 };
