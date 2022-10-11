@@ -46,6 +46,9 @@ private:
 	// --移動する向き-- //
 	int direction;
 
+	// --縦移動速度の基礎値-- //
+	const float defaultSpeedY;
+
 	// --縦移動の速度-- //
 	float speedY;
 
@@ -57,6 +60,12 @@ private:
 
 	// --ブーストが始まった時の時間-- //
 	int boostStartTime;
+
+	// --ブースト時の初期スピード-- //
+	const float defaultBoostSpeedY;
+
+	// --ノックバック時の初期スピード-- //
+	const float defaultKnockSpeedY;
 
 	// Collision()
 	Vertex vPosW;
@@ -100,6 +109,15 @@ private:
 	Player();
 
 	void Collision();
+
+	// --通常状態に変更-- //
+	void SetNormal();
+
+	// --ノックバックに変更-- //
+	void SetKnock();
+
+	// --ブースト状態に変更-- //
+	void SetBoost();
 
 	/// --メンバ関数END-- ///
 };

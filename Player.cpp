@@ -47,7 +47,16 @@ Player::Player() :
 #pragma region 定数メンバの初期化
 
 	// --横移動速度の基礎値-- //
-	defaultSpeedX(5.0f)
+	defaultSpeedX(5.0f),
+
+	// --縦移動速度の基礎値-- //
+	defaultSpeedY(10.0f),
+
+	// --ブースト時の初期スピード-- //
+	defaultBoostSpeedY(20.0f),
+
+	// --ノックバック時の初期スピード-- //
+	defaultKnockSpeedY(-10.0f)
 
 #pragma endregion
 {
@@ -71,7 +80,7 @@ Player::Player() :
 	direction = RIGHT;
 
 	// --縦移動の速度-- //
-	speedY = 10.0f;
+	speedY = defaultSpeedY;
 
 	// --ブーストの時間[s]-- //
 	boostTime = 5.0f;
@@ -193,6 +202,9 @@ void Player::Collision()
 //	DrawFormatString(20, 20, 0x0000ff, "state: %d", state);
 //#endif // _DEBUG
 
+		state = Boost;
+	}
+#pragma endregion
 }
 
 // --デストラクタ-- //
@@ -249,7 +261,13 @@ void Player::Update() {
 
 	// --ノックバック状態だったら-- //
 	else if (state == Knock) {
+		// --速度を加算-- //
+		speedY += 0.5f;
 
+		// --Y軸の速度が基礎値を越したら通常状態に変更-- //
+		if (speedY >= defaultSpeedY) {
+			SetNormal();
+		}
 	}
 
 	// --ブースト状態だったら-- //
@@ -260,7 +278,7 @@ void Player::Update() {
 		// --指定されているブースト時間が過ぎたら-- //
 		if (boostTime <= nowTime) {
 			// --ブースト状態から通常状態に変更-- //
-			state = Normal;
+			SetBoost();
 		}
 	}
 
@@ -270,6 +288,8 @@ void Player::Update() {
 
 	if (blackObj.pos.x >= 960.0f) blackObj.pos.x -= 1280.0f;
 	else if (blackObj.pos.x <= -320.0f) blackObj.pos.x += 1280.0f;
+
+	Coliision();
 }
 
 // --描画処理-- //
@@ -289,3 +309,36 @@ Object Player::GetBlackObj() { return blackObj; }
 
 // --プレイヤーの状態を変更-- //
 void Player::SetState(int state) { this->state = state; }
+
+// --通常状態に変更-- //
+void Player::SetNormal() {
+	// --Y軸の速度を規定値に設定-- //
+	speedY = defaultSpeedY;
+
+	// --通常状態に変更-- //
+	state = Normal;
+}
+
+// --ノックバックに変更-- //
+void Player::SetKnock() {
+	// --Y軸の速度をノックバック時の速度に設定-- //
+	speedY = defaultKnockSpeedY;
+
+	// --通常状態に変更-- //
+	state = Knock;
+}
+
+// --ブースト状態に変更-- //
+void Player::SetBoost() {
+	// --Y軸の速度をブースト時の規定値に設定-- //
+	speedY = defaultBoostSpeedY;
+
+	// --向きが右だったら左に変更-- //
+	if (direction == RIGHT) direction = LEFT;
+
+	// --向きが左だったら右に変更-- //
+	else if (direction == LEFT) direction = RIGHT;
+
+	// --ブースト状態に変更-- //
+	state = Boost;
+}
