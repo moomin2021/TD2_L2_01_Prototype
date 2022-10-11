@@ -33,6 +33,13 @@ void StageManager::LoadCSV(string path)
 
 			blocks_.at(loopCount).at(i).color_ = static_cast<int>(Sign(stoi(tmp)) * stoi(tmp) / 100) % 10;
 			blocks_.at(loopCount).at(i).shape_ = stoi(tmp) % 100;
+
+			if (blocks_.at(loopCount).at(i).color_ == static_cast<int>(BlockId::White) ||
+				blocks_.at(loopCount).at(i).color_ == static_cast<int>(BlockId::Black)) {
+
+				Obstacle objTmp({ i * blockSize_ ,loopCount * blockSize_ }, { (i + 1) * blockSize_,(loopCount + 1) * blockSize_ });
+				obstacles_.push_back(objTmp);
+			}
 		}
 		loopCount++;
 	}
@@ -41,6 +48,7 @@ void StageManager::LoadCSV(string path)
 void StageManager::Init()
 {
 	Reset();
+	obstacles_.clear();
 }
 
 void StageManager::Update()

@@ -2,6 +2,8 @@
 #include <memory>
 #include <string>
 #include <array>
+#include <vector>
+#include "Vector2.h"
 
 enum struct BlockId
 {
@@ -16,6 +18,23 @@ struct Block
 	size_t shape_;
 };
 
+struct Obstacle
+{
+	Vector2 start_;
+	Vector2 end_;
+
+	Obstacle(Vector2 start, Vector2 end)
+		:start_(start), end_(end)
+	{
+	}
+
+	void ChangeSize(Vector2 start, Vector2 end)
+	{
+		start_ = start;
+		end_ = end;
+	}
+};
+
 class StageManager
 {
 public: // 静的関数
@@ -23,8 +42,6 @@ public: // 静的関数
 
 public: // 静的変数
 	static const size_t blockSize_ = 64; // 定数
-
-private: // 静的変数
 	static const size_t elemsX_ = 10; // 要素数
 	static const size_t elemsY_ = 50; //
 
@@ -41,6 +58,7 @@ private: // 関数
 
 private: // 変数
 	std::array<std::array<Block, elemsX_>, elemsY_> blocks_ = { 0 };
+	std::vector<Obstacle> obstacles_;
 
 private: // シングルトン
 	StageManager();

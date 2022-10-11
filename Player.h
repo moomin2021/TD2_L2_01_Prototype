@@ -14,6 +14,14 @@ struct Vertex {
 	Vector2 leftBottom;
 	Vector2 rightTop;
 	Vector2 rightBottom;
+
+	const bool operator==(const Vertex& vtx) const
+	{
+		return (leftTop.x == vtx.leftTop.x && leftTop.y == vtx.leftTop.y &&
+			leftBottom.x == vtx.leftBottom.x && leftBottom.y == vtx.leftBottom.y &&
+			rightTop.x == vtx.rightTop.x && rightTop.y == vtx.rightTop.y &&
+			rightBottom.x == vtx.rightBottom.x && rightBottom.y == rightBottom.y);
+	}
 };
 
 class Player {
@@ -72,6 +80,14 @@ private:
 	Vertex vPosB;
 	Vertex vElemsW;
 	Vertex vElemsB;
+
+	const Vertex maxVElems =
+	{
+		{StageManager::elemsX_ - 1, StageManager::elemsY_ - 1},
+		{StageManager::elemsX_ - 1, StageManager::elemsY_ - 1},
+		{StageManager::elemsX_ - 1, StageManager::elemsY_ - 1},
+		{StageManager::elemsX_ - 1, StageManager::elemsY_ - 1}
+	};
 
 	/// --ÉÅÉìÉoïœêîEND-- ///
 	/// --------------- ///
