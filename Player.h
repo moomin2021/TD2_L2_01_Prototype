@@ -46,6 +46,17 @@ private:
 	// --移動する向き-- //
 	int direction;
 
+	// --縦移動の速度-- //
+	float speedY;
+
+	// --ブーストの時間[s]-- //
+	float boostTime;
+
+	// --ブーストの経過時間[s]-- //
+	float boostTimer;
+
+	// --ブーストが始まった時の時間-- //
+	int boostStartTime;
 
 	// Collision()
 	Vertex vPosW;
