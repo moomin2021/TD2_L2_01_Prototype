@@ -15,9 +15,10 @@ class StageManager
 public: // 静的関数
     static StageManager* GetInstance();
 
-private: // 静的変数
+public: // 静的変数
     static const size_t blockSize_ = 64; // 定数
 
+private: // 静的変数
     static const size_t elemsX = 10; // 要素数
     static const size_t elemsY = 50; //
 
@@ -28,6 +29,7 @@ public: // 関数
     void Update();
     void Draw();
 
+    std::array<std::array<size_t, elemsX>, elemsY>* GetMapchipData() { return &blocks_; }
 private: // 関数
     void Reset();
 

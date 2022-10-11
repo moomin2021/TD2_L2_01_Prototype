@@ -10,7 +10,6 @@ public:
 private:
 	// --インスタンス-- //
 	static GameScene* myInstance;
-	StageManager* stageManager_ = nullptr;
 	
 
 #pragma region クラス宣言
@@ -21,6 +20,8 @@ private:
 	// --プレイヤー-- //
 	Player* player;
 
+	// 
+	StageManager* stageManager_ = nullptr;
 #pragma endregion
 
 	/// --メンバ変数END-- ///

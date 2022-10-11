@@ -1,6 +1,7 @@
 #pragma once
 #include "Key.h"
 #include "Util.h"
+#include "StageManager.h"
 
 enum State {
 	Normal,// -> 通常状態
@@ -9,10 +10,10 @@ enum State {
 };
 
 struct Vertex {
-	size_t LeftTop;
-	size_t LeftBottom;
-	size_t RightTop;
-	size_t RightBottom;
+	Vector2 leftTop;
+	Vector2 leftBottom;
+	Vector2 rightTop;
+	Vector2 rightBottom;
 };
 
 class Player {
@@ -25,6 +26,7 @@ private:
 
 	// --クラス宣言-- //
 	Key* key;
+	StageManager* stageManager_ = nullptr;
 
 	// --白いプレイヤーオブジェクト-- //
 	Object whiteObj;
@@ -46,7 +48,10 @@ private:
 
 
 	// Collision()
-	Vertex vPos;
+	Vertex vPosW;
+	Vertex vPosB;
+	Vertex vElemsW;
+	Vertex vElemsB;
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///
