@@ -3,7 +3,7 @@
 #include <string>
 #include <array>
 #include <vector>
-#include "Vector2.h"
+#include "Obstacle.h"
 
 enum struct BlockId
 {
@@ -18,22 +18,22 @@ struct Block
 	size_t shape_;
 };
 
-struct Obstacle
-{
-	Vector2 start_;
-	Vector2 end_;
-
-	Obstacle(Vector2 start, Vector2 end)
-		:start_(start), end_(end)
-	{
-	}
-
-	void ChangeSize(Vector2 start, Vector2 end)
-	{
-		start_ = start;
-		end_ = end;
-	}
-};
+//struct Obstacle
+//{
+//	Vector2 start_;
+//	Vector2 end_;
+//
+//	Obstacle(Vector2 start, Vector2 end)
+//		:start_(start), end_(end)
+//	{
+//	}
+//
+//	void ChangeSize(Vector2 start, Vector2 end)
+//	{
+//		start_ = start;
+//		end_ = end;
+//	}
+//};
 
 class StageManager
 {

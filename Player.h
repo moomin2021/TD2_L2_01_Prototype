@@ -42,6 +42,9 @@ private:
 	// --黒いプレイヤーオブジェクト-- //
 	Object blackObj;
 
+	// --当たり判定が有効か
+	bool isCollision;
+
 	// --プレイヤーの状態-- //
 	int state;
 
@@ -124,7 +127,7 @@ private:
 	// --コンストラクタ-- //
 	Player();
 
-	void Collision();
+	//void Collision();
 
 	// --通常状態に変更-- //
 	void SetNormal();
