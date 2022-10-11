@@ -109,96 +109,111 @@ void Player::Collision()
 
 #pragma region 四点の座標をマップチップ単位に置換
 	// white : 左上
-	vElemsW.leftTop.x = static_cast<int>(vPosW.leftTop.x / StageManager::blockSize_);
-	vElemsW.leftTop.y = static_cast<int>(vPosW.leftTop.y / StageManager::blockSize_);
+	vElemsW.leftTop.x = static_cast<float>(vPosW.leftTop.x / StageManager::blockSize_);
+	vElemsW.leftTop.y = static_cast<float>(vPosW.leftTop.y / StageManager::blockSize_);
 	// : 左下
-	vElemsW.leftBottom.x = static_cast<int>(vPosW.leftBottom.x / StageManager::blockSize_);
-	vElemsW.leftBottom.y = static_cast<int>(vPosW.leftBottom.y / StageManager::blockSize_);
+	vElemsW.leftBottom.x = static_cast<float>(vPosW.leftBottom.x / StageManager::blockSize_);
+	vElemsW.leftBottom.y = static_cast<float>(vPosW.leftBottom.y / StageManager::blockSize_);
 	// : 右上
-	vElemsW.rightTop.x = static_cast<int>(vPosW.rightTop.x / StageManager::blockSize_);
-	vElemsW.rightTop.y = static_cast<int>(vPosW.rightTop.y / StageManager::blockSize_);
+	vElemsW.rightTop.x = static_cast<float>(vPosW.rightTop.x / StageManager::blockSize_);
+	vElemsW.rightTop.y = static_cast<float>(vPosW.rightTop.y / StageManager::blockSize_);
 	// : 右下
-	vElemsW.rightBottom.x = static_cast<int>(vPosW.rightBottom.x / StageManager::blockSize_);
-	vElemsW.rightBottom.y = static_cast<int>(vPosW.rightBottom.y / StageManager::blockSize_);
+	vElemsW.rightBottom.x = static_cast<float>(vPosW.rightBottom.x / StageManager::blockSize_);
+	vElemsW.rightBottom.y = static_cast<float>(vPosW.rightBottom.y / StageManager::blockSize_);
 
 	// black : 左上
-	vElemsB.leftTop.x = static_cast<int>(vPosB.leftTop.x / StageManager::blockSize_);
-	vElemsB.leftTop.y = static_cast<int>(vPosB.leftTop.y / StageManager::blockSize_);
+	vElemsB.leftTop.x = static_cast<float>(vPosB.leftTop.x / StageManager::blockSize_);
+	vElemsB.leftTop.y = static_cast<float>(vPosB.leftTop.y / StageManager::blockSize_);
 	// : 左下
-	vElemsB.leftBottom.x = static_cast<int>(vPosB.leftBottom.x / StageManager::blockSize_);
-	vElemsB.leftBottom.y = static_cast<int>(vPosB.leftBottom.y / StageManager::blockSize_);
+	vElemsB.leftBottom.x = static_cast<float>(vPosB.leftBottom.x / StageManager::blockSize_);
+	vElemsB.leftBottom.y = static_cast<float>(vPosB.leftBottom.y / StageManager::blockSize_);
 	// : 右上
-	vElemsB.rightTop.x = static_cast<int>(vPosB.rightTop.x / StageManager::blockSize_);
-	vElemsB.rightTop.y = static_cast<int>(vPosB.rightTop.y / StageManager::blockSize_);
+	vElemsB.rightTop.x = static_cast<float>(vPosB.rightTop.x / StageManager::blockSize_);
+	vElemsB.rightTop.y = static_cast<float>(vPosB.rightTop.y / StageManager::blockSize_);
 	// : 右下
-	vElemsB.rightBottom.x = static_cast<int>(vPosB.rightBottom.x / StageManager::blockSize_);
-	vElemsB.rightBottom.y = static_cast<int>(vPosB.rightBottom.y / StageManager::blockSize_);
+	vElemsB.rightBottom.x = static_cast<float>(vPosB.rightBottom.x / StageManager::blockSize_);
+	vElemsB.rightBottom.y = static_cast<float>(vPosB.rightBottom.y / StageManager::blockSize_);
 #pragma endregion
 
 #pragma region 当たり判定
 	// プレイヤー座標が障害物と重なった場合 : 同色
-	if(vElemsW == maxVElems)
-	if (stageManager_->GetMapchipData()->at(vElemsW.leftTop.y).at(vElemsW.leftTop.x).color_ == static_cast<int>(BlockId::White) ||			// 左上
-		stageManager_->GetMapchipData()->at(vElemsW.leftBottom.y).at(vElemsW.leftBottom.x).color_ == static_cast<int>(BlockId::White) ||	// 左下
-		stageManager_->GetMapchipData()->at(vElemsW.rightTop.y).at(vElemsW.rightTop.x).color_ == static_cast<int>(BlockId::White) ||		// 右上
-		stageManager_->GetMapchipData()->at(vElemsW.rightBottom.y).at(vElemsW.rightBottom.x).color_ == static_cast<int>(BlockId::White)) {	// 右下
+	if (minVElems_ <= vElemsW && vElemsW < maxVElems_) {
+		if (stageManager_->GetMapchipData()->at(vElemsW.leftTop.y).at(vElemsW.leftTop.x).color_ == static_cast<int>(BlockId::White) ||			// 左上
+			stageManager_->GetMapchipData()->at(vElemsW.leftBottom.y).at(vElemsW.leftBottom.x).color_ == static_cast<int>(BlockId::White) ||	// 左下
+			stageManager_->GetMapchipData()->at(vElemsW.rightTop.y).at(vElemsW.rightTop.x).color_ == static_cast<int>(BlockId::White) ||		// 右上
+			stageManager_->GetMapchipData()->at(vElemsW.rightBottom.y).at(vElemsW.rightBottom.x).color_ == static_cast<int>(BlockId::White)) {	// 右下
 
-		// スピードゲージを増やす
+			// スピードゲージを増やす
+		}
 	}
-	if (stageManager_->GetMapchipData()->at(vElemsB.leftTop.y).at(vElemsB.leftTop.x).color_ == static_cast<int>(BlockId::Black) ||				// 左上
-		stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ == static_cast<int>(BlockId::Black) ||		// 左下
-		stageManager_->GetMapchipData()->at(vElemsB.rightTop.y).at(vElemsB.rightTop.x).color_ == static_cast<int>(BlockId::Black) ||			// 右上
-		stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ == static_cast<int>(BlockId::Black)) {		// 右下
+	if (minVElems_ <= vElemsB && vElemsB < maxVElems_) {
+		if (stageManager_->GetMapchipData()->at(vElemsB.leftTop.y).at(vElemsB.leftTop.x).color_ == static_cast<int>(BlockId::Black) ||				// 左上
+			stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ == static_cast<int>(BlockId::Black) ||		// 左下
+			stageManager_->GetMapchipData()->at(vElemsB.rightTop.y).at(vElemsB.rightTop.x).color_ == static_cast<int>(BlockId::Black) ||			// 右上
+			stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ == static_cast<int>(BlockId::Black)) {		// 右下
 
-		// スピードゲージを増やす
+			// スピードゲージを増やす
+		}
 	}
 
 	// プレイヤー座標が障害物と重なった場合 : 異色 : 正面
-	if (stageManager_->GetMapchipData()->at(vElemsW.leftTop.y).at(vElemsW.leftTop.x).color_ == static_cast<int>(BlockId::Black) &&			// 左上
-		stageManager_->GetMapchipData()->at(vElemsW.rightTop.y).at(vElemsW.rightTop.x).color_ == static_cast<int>(BlockId::Black) &&		// 右上
-		stageManager_->GetMapchipData()->at(vElemsW.leftBottom.y).at(vElemsW.leftBottom.x).color_ != static_cast<int>(BlockId::Black) &&	// 左下
-		stageManager_->GetMapchipData()->at(vElemsW.rightBottom.y).at(vElemsW.rightBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 右下
+	if (minVElems_ <= vElemsW && vElemsW < maxVElems_) {
+		if (stageManager_->GetMapchipData()->at(vElemsW.leftTop.y).at(vElemsW.leftTop.x).color_ == static_cast<int>(BlockId::Black) &&			// 左上
+			stageManager_->GetMapchipData()->at(vElemsW.rightTop.y).at(vElemsW.rightTop.x).color_ == static_cast<int>(BlockId::Black) &&		// 右上
+			stageManager_->GetMapchipData()->at(vElemsW.leftBottom.y).at(vElemsW.leftBottom.x).color_ != static_cast<int>(BlockId::Black) &&	// 左下
+			stageManager_->GetMapchipData()->at(vElemsW.rightBottom.y).at(vElemsW.rightBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 右下
 
-		state = Knock;
+			SetKnock();
+		}
 	}
-	if (stageManager_->GetMapchipData()->at(vElemsB.leftTop.y).at(vElemsB.leftTop.x).color_ == static_cast<int>(BlockId::White) &&			// 左上
-		stageManager_->GetMapchipData()->at(vElemsB.rightTop.y).at(vElemsB.rightTop.x).color_ == static_cast<int>(BlockId::White) &&		// 右上
-		stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ != static_cast<int>(BlockId::White) &&	// 左下
-		stageManager_->GetMapchipData()->at(vElemsB.rightBottom.y).at(vElemsB.rightBottom.x).color_ != static_cast<int>(BlockId::White)) {	// 右下
+	if (minVElems_ <= vElemsB && vElemsB < maxVElems_) {
+		if (stageManager_->GetMapchipData()->at(vElemsB.leftTop.y).at(vElemsB.leftTop.x).color_ == static_cast<int>(BlockId::White) &&			// 左上
+			stageManager_->GetMapchipData()->at(vElemsB.rightTop.y).at(vElemsB.rightTop.x).color_ == static_cast<int>(BlockId::White) &&		// 右上
+			stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ != static_cast<int>(BlockId::White) &&	// 左下
+			stageManager_->GetMapchipData()->at(vElemsB.rightBottom.y).at(vElemsB.rightBottom.x).color_ != static_cast<int>(BlockId::White)) {	// 右下
 
-		state = Knock;
+			SetKnock();
+		}
 	}
 
 	// プレイヤー座標が障害物と重なった場合 : 異色 : 横 : 左から右へ
-	if (stageManager_->GetMapchipData()->at(vElemsW.rightTop.y).at(vElemsW.rightTop.x).color_ == static_cast<int>(BlockId::Black) &&		// 右上
-		stageManager_->GetMapchipData()->at(vElemsW.rightBottom.y).at(vElemsW.rightBottom.x).color_ == static_cast<int>(BlockId::Black) &&	// 右下
-		stageManager_->GetMapchipData()->at(vElemsW.leftTop.y).at(vElemsW.leftTop.x).color_ != static_cast<int>(BlockId::Black) &&			// 左上
-		stageManager_->GetMapchipData()->at(vElemsW.leftBottom.y).at(vElemsW.leftBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 左下
+	if (minVElems_ <= vElemsW && vElemsW < maxVElems_) {
+		if (stageManager_->GetMapchipData()->at(vElemsW.rightTop.y).at(vElemsW.rightTop.x).color_ == static_cast<int>(BlockId::Black) &&		// 右上
+			stageManager_->GetMapchipData()->at(vElemsW.rightBottom.y).at(vElemsW.rightBottom.x).color_ == static_cast<int>(BlockId::Black) &&	// 右下
+			stageManager_->GetMapchipData()->at(vElemsW.leftTop.y).at(vElemsW.leftTop.x).color_ != static_cast<int>(BlockId::Black) &&			// 左上
+			stageManager_->GetMapchipData()->at(vElemsW.leftBottom.y).at(vElemsW.leftBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 左下
 
-		state = Boost;
+			SetBoost();
+		}
 	}
-	if (stageManager_->GetMapchipData()->at(vElemsB.rightTop.y).at(vElemsB.rightTop.x).color_ == static_cast<int>(BlockId::Black) &&		// 右上
-		stageManager_->GetMapchipData()->at(vElemsB.rightBottom.y).at(vElemsB.rightBottom.x).color_ == static_cast<int>(BlockId::Black) &&	// 右下
-		stageManager_->GetMapchipData()->at(vElemsB.leftTop.y).at(vElemsB.leftTop.x).color_ != static_cast<int>(BlockId::Black) &&			// 左上
-		stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 左下
+	if (minVElems_ <= vElemsB && vElemsB < maxVElems_) {
+		if (stageManager_->GetMapchipData()->at(vElemsB.rightTop.y).at(vElemsB.rightTop.x).color_ == static_cast<int>(BlockId::Black) &&		// 右上
+			stageManager_->GetMapchipData()->at(vElemsB.rightBottom.y).at(vElemsB.rightBottom.x).color_ == static_cast<int>(BlockId::Black) &&	// 右下
+			stageManager_->GetMapchipData()->at(vElemsB.leftTop.y).at(vElemsB.leftTop.x).color_ != static_cast<int>(BlockId::Black) &&			// 左上
+			stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 左下
 
-		state = Boost;
+			SetBoost();
+		}
 	}
 
 	// プレイヤー座標が障害物と重なった場合 : 異色 : 横 : 右から左へ
-	if (stageManager_->GetMapchipData()->at(vElemsW.leftTop.y).at(vElemsW.leftTop.x).color_ == static_cast<int>(BlockId::Black) &&			// 左上
-		stageManager_->GetMapchipData()->at(vElemsW.leftBottom.y).at(vElemsW.leftBottom.x).color_ == static_cast<int>(BlockId::Black) &&	// 左下
-		stageManager_->GetMapchipData()->at(vElemsW.rightTop.y).at(vElemsW.rightTop.x).color_ != static_cast<int>(BlockId::Black) &&		// 右上
-		stageManager_->GetMapchipData()->at(vElemsW.rightBottom.y).at(vElemsW.rightBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 右下
+	if (minVElems_ <= vElemsW && vElemsW < maxVElems_) {
+		if (stageManager_->GetMapchipData()->at(vElemsW.leftTop.y).at(vElemsW.leftTop.x).color_ == static_cast<int>(BlockId::Black) &&			// 左上
+			stageManager_->GetMapchipData()->at(vElemsW.leftBottom.y).at(vElemsW.leftBottom.x).color_ == static_cast<int>(BlockId::Black) &&	// 左下
+			stageManager_->GetMapchipData()->at(vElemsW.rightTop.y).at(vElemsW.rightTop.x).color_ != static_cast<int>(BlockId::Black) &&		// 右上
+			stageManager_->GetMapchipData()->at(vElemsW.rightBottom.y).at(vElemsW.rightBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 右下
 
-		state = Boost;
+			SetBoost();
+		}
 	}
-	if (stageManager_->GetMapchipData()->at(vElemsB.leftTop.y).at(vElemsB.leftTop.x).color_ == static_cast<int>(BlockId::Black) &&			// 左上
-		stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ == static_cast<int>(BlockId::Black) &&	// 左下
-		stageManager_->GetMapchipData()->at(vElemsB.rightTop.y).at(vElemsB.rightTop.x).color_ != static_cast<int>(BlockId::Black) &&		// 右上
-		stageManager_->GetMapchipData()->at(vElemsB.rightBottom.y).at(vElemsB.rightBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 右下
+	if (minVElems_ <= vElemsB && vElemsB < maxVElems_) {
+		if (stageManager_->GetMapchipData()->at(vElemsB.leftTop.y).at(vElemsB.leftTop.x).color_ == static_cast<int>(BlockId::Black) &&			// 左上
+			stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ == static_cast<int>(BlockId::Black) &&	// 左下
+			stageManager_->GetMapchipData()->at(vElemsB.rightTop.y).at(vElemsB.rightTop.x).color_ != static_cast<int>(BlockId::Black) &&		// 右上
+			stageManager_->GetMapchipData()->at(vElemsB.rightBottom.y).at(vElemsB.rightBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 右下
 
-		state = Boost;
+			SetBoost();
+		}
 	}
 #pragma endregion
 

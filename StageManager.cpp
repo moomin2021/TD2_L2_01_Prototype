@@ -37,7 +37,7 @@ void StageManager::LoadCSV(string path)
 			if (blocks_.at(loopCount).at(i).color_ == static_cast<int>(BlockId::White) ||
 				blocks_.at(loopCount).at(i).color_ == static_cast<int>(BlockId::Black)) {
 
-				Obstacle objTmp({ i * blockSize_ ,loopCount * blockSize_ }, { (i + 1) * blockSize_,(loopCount + 1) * blockSize_ });
+				Obstacle objTmp({ static_cast<float>(i * blockSize_) ,static_cast<float>(loopCount * blockSize_) }, { static_cast<float>((i + 1) * blockSize_) ,static_cast<float>((loopCount + 1) * blockSize_) });
 				obstacles_.push_back(objTmp);
 			}
 		}
@@ -62,27 +62,27 @@ void StageManager::Draw()
 		for (size_t x = 0; x < blocks_[loopCount].size(); x++) {
 			if (blocks_.at(y).at(x).color_ == static_cast<int>(BlockId::White)) {
 				// ŠO˜g
-				DrawBox(blockSize_ * x, blockSize_ * y - Camera::GetScroll(),
-					blockSize_ * (x + 1), blockSize_ * (y + 1) - Camera::GetScroll(),
+				DrawBox(static_cast<int>(blockSize_ * x), static_cast<int>(blockSize_ * y) - Camera::GetScroll(),
+					static_cast<int>(blockSize_ * (x + 1)), static_cast<int>(blockSize_ * (y + 1)) - Camera::GetScroll(),
 					0x8d8d8d, true
 				);
 
 				// “à‘¤
-				DrawBox((blockSize_ * x) + 5, (blockSize_ * y) + 5 - Camera::GetScroll(),
-					(blockSize_ * (x + 1)) - 5, (blockSize_ * (y + 1)) - 5 - Camera::GetScroll(),
+				DrawBox(static_cast<int>(blockSize_ * x) + 5, static_cast<int>(blockSize_ * y) + 5 - Camera::GetScroll(),
+					static_cast<int>(blockSize_ * (x + 1)) - 5, static_cast<int>(blockSize_ * (y + 1)) - 5 - Camera::GetScroll(),
 					0xffffff, true
 				);
 			}
 			else if (blocks_.at(y).at(x).color_ == static_cast<int>(BlockId::Black)) {
 				// ŠO˜g
-				DrawBox(blockSize_ * x, blockSize_ * y + Camera::GetScroll(),
-					blockSize_ * (x + 1), blockSize_ * (y + 1) - Camera::GetScroll(),
+				DrawBox(static_cast<int>(blockSize_ * x), static_cast<int>(blockSize_ * y) + Camera::GetScroll(),
+					static_cast<int>(blockSize_ * (x + 1)), static_cast<int>(blockSize_ * (y + 1)) - Camera::GetScroll(),
 					0x8d8d8d, true
 				);
 
 				// “à‘¤
-				DrawBox((blockSize_ * x) + 5, (blockSize_ * y) + 5 + Camera::GetScroll(),
-					(blockSize_ * (x + 1)) - 5, (blockSize_ * (y + 1)) - 5 - Camera::GetScroll(),
+				DrawBox(static_cast<int>(blockSize_ * x) + 5, static_cast<int>(blockSize_ * y) + 5 + Camera::GetScroll(),
+					static_cast<int>(blockSize_ * (x + 1)) - 5, static_cast<int>(blockSize_ * (y + 1)) - 5 - Camera::GetScroll(),
 					0x000000, true
 				);
 			}
