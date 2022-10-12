@@ -1,4 +1,6 @@
 #include "GameScene.h"
+#include "DxLib.h"
+#include "Camera.h"
 
 // --インスタンスにNULLを代入-- //
 GameScene* GameScene::myInstance = nullptr;
@@ -34,6 +36,9 @@ GameScene::GameScene() {
 	// --カメラ-- //
 	camera = Camera::GetInstance();
 
+	// --当たり判定
+	col = Collision::GetInstance();
+
 #pragma endregion
 }
 
@@ -57,10 +62,17 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	// --プレイヤー-- //
 	player->Update();
+
+	// --当たり判定
+	col->Update();
 }
 
 // --描画処理-- //
 void GameScene::Draw() {
+	for (int i = 0; i < 100; i++) {
+		DrawLineAA(0, i * 64 - Camera::GetScroll() - 1280, 640, i * 64 - Camera::GetScroll() - 1280, 0xAAAAAA);
+	}
+
 	stageManager_->Draw();
 	player->Draw();
 }

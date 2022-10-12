@@ -3,7 +3,7 @@
 #include <string>
 #include <array>
 #include <vector>
-#include "Vector2.h"
+#include "Obstacle.h"
 
 enum struct BlockId
 {
@@ -18,22 +18,22 @@ struct Block
 	size_t shape_;
 };
 
-struct Obstacle
-{
-	Vector2 start_;
-	Vector2 end_;
-
-	Obstacle(Vector2 start, Vector2 end)
-		:start_(start), end_(end)
-	{
-	}
-
-	void ChangeSize(Vector2 start, Vector2 end)
-	{
-		start_ = start;
-		end_ = end;
-	}
-};
+//struct Obstacle
+//{
+//	Vector2 start_;
+//	Vector2 end_;
+//
+//	Obstacle(Vector2 start, Vector2 end)
+//		:start_(start), end_(end)
+//	{
+//	}
+//
+//	void ChangeSize(Vector2 start, Vector2 end)
+//	{
+//		start_ = start;
+//		end_ = end;
+//	}
+//};
 
 class StageManager
 {
@@ -58,6 +58,8 @@ private: // ŠÖ”
 
 private: // •Ï”
 	std::array<std::array<Block, elemsX_>, elemsY_> blocks_ = { 0 };
+
+public:
 	std::vector<Obstacle> obstacles_;
 
 private: // ƒVƒ“ƒOƒ‹ƒgƒ“
