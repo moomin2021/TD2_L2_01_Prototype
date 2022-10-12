@@ -16,7 +16,7 @@ class StageManager {
 	/// --メンバ変数-- ///
 public:
 	// --障害物クラス宣言-- //
-	std::vector<Obstacle> obstacles_;
+	std::vector<Obstacle> obstacles;
 
 	// --1マスのサイズ-- //
 	const int blockSize;

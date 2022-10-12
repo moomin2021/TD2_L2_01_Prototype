@@ -47,7 +47,7 @@ StageManager::~StageManager()
 void StageManager::Initialize()
 {
 	// --áŠQ•¨‚ğíœ-- //
-	obstacles_.clear();
+	obstacles.clear();
 }
 
 void StageManager::Update()
@@ -57,8 +57,8 @@ void StageManager::Update()
 void StageManager::Draw()
 {
 	// --áŠQ•¨‚Ì•`‰æ
-	for (int i = 0; i < obstacles_.size(); i++) {
-		obstacles_[i].Draw();
+	for (int i = 0; i < obstacles.size(); i++) {
+		obstacles[i].Draw();
 	}
 }
 
@@ -96,7 +96,7 @@ void StageManager::LoadCSV(string path)
 			// --“Ç‚İæ‚Á‚½”š‚ª0ˆÈŠO‚È‚çáŠQ•¨‚ğ¶¬‚·‚é
 			if (stoi(tmp) != 0) {
 				Obstacle objTmp({ static_cast<float>(cellNumberX * blockSize + 32), static_cast<float>(loopCount * blockSize + 32) }, color, shape);
-				obstacles_.push_back(objTmp);
+				obstacles.push_back(objTmp);
 			}
 
 			// --X²‚Ìƒ}ƒX”‚ğƒJƒEƒ“ƒg
@@ -108,7 +108,7 @@ void StageManager::LoadCSV(string path)
 	}
 
 	// --áŠQ•¨‚Ì‰Šú‰»
-	for (int i = 0; i < obstacles_.size(); i++) {
-		obstacles_[i].Initialize();
+	for (int i = 0; i < obstacles.size(); i++) {
+		obstacles[i].Initialize();
 	}
 }

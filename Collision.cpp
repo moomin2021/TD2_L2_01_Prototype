@@ -58,18 +58,18 @@ void Collision::Update() {
 	if (player->GetCollisionFlag() == true) {
 		Box blackObj = { {player->GetBlackObj().pos.x, player->GetBlackObj().pos.y + Camera::GetScroll()}, player->GetBlackObj().radius, player->GetBlackObj().radius };
 		Box whiteObj = { {player->GetWhiteObj().pos.x, player->GetWhiteObj().pos.y + Camera::GetScroll()}, player->GetWhiteObj().radius, player->GetWhiteObj().radius };
-		for (int i = 0; i < stage->obstacles_.size(); i++) {
-			Box obstacle = { stage->obstacles_[i].GetPos(), stage->obstacles_[i].GetRadiusX(), stage->obstacles_[i].GetRadiusY() };
+		for (int i = 0; i < stage->obstacles.size(); i++) {
+			Box obstacle = { stage->obstacles[i].GetPos(), stage->obstacles[i].GetRadiusX(), stage->obstacles[i].GetRadiusY() };
 			if (BoxCollision(whiteObj, obstacle)) {
-				if (stage->obstacles_[i].GetColor() == 0x000000) {
+				if (stage->obstacles[i].GetColor() == 0x000000) {
 					// --³–Ê‚©‚ç“–‚½‚Á‚Ä‚¢‚½‚ç
 					if (BoxCenterCol(oldWhiteBox, obstacle)) {
 						if (player->GetState() == Normal) {
 							player->SetKnock();
-							stage->obstacles_.erase(stage->obstacles_.begin() + i);
+							stage->obstacles.erase(stage->obstacles.begin() + i);
 						}
 						else if (player->GetState() == Boost) {
-							stage->obstacles_.erase(stage->obstacles_.begin() + i);
+							stage->obstacles.erase(stage->obstacles.begin() + i);
 						}
 					}
 
@@ -83,15 +83,15 @@ void Collision::Update() {
 			}
 
 			if (BoxCollision(blackObj, obstacle)) {
-				if (stage->obstacles_[i].GetColor() == 0xFFFFFF) {
+				if (stage->obstacles[i].GetColor() == 0xFFFFFF) {
 					// --³–Ê‚©‚ç“–‚½‚Á‚Ä‚¢‚½‚ç
 					if (BoxCenterCol(oldBlackBox, obstacle)) {
 						if (player->GetState() == Normal) {
 							player->SetKnock();
-							stage->obstacles_.erase(stage->obstacles_.begin() + i);
+							stage->obstacles.erase(stage->obstacles.begin() + i);
 						}
 						else if (player->GetState() == Boost) {
-							stage->obstacles_.erase(stage->obstacles_.begin() + i);
+							stage->obstacles.erase(stage->obstacles.begin() + i);
 						}
 					}
 
