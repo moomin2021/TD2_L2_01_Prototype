@@ -34,6 +34,9 @@ GameScene::GameScene() {
 	// --カメラ-- //
 	camera = Camera::GetInstance();
 
+	// --当たり判定
+	col = Collision::GetInstance();
+
 #pragma endregion
 }
 
@@ -57,6 +60,9 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	// --プレイヤー-- //
 	player->Update();
+
+	// --当たり判定
+	col->Update();
 }
 
 // --描画処理-- //

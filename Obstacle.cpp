@@ -54,3 +54,6 @@ float Obstacle::GetRadiusX() { return radiusX; }
 
 // --áŠQ•¨‚ÌY²‚Ì”¼Œa‚ğQÆ
 float Obstacle::GetRadiusY() { return radiusY; }
+
+// --F‚ğQÆ
+int Obstacle::GetColor() { return color; }

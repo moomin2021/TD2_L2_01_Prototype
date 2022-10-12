@@ -43,6 +43,9 @@ public:
 	// --障害物の座標を参照
 	Vector2 GetPos();
 
+	// --色を参照
+	int GetColor();
+
 	// --障害物のX軸の半径を参照
 	float GetRadiusX();
 

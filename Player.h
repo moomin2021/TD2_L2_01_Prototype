@@ -59,6 +59,11 @@ struct Vertex {
 class Player {
 	/// --メンバ変数-- ///
 public:
+	// --白いプレイヤーオブジェクト-- //
+	Object whiteObj;
+
+	// --黒いプレイヤーオブジェクト-- //
+	Object blackObj;
 
 private:
 	// --インスタンス-- //
@@ -67,12 +72,6 @@ private:
 	// --クラス宣言-- //
 	Key* key;
 	StageManager* stageManager_ = nullptr;
-
-	// --白いプレイヤーオブジェクト-- //
-	Object whiteObj;
-
-	// --黒いプレイヤーオブジェクト-- //
-	Object blackObj;
 
 	// --当たり判定が有効か
 	bool isCollision;
@@ -156,12 +155,6 @@ public:
 	// --プレイヤーの状態を変更-- //
 	void SetState(int state);
 
-private:
-	// --コンストラクタ-- //
-	Player();
-
-	//void Collision();
-
 	// --通常状態に変更-- //
 	void SetNormal();
 
@@ -170,6 +163,21 @@ private:
 
 	// --ブースト状態に変更-- //
 	void SetBoost();
+
+	// --当たり判定フラグを参照
+	bool GetCollisionFlag();
+
+	// --Y軸の速度を参照
+	float GetSpeedY();
+
+	// --X軸の速度を参照
+	float GetSpeedX();
+
+private:
+	// --コンストラクタ-- //
+	Player();
+
+	//void Collision();
 
 	/// --メンバ関数END-- ///
 };

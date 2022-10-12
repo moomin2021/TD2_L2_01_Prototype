@@ -58,6 +58,8 @@ private: // ŠÖ”
 
 private: // •Ï”
 	std::array<std::array<Block, elemsX_>, elemsY_> blocks_ = { 0 };
+
+public:
 	std::vector<Obstacle> obstacles_;
 
 private: // ƒVƒ“ƒOƒ‹ƒgƒ“

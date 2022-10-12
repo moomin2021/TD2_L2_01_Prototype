@@ -95,122 +95,6 @@ Player::Player() :
 	boostStartTime = 0;
 }
 
-//void Player::Collision()
-//{
-//#pragma region 四点の情報更新
-//	// white
-//	vPosW.leftTop = whiteObj.pos - Vector2(whiteObj.radius, whiteObj.radius);     // 中心(x,y) - 半径(x,y)
-//	vPosW.rightTop = whiteObj.pos - Vector2(-whiteObj.radius, whiteObj.radius);   // 中心(x,y) - 半径(-x,y)
-//	vPosW.leftBottom = whiteObj.pos + Vector2(-whiteObj.radius, whiteObj.radius); // 中心(x,y) + 半径(-x,y)
-//	vPosW.rightBottom = whiteObj.pos + Vector2(whiteObj.radius, whiteObj.radius); // 中心(x,y) + 半径(x,y)
-//	// black
-//	vPosB.leftTop = blackObj.pos - Vector2(blackObj.radius, blackObj.radius);     // 中心(x,y) - 半径(x,y)
-//	vPosB.rightTop = blackObj.pos - Vector2(-blackObj.radius, blackObj.radius);   // 中心(x,y) - 半径(-x,y)
-//	vPosB.leftBottom = blackObj.pos + Vector2(-blackObj.radius, blackObj.radius); // 中心(x,y) + 半径(-x,y)
-//	vPosB.rightBottom = blackObj.pos + Vector2(blackObj.radius, blackObj.radius); // 中心(x,y) + 半径(x,y)
-//#pragma endregion
-//
-//#pragma region 四点の座標をマップチップ単位に置換
-//	// white : 左上
-//	vElemsW.leftTop.x = static_cast<int>(vPosW.leftTop.x / StageManager::blockSize_);
-//	vElemsW.leftTop.y = static_cast<int>(vPosW.leftTop.y / StageManager::blockSize_);
-//	// : 左下
-//	vElemsW.leftBottom.x = static_cast<int>(vPosW.leftBottom.x / StageManager::blockSize_);
-//	vElemsW.leftBottom.y = static_cast<int>(vPosW.leftBottom.y / StageManager::blockSize_);
-//	// : 右上
-//	vElemsW.rightTop.x = static_cast<int>(vPosW.rightTop.x / StageManager::blockSize_);
-//	vElemsW.rightTop.y = static_cast<int>(vPosW.rightTop.y / StageManager::blockSize_);
-//	// : 右下
-//	vElemsW.rightBottom.x = static_cast<int>(vPosW.rightBottom.x / StageManager::blockSize_);
-//	vElemsW.rightBottom.y = static_cast<int>(vPosW.rightBottom.y / StageManager::blockSize_);
-//
-//	// black : 左上
-//	vElemsB.leftTop.x = static_cast<int>(vPosB.leftTop.x / StageManager::blockSize_);
-//	vElemsB.leftTop.y = static_cast<int>(vPosB.leftTop.y / StageManager::blockSize_);
-//	// : 左下
-//	vElemsB.leftBottom.x = static_cast<int>(vPosB.leftBottom.x / StageManager::blockSize_);
-//	vElemsB.leftBottom.y = static_cast<int>(vPosB.leftBottom.y / StageManager::blockSize_);
-//	// : 右上
-//	vElemsB.rightTop.x = static_cast<int>(vPosB.rightTop.x / StageManager::blockSize_);
-//	vElemsB.rightTop.y = static_cast<int>(vPosB.rightTop.y / StageManager::blockSize_);
-//	// : 右下
-//	vElemsB.rightBottom.x = static_cast<int>(vPosB.rightBottom.x / StageManager::blockSize_);
-//	vElemsB.rightBottom.y = static_cast<int>(vPosB.rightBottom.y / StageManager::blockSize_);
-//#pragma endregion
-//
-//#pragma region 当たり判定
-//	// プレイヤー座標が障害物と重なった場合 : 同色
-//	if(vElemsW == maxVElems)
-//	if (stageManager_->GetMapchipData()->at(vElemsW.leftTop.y).at(vElemsW.leftTop.x).color_ == static_cast<int>(BlockId::White) ||			// 左上
-//		stageManager_->GetMapchipData()->at(vElemsW.leftBottom.y).at(vElemsW.leftBottom.x).color_ == static_cast<int>(BlockId::White) ||	// 左下
-//		stageManager_->GetMapchipData()->at(vElemsW.rightTop.y).at(vElemsW.rightTop.x).color_ == static_cast<int>(BlockId::White) ||		// 右上
-//		stageManager_->GetMapchipData()->at(vElemsW.rightBottom.y).at(vElemsW.rightBottom.x).color_ == static_cast<int>(BlockId::White)) {	// 右下
-//
-//		// スピードゲージを増やす
-//	}
-//	if (stageManager_->GetMapchipData()->at(vElemsB.leftTop.y).at(vElemsB.leftTop.x).color_ == static_cast<int>(BlockId::Black) ||				// 左上
-//		stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ == static_cast<int>(BlockId::Black) ||		// 左下
-//		stageManager_->GetMapchipData()->at(vElemsB.rightTop.y).at(vElemsB.rightTop.x).color_ == static_cast<int>(BlockId::Black) ||			// 右上
-//		stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ == static_cast<int>(BlockId::Black)) {		// 右下
-//
-//		// スピードゲージを増やす
-//	}
-//
-//	// プレイヤー座標が障害物と重なった場合 : 異色 : 正面
-//	if (stageManager_->GetMapchipData()->at(vElemsW.leftTop.y).at(vElemsW.leftTop.x).color_ == static_cast<int>(BlockId::Black) &&			// 左上
-//		stageManager_->GetMapchipData()->at(vElemsW.rightTop.y).at(vElemsW.rightTop.x).color_ == static_cast<int>(BlockId::Black) &&		// 右上
-//		stageManager_->GetMapchipData()->at(vElemsW.leftBottom.y).at(vElemsW.leftBottom.x).color_ != static_cast<int>(BlockId::Black) &&	// 左下
-//		stageManager_->GetMapchipData()->at(vElemsW.rightBottom.y).at(vElemsW.rightBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 右下
-//
-//		state = Knock;
-//	}
-//	if (stageManager_->GetMapchipData()->at(vElemsB.leftTop.y).at(vElemsB.leftTop.x).color_ == static_cast<int>(BlockId::White) &&			// 左上
-//		stageManager_->GetMapchipData()->at(vElemsB.rightTop.y).at(vElemsB.rightTop.x).color_ == static_cast<int>(BlockId::White) &&		// 右上
-//		stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ != static_cast<int>(BlockId::White) &&	// 左下
-//		stageManager_->GetMapchipData()->at(vElemsB.rightBottom.y).at(vElemsB.rightBottom.x).color_ != static_cast<int>(BlockId::White)) {	// 右下
-//
-//		state = Knock;
-//	}
-//
-//	// プレイヤー座標が障害物と重なった場合 : 異色 : 横 : 左から右へ
-//	if (stageManager_->GetMapchipData()->at(vElemsW.rightTop.y).at(vElemsW.rightTop.x).color_ == static_cast<int>(BlockId::Black) &&		// 右上
-//		stageManager_->GetMapchipData()->at(vElemsW.rightBottom.y).at(vElemsW.rightBottom.x).color_ == static_cast<int>(BlockId::Black) &&	// 右下
-//		stageManager_->GetMapchipData()->at(vElemsW.leftTop.y).at(vElemsW.leftTop.x).color_ != static_cast<int>(BlockId::Black) &&			// 左上
-//		stageManager_->GetMapchipData()->at(vElemsW.leftBottom.y).at(vElemsW.leftBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 左下
-//
-//		state = Boost;
-//	}
-//	if (stageManager_->GetMapchipData()->at(vElemsB.rightTop.y).at(vElemsB.rightTop.x).color_ == static_cast<int>(BlockId::Black) &&		// 右上
-//		stageManager_->GetMapchipData()->at(vElemsB.rightBottom.y).at(vElemsB.rightBottom.x).color_ == static_cast<int>(BlockId::Black) &&	// 右下
-//		stageManager_->GetMapchipData()->at(vElemsB.leftTop.y).at(vElemsB.leftTop.x).color_ != static_cast<int>(BlockId::Black) &&			// 左上
-//		stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 左下
-//
-//		state = Boost;
-//	}
-//
-//	// プレイヤー座標が障害物と重なった場合 : 異色 : 横 : 右から左へ
-//	if (stageManager_->GetMapchipData()->at(vElemsW.leftTop.y).at(vElemsW.leftTop.x).color_ == static_cast<int>(BlockId::Black) &&			// 左上
-//		stageManager_->GetMapchipData()->at(vElemsW.leftBottom.y).at(vElemsW.leftBottom.x).color_ == static_cast<int>(BlockId::Black) &&	// 左下
-//		stageManager_->GetMapchipData()->at(vElemsW.rightTop.y).at(vElemsW.rightTop.x).color_ != static_cast<int>(BlockId::Black) &&		// 右上
-//		stageManager_->GetMapchipData()->at(vElemsW.rightBottom.y).at(vElemsW.rightBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 右下
-//
-//		state = Boost;
-//	}
-//	if (stageManager_->GetMapchipData()->at(vElemsB.leftTop.y).at(vElemsB.leftTop.x).color_ == static_cast<int>(BlockId::Black) &&			// 左上
-//		stageManager_->GetMapchipData()->at(vElemsB.leftBottom.y).at(vElemsB.leftBottom.x).color_ == static_cast<int>(BlockId::Black) &&	// 左下
-//		stageManager_->GetMapchipData()->at(vElemsB.rightTop.y).at(vElemsB.rightTop.x).color_ != static_cast<int>(BlockId::Black) &&		// 右上
-//		stageManager_->GetMapchipData()->at(vElemsB.rightBottom.y).at(vElemsB.rightBottom.x).color_ != static_cast<int>(BlockId::Black)) {	// 右下
-//
-//		state = Boost;
-//	}
-//#pragma endregion
-//
-//#ifdef _DEBUG
-//	DrawFormatString(20, 20, 0x0000ff, "state: %d", state);
-//#endif // _DEBUG
-//#pragma endregion
-//}
-
 // --デストラクタ-- //
 Player::~Player() {
 
@@ -260,15 +144,12 @@ void Player::Update() {
 		// --プレイヤーオブジェクトのX座標に速度を加算-- //
 		whiteObj.pos.x += speedX * direction;
 		blackObj.pos.x += speedX * direction;
-
-		// --プレイヤーの移動分スクロール-- //
-		Camera::AddScroll(-speedY);
 	}
 
 	// --ノックバック状態だったら-- //
 	else if (state == Knock) {
 		// --速度を加算-- //
-		speedY += 0.5f;
+		speedY += 0.25f;
 
 		// --Y軸の速度が基礎値を越したら通常状態に変更-- //
 		if (speedY >= defaultSpeedY) {
@@ -288,6 +169,9 @@ void Player::Update() {
 		}
 	}
 
+	// --プレイヤーの移動分スクロール-- //
+	Camera::AddScroll(-speedY);
+
 	// --一定まで行くとプレイヤーの座標を反対側に変更-- //
 	if (whiteObj.pos.x >= 960.0f) whiteObj.pos.x -= 1280.0f;
 	else if (whiteObj.pos.x <= -320.0f) whiteObj.pos.x += 1280.0f;
@@ -305,6 +189,8 @@ void Player::Draw() {
 
 	// --黒いプレイヤー描画-- //
 	DrawBoxAA(blackObj, 0x000000, true);
+
+	DrawFormatString(0, 0, 0x000000, "speedY = %f", speedY);
 }
 
 // --白いオブジェクトの参照-- //
@@ -323,6 +209,9 @@ void Player::SetNormal() {
 
 	// --通常状態に変更-- //
 	state = Normal;
+
+	// --当たり判定をONにする
+	isCollision = true;
 }
 
 // --ノックバックに変更-- //
@@ -332,6 +221,9 @@ void Player::SetKnock() {
 
 	// --通常状態に変更-- //
 	state = Knock;
+
+	// --当たり判定をOFFにする
+	isCollision = false;
 }
 
 // --ブースト状態に変更-- //
@@ -348,3 +240,11 @@ void Player::SetBoost() {
 	// --ブースト状態に変更-- //
 	state = Boost;
 }
+
+bool Player::GetCollisionFlag() { return isCollision; }
+
+// --Y軸の速度を参照
+float Player::GetSpeedY() { return speedY; }
+
+// --X軸の速度を参照
+float Player::GetSpeedX() { return speedX; }

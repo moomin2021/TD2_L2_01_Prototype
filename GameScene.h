@@ -3,6 +3,7 @@
 #include "Key.h"
 #include "Player.h"
 #include "Camera.h"
+#include "Collision.h"
 
 class GameScene {
 	/// --ƒƒ“ƒo•Ï”-- ///
@@ -23,6 +24,9 @@ private:
 
 	// --ƒJƒƒ‰-- //
 	Camera* camera;
+
+	// --“–‚½‚è”»’è
+	Collision* col;
 
 	// 
 	StageManager* stageManager_ = nullptr;
