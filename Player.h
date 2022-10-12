@@ -9,6 +9,65 @@ enum State {
 	Boost// ---> ブースト状態
 };
 
+enum struct XAxisState {
+	Default,
+	Boost
+};
+
+#ifdef _DEBUG
+enum struct DirectionMode {
+	Old,
+	New
+};
+#endif
+
+struct Vertex {
+	Vector2 leftTop;
+	Vector2 leftBottom;
+	Vector2 rightTop;
+	Vector2 rightBottom;
+
+	const bool operator==(const Vertex& vtx) const
+	{
+		return (leftTop.x == vtx.leftTop.x && leftTop.y == vtx.leftTop.y &&
+			leftBottom.x == vtx.leftBottom.x && leftBottom.y == vtx.leftBottom.y &&
+			rightTop.x == vtx.rightTop.x && rightTop.y == vtx.rightTop.y &&
+			rightBottom.x == vtx.rightBottom.x && rightBottom.y == rightBottom.y);
+	}
+
+	const bool operator<(const Vertex& vtx) const
+	{
+		return (leftTop.x < vtx.leftTop.x && leftTop.y < vtx.leftTop.y &&
+			leftBottom.x < vtx.leftBottom.x && leftBottom.y < vtx.leftBottom.y &&
+			rightTop.x < vtx.rightTop.x && rightTop.y < vtx.rightTop.y &&
+			rightBottom.x < vtx.rightBottom.x && rightBottom.y < rightBottom.y);
+	}
+
+	const bool operator<=(const Vertex& vtx) const
+	{
+		return (leftTop.x <= vtx.leftTop.x&& leftTop.y <= vtx.leftTop.y&&
+			leftBottom.x <= vtx.leftBottom.x&& leftBottom.y <= vtx.leftBottom.y&&
+			rightTop.x <= vtx.rightTop.x&& rightTop.y <= vtx.rightTop.y&&
+			rightBottom.x <= vtx.rightBottom.x&& rightBottom.y <= rightBottom.y);
+	}
+
+	const bool operator>(const Vertex& vtx) const
+	{
+		return (leftTop.x > vtx.leftTop.x&& leftTop.y > vtx.leftTop.y&&
+			leftBottom.x > vtx.leftBottom.x&& leftBottom.y > vtx.leftBottom.y&&
+			rightTop.x > vtx.rightTop.x&& rightTop.y > vtx.rightTop.y&&
+			rightBottom.x > vtx.rightBottom.x&& rightBottom.y > rightBottom.y);
+	}
+
+	const bool operator>=(const Vertex& vtx) const
+	{
+		return (leftTop.x >= vtx.leftTop.x && leftTop.y >= vtx.leftTop.y &&
+			leftBottom.x >= vtx.leftBottom.x && leftBottom.y >= vtx.leftBottom.y &&
+			rightTop.x >= vtx.rightTop.x && rightTop.y >= vtx.rightTop.y &&
+			rightBottom.x >= vtx.rightBottom.x && rightBottom.y >= rightBottom.y);
+	}
+};
+
 class Player {
 	/// --メンバ変数-- ///
 public:
@@ -31,6 +90,10 @@ private:
 
 	// --プレイヤーの状態-- //
 	int state;
+	bool xAxisState;
+#ifdef _DEBUG
+	bool debug_changeDirectionMode;
+#endif
 
 	// --横移動速度の基礎値-- //
 	const float defaultSpeedX;
