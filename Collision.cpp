@@ -66,6 +66,7 @@ void Collision::Update() {
 					if (BoxCenterCol(oldWhiteBox, obstacle)) {
 						if (player->GetState() == Normal) {
 							player->SetKnock();
+							stage->obstacles_.erase(stage->obstacles_.begin() + i);
 						}
 						else if (player->GetState() == Boost) {
 							stage->obstacles_.erase(stage->obstacles_.begin() + i);
@@ -87,6 +88,7 @@ void Collision::Update() {
 					if (BoxCenterCol(oldBlackBox, obstacle)) {
 						if (player->GetState() == Normal) {
 							player->SetKnock();
+							stage->obstacles_.erase(stage->obstacles_.begin() + i);
 						}
 						else if (player->GetState() == Boost) {
 							stage->obstacles_.erase(stage->obstacles_.begin() + i);
