@@ -69,10 +69,10 @@ void GameScene::Update() {
 
 // --•`‰æˆ—-- //
 void GameScene::Draw() {
-	stageManager_->Draw();
-	player->Draw();
-
 	for (int i = 0; i < 100; i++) {
 		DrawLineAA(0, i * 64 - Camera::GetScroll() - 1280, 640, i * 64 - Camera::GetScroll() - 1280, 0xAAAAAA);
 	}
+
+	stageManager_->Draw();
+	player->Draw();
 }
