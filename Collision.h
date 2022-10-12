@@ -22,6 +22,9 @@ private:
 
 	StageManager* stage;
 
+	Box oldWhiteBox;
+	Box oldBlackBox;
+
 	/// --ƒƒ“ƒo•Ï”END-- ///
 	/// --------------- ///
 	/// --ƒƒ“ƒoŠÖ”-- ///

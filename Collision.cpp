@@ -6,6 +6,13 @@ bool BoxCollision(Box box1, Box box2) {
 	if (box1.pos.x + box1.radiusX < box2.pos.x - box2.radiusX) return false;
 	if (box1.pos.y - box1.radiusY > box2.pos.y + box2.radiusY) return false;
 	if (box1.pos.y + box1.radiusY < box2.pos.y - box2.radiusY) return false;
+	return true;
+}
+
+bool BoxCenterCol(Box box1, Box box2) {
+	if (box1.pos.x - box1.radiusX > box2.pos.x + box2.radiusX) return false;
+	if (box1.pos.x + box1.radiusX < box2.pos.x - box2.radiusX) return false;
+	return true;
 }
 
 // --インスタンスにNULLを代入-- //
@@ -55,21 +62,48 @@ void Collision::Update() {
 			Box obstacle = { stage->obstacles_[i].GetPos(), stage->obstacles_[i].GetRadiusX(), stage->obstacles_[i].GetRadiusY() };
 			if (BoxCollision(whiteObj, obstacle)) {
 				if (stage->obstacles_[i].GetColor() == 0x000000) {
-					player->SetKnock();
-					stage->obstacles_.erase(stage->obstacles_.begin() + i);
-				}
+					// --正面から当たっていたら
+					if (BoxCenterCol(oldWhiteBox, obstacle)) {
+						if (player->GetState() == Normal) {
+							player->SetKnock();
+						}
+						else if (player->GetState() == Boost) {
+							stage->obstacles_.erase(stage->obstacles_.begin() + i);
+						}
+					}
 
-				break;
+					// --横から当たっていたら
+					else {
+						player->SetBoost();
+					}
+
+					break;
+				}
 			}
 
 			if (BoxCollision(blackObj, obstacle)) {
 				if (stage->obstacles_[i].GetColor() == 0xFFFFFF) {
-					player->SetKnock();
-					stage->obstacles_.erase(stage->obstacles_.begin() + i);
-				}
+					// --正面から当たっていたら
+					if (BoxCenterCol(oldBlackBox, obstacle)) {
+						if (player->GetState() == Normal) {
+							player->SetKnock();
+						}
+						else if (player->GetState() == Boost) {
+							stage->obstacles_.erase(stage->obstacles_.begin() + i);
+						}
+					}
 
-				break;
+					// --横から当たっていたら
+					else {
+						player->SetBoost();
+					}
+
+					break;
+				}
 			}
 		}
 	}
+
+	oldWhiteBox = { {player->GetWhiteObj().pos.x, player->GetWhiteObj().pos.y  + Camera::GetScroll()}, 32, 32 };
+	oldBlackBox = { {player->GetBlackObj().pos.x, player->GetBlackObj().pos.y  + Camera::GetScroll()}, 32, 32 };
 }

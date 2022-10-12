@@ -86,7 +86,7 @@ Player::Player() :
 	speedY = defaultSpeedY;
 
 	// --ブーストの時間[s]-- //
-	boostTime = 5.0f;
+	boostTime = 1.0f;
 
 	// --ブーストの経過時間[s]-- //
 	boostTimer = 0.0f;
@@ -149,11 +149,17 @@ void Player::Update() {
 	// --ノックバック状態だったら-- //
 	else if (state == Knock) {
 		// --速度を加算-- //
-		speedY += 0.25f;
+		speedY += 0.20f;
 
 		// --Y軸の速度が基礎値を越したら通常状態に変更-- //
 		if (speedY >= defaultSpeedY) {
 			SetNormal();
+		}
+
+		if (speedY >= 0.0f) {
+			// --プレイヤーオブジェクトのX座標に速度を加算-- //
+			whiteObj.pos.x += speedX * direction;
+			blackObj.pos.x += speedX * direction;
 		}
 	}
 
@@ -162,11 +168,17 @@ void Player::Update() {
 		// --ブースト状態になってからの経過時間-- //
 		float nowTime = (GetNowCount() - boostStartTime) / 1000.0f;
 
+		DrawFormatString(0, 40, 0x000000, "nowTime = %f", nowTime);
+
 		// --指定されているブースト時間が過ぎたら-- //
 		if (boostTime <= nowTime) {
 			// --ブースト状態から通常状態に変更-- //
-			SetBoost();
+			SetNormal();
 		}
+
+		// --プレイヤーオブジェクトのX座標に速度を加算-- //
+		whiteObj.pos.x += speedX * direction;
+		blackObj.pos.x += speedX * direction;
 	}
 
 	// --プレイヤーの移動分スクロール-- //
@@ -191,6 +203,7 @@ void Player::Draw() {
 	DrawBoxAA(blackObj, 0x000000, true);
 
 	DrawFormatString(0, 0, 0x000000, "speedY = %f", speedY);
+	DrawFormatString(0, 20, 0x000000, "state = %d", state);
 }
 
 // --白いオブジェクトの参照-- //
@@ -200,7 +213,7 @@ Object Player::GetWhiteObj() { return whiteObj; }
 Object Player::GetBlackObj() { return blackObj; }
 
 // --プレイヤーの状態を変更-- //
-void Player::SetState(int state) { this->state = state; }
+int Player::GetState() { return state; }
 
 // --通常状態に変更-- //
 void Player::SetNormal() {
@@ -239,6 +252,8 @@ void Player::SetBoost() {
 
 	// --ブースト状態に変更-- //
 	state = Boost;
+
+	boostStartTime = GetNowCount();
 }
 
 bool Player::GetCollisionFlag() { return isCollision; }

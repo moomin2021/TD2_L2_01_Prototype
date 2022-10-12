@@ -153,7 +153,7 @@ public:
 	Object GetBlackObj();
 
 	// --プレイヤーの状態を変更-- //
-	void SetState(int state);
+	int GetState();
 
 	// --通常状態に変更-- //
 	void SetNormal();
