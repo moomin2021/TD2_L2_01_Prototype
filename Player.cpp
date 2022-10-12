@@ -149,17 +149,27 @@ void Player::Update() {
 	// --ノックバック状態だったら-- //
 	else if (state == Knock) {
 		// --速度を加算-- //
-		speedY += 0.20f;
+		speedY += 0.40f;
 
 		// --Y軸の速度が基礎値を越したら通常状態に変更-- //
 		if (speedY >= defaultSpeedY) {
 			SetNormal();
 		}
 
-		if (speedY >= 0.0f) {
-			// --プレイヤーオブジェクトのX座標に速度を加算-- //
-			whiteObj.pos.x += speedX * direction;
-			blackObj.pos.x += speedX * direction;
+		//if (speedY >= 0.0f) {
+		//	// --プレイヤーオブジェクトのX座標に速度を加算-- //
+		//	whiteObj.pos.x += speedX * direction;
+		//	blackObj.pos.x += speedX * direction;
+		//}
+
+		// --プレイヤーオブジェクトのX座標に速度を加算-- //
+		whiteObj.pos.x += speedX * direction;
+		blackObj.pos.x += speedX * direction;
+
+		speedX += 0.2f;
+
+		if (speedX >= defaultSpeedX) {
+			speedX = defaultSpeedX;
 		}
 	}
 
@@ -220,6 +230,8 @@ void Player::SetNormal() {
 	// --Y軸の速度を規定値に設定-- //
 	speedY = defaultSpeedY;
 
+	speedX = defaultSpeedX;
+
 	// --通常状態に変更-- //
 	state = Normal;
 
@@ -234,6 +246,8 @@ void Player::SetKnock() {
 
 	// --通常状態に変更-- //
 	state = Knock;
+
+	speedX = 0.4f;
 
 	// --当たり判定をOFFにする
 	isCollision = false;
