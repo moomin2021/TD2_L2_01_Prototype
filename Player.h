@@ -9,6 +9,18 @@ enum State {
 	Boost// ---> ブースト状態
 };
 
+enum struct XAxisState {
+	Default,
+	Boost
+};
+
+#ifdef _DEBUG
+enum struct DirectionMode {
+	Old,
+	New
+};
+#endif
+
 struct Vertex {
 	Vector2 leftTop;
 	Vector2 leftBottom;
@@ -78,6 +90,10 @@ private:
 
 	// --プレイヤーの状態-- //
 	int state;
+	bool xAxisState;
+#ifdef _DEBUG
+	bool debug_changeDirectionMode;
+#endif
 
 	// --横移動速度の基礎値-- //
 	const float defaultSpeedX;

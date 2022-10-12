@@ -80,6 +80,10 @@ Player::Player() :
 
 	// --プレイヤーの状態-- //
 	state = Normal;
+	xAxisState = static_cast<int>(XAxisState::Default);
+#ifdef _DEBUG
+	debug_changeDirectionMode = static_cast<int>(DirectionMode::Old);
+#endif
 
 	// --横移動の速度-- //
 	speedX = defaultSpeedX;
@@ -118,6 +122,10 @@ void Player::Initialize() {
 
 	// --プレイヤーの状態-- //
 	state = Normal;
+	xAxisState = static_cast<int>(XAxisState::Default);
+#ifdef _DEBUG
+	debug_changeDirectionMode = static_cast<int>(DirectionMode::Old);
+#endif
 
 	// --横移動の速度-- //
 	speedX = defaultSpeedX;
@@ -138,10 +146,51 @@ void Player::Update() {
 	// --[SPACE]を押したら向きを変える-- //
 	if (key->IsTrigger(KEY_INPUT_SPACE)) {
 		// --向きが右だったら左に変更-- //
-		if (direction == RIGHT) direction = LEFT;
+		if (direction == RIGHT) {
+			direction = LEFT;
+#ifdef _DEBUG
+			if (debug_changeDirectionMode == static_cast<int>(DirectionMode::New)) {
+				xAxisState = static_cast<int>(XAxisState::Boost);
+				boostStartTime = GetNowCount();
+			}
+#endif
+		}
 
 		// --向きが左だったら右に変更-- //
-		else if (direction == LEFT) direction = RIGHT;
+		else if (direction == LEFT) {
+			direction = RIGHT;
+#ifdef _DEBUG
+			if (debug_changeDirectionMode == static_cast<int>(DirectionMode::New)) {
+				xAxisState = static_cast<int>(XAxisState::Boost);
+				boostStartTime = GetNowCount();
+			}
+#endif
+		}
+	}
+
+#ifdef _DEBUG
+	if (key->IsTrigger(KEY_INPUT_C)) {
+		if (debug_changeDirectionMode == static_cast<int>(DirectionMode::Old)) debug_changeDirectionMode = static_cast<int>(DirectionMode::New);
+		else if (debug_changeDirectionMode == static_cast<int>(DirectionMode::New)) debug_changeDirectionMode = static_cast<int>(DirectionMode::Old);
+	}
+#endif
+
+	// --x軸のstateがBoostだったら-- //
+	if (xAxisState == static_cast<int>(XAxisState::Boost)) {
+		// --ブースト状態になってからの経過時間-- //
+		float nowTime = (GetNowCount() - boostStartTime) / 1000.0f;
+
+		DrawFormatString(0, 40, 0x000000, "nowTime = %f", nowTime);
+
+		// --指定されているブースト時間が過ぎたら-- //
+		if (0.1f <= nowTime) {
+			// --ブースト状態から通常状態に変更-- //
+			xAxisState = static_cast<int>(XAxisState::Default);
+		}
+
+		// --プレイヤーオブジェクトのX座標に速度を加算-- //
+		whiteObj.pos.x += 2 * speedX * direction;
+		blackObj.pos.x += 2 * speedX * direction;
 	}
 
 	// --通常状態だったら-- //
@@ -211,6 +260,7 @@ void Player::Update() {
 
 // --描画処理-- //
 void Player::Draw() {
+
 	// --白いプレイヤー描画-- //
 	DrawBoxAA(whiteObj, 0xFFFFFF, true);
 
@@ -219,6 +269,8 @@ void Player::Draw() {
 
 	DrawFormatString(0, 0, 0x000000, "speedY = %f", speedY);
 	DrawFormatString(0, 20, 0x000000, "state = %d", state);
+	DrawFormatString(0, 60, 0x000000, "xAxisState = %d", xAxisState);
+	DrawFormatString(0, 80, 0x000000, "directionMode = %d : changeMode [C]", debug_changeDirectionMode);
 }
 
 // --白いオブジェクトの参照-- //
