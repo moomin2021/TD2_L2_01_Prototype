@@ -183,7 +183,7 @@ void Player::Update() {
 		// --ブースト状態になってからの経過時間-- //
 		float nowTime = (GetNowCount() - boostStartTime) / 1000.0f;
 
-		DrawFormatString(0, 40, 0x000000, "nowTime = %f", nowTime);
+		//DrawFormatString(0, 40, 0x000000, "nowTime = %f", nowTime);
 
 		// --指定されているブースト時間が過ぎたら-- //
 		if (boostTime <= nowTime) {
@@ -217,8 +217,8 @@ void Player::Draw() {
 	// --黒いプレイヤー描画-- //
 	DrawBoxAA(blackObj, 0x000000, true);
 
-	DrawFormatString(0, 0, 0x000000, "speedY = %f", speedY);
-	DrawFormatString(0, 20, 0x000000, "state = %d", state);
+	//DrawFormatString(0, 0, 0x000000, "speedY = %f", speedY);
+	//DrawFormatString(0, 20, 0x000000, "state = %d", state);
 }
 
 // --白いオブジェクトの参照-- //

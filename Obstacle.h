@@ -26,7 +26,7 @@ private:
 	/// --メンバ関数-- ///
 public:
 	// --コンストラクタ-- //
-	Obstacle(Vector2 pos, unsigned short int color, unsigned short int shape);
+	Obstacle(Vector2 pos, int color, int shape);
 
 	// --デストラクタ-- //
 	~Obstacle();

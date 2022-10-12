@@ -12,59 +12,54 @@ enum struct BlockId
 	Black   // 2
 };
 
-struct Block
-{
-	size_t color_;
-	size_t shape_;
-};
-
-//struct Obstacle
-//{
-//	Vector2 start_;
-//	Vector2 end_;
-//
-//	Obstacle(Vector2 start, Vector2 end)
-//		:start_(start), end_(end)
-//	{
-//	}
-//
-//	void ChangeSize(Vector2 start, Vector2 end)
-//	{
-//		start_ = start;
-//		end_ = end;
-//	}
-//};
-
-class StageManager
-{
-public: // 静的関数
-	static StageManager* GetInstance();
-
-public: // 静的変数
-	static const size_t blockSize_ = 64; // 定数
-	static const size_t elemsX_ = 10; // 要素数
-	static const size_t elemsY_ = 50; //
-
-public: // 関数
-	void LoadCSV(std::string path); // CSV読み込み
-
-	void Init();
-	void Update();
-	void Draw();
-
-	std::array<std::array<Block, elemsX_>, elemsY_>* GetMapchipData() { return &blocks_; }
-private: // 関数
-	void Reset();
-
-private: // 変数
-	std::array<std::array<Block, elemsX_>, elemsY_> blocks_ = { 0 };
-
+class StageManager {
+	/// --メンバ変数-- ///
 public:
+	// --障害物クラス宣言-- //
 	std::vector<Obstacle> obstacles_;
 
-private: // シングルトン
+	// --1マスのサイズ-- //
+	const int blockSize;
+
+private:
+	// --インスタンス-- //
+	static StageManager* myInstance;
+
+	/// --メンバ変数END-- ///
+	/// --------------- ///
+	/// --メンバ関数-- ///
+public:
+	// --インスタンス取得-- //
+	static StageManager* GetInstance();
+
+	// --メモリ解放-- //
+	static void Release();
+
+	// --初期化処理-- //
+	void Initialize();
+
+	// --更新処理-- //
+	void Update();
+
+	// --描画処理-- //
+	void Draw();
+
+	// --CSVを読み込む-- //
+	void LoadCSV(std::string path);
+
+private:
+
+	 // --コンストラクタ-- //
 	StageManager();
+
+	// --デストラクタ-- //
 	~StageManager();
+
+	// --コピーコンストラクタ禁止-- //
 	StageManager(const StageManager&) = delete;
+
+	// --コピー代入演算子禁止-- //
 	StageManager& operator=(const StageManager&) = delete;
+
+	/// --メンバ関数END-- ///
 };

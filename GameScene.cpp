@@ -39,6 +39,9 @@ GameScene::GameScene() {
 	// --当たり判定
 	col = Collision::GetInstance();
 
+	// --ステージマネージャー-- //
+	stageManager = StageManager::GetInstance();
+
 #pragma endregion
 }
 
@@ -51,15 +54,21 @@ GameScene::~GameScene() {
 
 // --初期化処理-- //
 void GameScene::Initialize() {
-	stageManager_ = StageManager::GetInstance();
-	stageManager_->Init();
-	stageManager_->LoadCSV("proto.csv");
+	stageManager->Initialize();
+	stageManager->LoadCSV("proto.csv");
 	// --プレイヤー-- //
 	player->Initialize();
 }
 
 // --更新処理-- //
 void GameScene::Update() {
+	if (key->IsTrigger(KEY_INPUT_R)) {
+		stageManager->Initialize();
+		stageManager->LoadCSV("proto.csv");
+		player->Initialize();
+		camera->Initialize();
+	}
+
 	// --プレイヤー-- //
 	player->Update();
 
@@ -73,6 +82,8 @@ void GameScene::Draw() {
 		DrawLineAA(0, i * 64 - Camera::GetScroll() - 1280, 640, i * 64 - Camera::GetScroll() - 1280, 0xAAAAAA);
 	}
 
-	stageManager_->Draw();
+	stageManager->Draw();
 	player->Draw();
+
+	DrawFormatString(0, 0, 0x000000, "[R]でリセット");
 }

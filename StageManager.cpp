@@ -10,48 +10,43 @@ namespace {
 	using namespace std;
 }
 
-StageManager* StageManager::GetInstance()
-{
-	static StageManager instance;
-	return &instance;
+// --インスタンスにNULLを代入-- //
+StageManager* StageManager::myInstance = nullptr;
+
+// --インスタンス読み込み-- //
+StageManager* StageManager::GetInstance() {
+	// --インスタンスが無かったら生成する-- //
+	if (myInstance == nullptr) myInstance = new StageManager();
+
+	// --インスタンスを返す-- //
+	return myInstance;
 }
 
-void StageManager::LoadCSV(string path)
-{
-	Reset();
+// --メモリ解放-- //
+void StageManager::Release() {
+	// --メモリ解放-- //
+	delete myInstance;
 
-	ifstream ifs(path);
-	string line, tmp;
-	size_t loopCount = 0;
-	while (getline(ifs, line)) {
-		istringstream line_stream(line); // 変換
-
-		for (size_t i = 0; i < elemsX_; i++) {
-			getline(line_stream, tmp, ',');
-
-			blocks_.at(loopCount).at(i).color_ = static_cast<int>(Sign(stoi(tmp)) * stoi(tmp) / 100) % 10;
-			blocks_.at(loopCount).at(i).shape_ = stoi(tmp) % 100;
-
-			if (blocks_.at(loopCount).at(i).color_ == static_cast<int>(BlockId::White) ||
-				blocks_.at(loopCount).at(i).color_ == static_cast<int>(BlockId::Black)) {
-
-				//Obstacle objTmp({ i * blockSize_ ,loopCount * blockSize_ }, { (i + 1) * blockSize_,(loopCount + 1) * blockSize_ });
-				Obstacle objTmp({ static_cast<float>(i * blockSize_ + 32), static_cast<float>(loopCount * blockSize_ + 32) }, static_cast<unsigned short int>(blocks_.at(loopCount).at(i).color_), static_cast<unsigned short int>(blocks_.at(loopCount).at(i).shape_));
-				obstacles_.push_back(objTmp);
-			}
-		}
-		loopCount++;
-	}
-
-	// --障害物の初期化
-	for (int i = 0; i < obstacles_.size(); i++) {
-		obstacles_[i].Initialize();
-	}
+	// --NULLを代入-- //
+	myInstance = nullptr;
 }
 
-void StageManager::Init()
+// --コンストラクタ-- //
+StageManager::StageManager() :
+	// --1マスのサイズ-- //
+	blockSize(64)
 {
-	Reset();
+
+}
+
+// --デストラクタ-- //
+StageManager::~StageManager()
+{
+}
+
+void StageManager::Initialize()
+{
+	// --障害物を削除-- //
 	obstacles_.clear();
 }
 
@@ -61,56 +56,59 @@ void StageManager::Update()
 
 void StageManager::Draw()
 {
-	//size_t loopCount = 0;
-	//for (size_t y = 0; y < blocks_.size(); y++) {
-	//	for (size_t x = 0; x < blocks_[loopCount].size(); x++) {
-	//		if (blocks_.at(y).at(x).color_ == static_cast<int>(BlockId::White)) {
-	//			// 外枠
-	//			DrawBox(blockSize_ * x, blockSize_ * y - Camera::GetScroll(),
-	//				blockSize_ * (x + 1), blockSize_ * (y + 1) - Camera::GetScroll(),
-	//				0x8d8d8d, true
-	//			);
-
-	//			// 内側
-	//			DrawBox((blockSize_ * x) + 5, (blockSize_ * y) + 5 - Camera::GetScroll(),
-	//				(blockSize_ * (x + 1)) - 5, (blockSize_ * (y + 1)) - 5 - Camera::GetScroll(),
-	//				0xffffff, true
-	//			);
-	//		}
-	//		else if (blocks_.at(y).at(x).color_ == static_cast<int>(BlockId::Black)) {
-	//			// 外枠
-	//			DrawBox(blockSize_ * x, blockSize_ * y + Camera::GetScroll(),
-	//				blockSize_ * (x + 1), blockSize_ * (y + 1) - Camera::GetScroll(),
-	//				0x8d8d8d, true
-	//			);
-
-	//			// 内側
-	//			DrawBox((blockSize_ * x) + 5, (blockSize_ * y) + 5 + Camera::GetScroll(),
-	//				(blockSize_ * (x + 1)) - 5, (blockSize_ * (y + 1)) - 5 - Camera::GetScroll(),
-	//				0x000000, true
-	//			);
-	//		}
-	//	}
-	//	loopCount++;
-	//}
-
 	// --障害物の描画
 	for (int i = 0; i < obstacles_.size(); i++) {
 		obstacles_[i].Draw();
 	}
 }
 
-void StageManager::Reset()
+void StageManager::LoadCSV(string path)
 {
-	for (size_t i = 0; i < elemsY_; i++) {
-		blocks_.at(i).fill({0,0});
+
+	// --読み込むCSVファイルを開く-- //
+	ifstream ifs(path);
+
+	// --読み込んだCSVファイルの1行を一時的に格納する変数-- //
+	string line;
+
+	// --[,]区切りで読み込んだデータ一時的に格納する変数-- //
+	string tmp;
+
+	// --Y軸のマス数をカウント
+	size_t loopCount = 0;
+
+	// --1行ずつ読み込む、読み込んだ1行をline変数に格納-- //
+	while (getline(ifs, line)) {
+
+		// --[,]区切りで読み込むためにistringstream型にする-- //
+		istringstream line_stream(line);
+
+		// --X軸のマス数をカウント
+		int cellNumberX = 0;
+
+		while (getline(line_stream, tmp, ',')) {
+			// --色を読み取る
+			int color = static_cast<int>(Sign(stoi(tmp)) * stoi(tmp) / 100) % 10;
+			
+			// --形状を読み取る
+			int shape = stoi(tmp) % 100;
+
+			// --読み取った数字が0以外なら障害物を生成する
+			if (stoi(tmp) != 0) {
+				Obstacle objTmp({ static_cast<float>(cellNumberX * blockSize + 32), static_cast<float>(loopCount * blockSize + 32) }, color, shape);
+				obstacles_.push_back(objTmp);
+			}
+
+			// --X軸のマス数をカウント
+			cellNumberX++;
+		}
+
+		// --Y軸のマス数をカウント
+		loopCount++;
 	}
-}
 
-StageManager::StageManager()
-{
-}
-
-StageManager::~StageManager()
-{
+	// --障害物の初期化
+	for (int i = 0; i < obstacles_.size(); i++) {
+		obstacles_[i].Initialize();
+	}
 }
