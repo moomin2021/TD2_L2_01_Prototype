@@ -19,6 +19,11 @@ void DrawBoxAA(Object obj, unsigned int color, bool fillFlag) {
 		obj.pos.x - obj.radius, obj.pos.y - obj.radius,
 		obj.pos.x + obj.radius, obj.pos.y + obj.radius,
 		color, fillFlag);
+
+	DrawLineAA(obj.pos.x - obj.radius, obj.pos.y - obj.radius, obj.pos.x + obj.radius, obj.pos.y - obj.radius, color ^ 0xFFFFFF, 3);
+	DrawLineAA(obj.pos.x - obj.radius, obj.pos.y + obj.radius, obj.pos.x + obj.radius, obj.pos.y + obj.radius, color ^ 0xFFFFFF, 3);
+	DrawLineAA(obj.pos.x - obj.radius, obj.pos.y - obj.radius, obj.pos.x - obj.radius, obj.pos.y + obj.radius, color ^ 0xFFFFFF, 3);
+	DrawLineAA(obj.pos.x + obj.radius, obj.pos.y - obj.radius, obj.pos.x + obj.radius, obj.pos.y + obj.radius, color ^ 0xFFFFFF, 3);
 }
 
 // --インスタンスにNULLを代入-- //
