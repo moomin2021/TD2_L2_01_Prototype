@@ -21,6 +21,9 @@ public:
 	// --1マスのサイズ-- //
 	const int blockSize;
 
+	// csv行数
+	int lineCounter;
+
 private:
 	// --インスタンス-- //
 	static StageManager* myInstance;

@@ -64,6 +64,7 @@ void StageManager::Draw()
 
 void StageManager::LoadCSV(string path)
 {
+	lineCounter = 0;
 
 	// --読み込むCSVファイルを開く-- //
 	ifstream ifs(path);
@@ -111,4 +112,6 @@ void StageManager::LoadCSV(string path)
 	for (int i = 0; i < obstacles.size(); i++) {
 		obstacles[i].Initialize();
 	}
+
+	lineCounter = loopCount;
 }
