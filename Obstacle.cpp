@@ -2,6 +2,13 @@
 #include "DxLib.h"
 #include "Camera.h"
 
+enum struct ShapeType {
+	None,		// 無効
+	Default,	// 横向き長方形
+	Iphone,		// 縦向き長方形
+	LongWallet,	// 覆いつくすほどの横向き長方形
+};
+
 // --コンストラクタ
 Obstacle::Obstacle(Vector2 pos, int color, int shape) {
 	// --座標
@@ -30,9 +37,17 @@ Obstacle::~Obstacle() {
 // --初期化処理
 void Obstacle::Initialize() {
 	// --形状によって半径を変える
-	if (shape == 1) {
+	if (shape == static_cast<int>(ShapeType::Default)) {
 		radiusX = 160;
 		radiusY = 96;
+	}
+	else if (shape == static_cast<int>(ShapeType::Iphone)) {
+		radiusX = 96;
+		radiusY = 160;
+	}
+	else if (shape == static_cast<int>(ShapeType::LongWallet)) {
+		radiusX = 640;
+		radiusY = 256;
 	}
 }
 
