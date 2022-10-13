@@ -157,6 +157,9 @@ public:
 	// --黒いオブジェクトの参照-- //
 	Object GetBlackObj();
 
+	// --白黒プレイヤーの座標Xに加算-- //
+	void AddPlayerPosX(float value);
+
 	// --プレイヤーの状態を変更-- //
 	int GetState();
 
