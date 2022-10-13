@@ -35,8 +35,8 @@ Camera::~Camera() {
 }
 
 // --‰Šú‰»ˆ—-- //
-void Camera::Initialize() {
-	scrollY = 2400;
+void Camera::Initialize(int scrollY) {
+	this->scrollY = scrollY;
 }
 
 // --XVˆ—-- //
