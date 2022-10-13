@@ -363,3 +363,9 @@ float Player::GetSpeedY() { return speedY; }
 
 // --X軸の速度を参照
 float Player::GetSpeedX() { return speedX; }
+
+// --白黒プレイヤーの座標Xに加算-- //
+void Player::AddPlayerPosX(float value) {
+	whiteObj.pos.x += value;
+	blackObj.pos.x += value;
+}

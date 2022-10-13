@@ -99,6 +99,25 @@ void Collision::Update() {
 
 					// --横から当たっていたら
 					else {
+						// --プレイヤーと障害物のX軸距離-- //
+						float len = abs(whiteObj.pos.x - obstacle.pos.x);
+
+						// --プレイヤーと障害物のY軸半径を足した値-- //
+						float radius = whiteObj.radiusX + obstacle.radiusX;
+
+						// --プレイヤーが障害物の右側にいたら-- //
+						if (whiteObj.pos.x >= obstacle.pos.x) {
+							// --カメラに距離と半径を引いた数を加算-- //
+							player->AddPlayerPosX(radius - len);
+						}
+
+						// --プレイヤーが障害物の左側にいたら-- //
+						else {
+							// --カメラに距離と半径を引いた数を加算-- //
+							player->AddPlayerPosX(-(radius - len));
+						}
+
+						// --状態をブースト状態に変更-- //
 						player->SetBoost();
 					}
 
@@ -140,6 +159,25 @@ void Collision::Update() {
 
 					// --横から当たっていたら
 					else {
+						// --プレイヤーと障害物のX軸距離-- //
+						float len = abs(blackObj.pos.x - obstacle.pos.x);
+
+						// --プレイヤーと障害物のY軸半径を足した値-- //
+						float radius = blackObj.radiusX + obstacle.radiusX;
+
+						// --プレイヤーが障害物の右側にいたら-- //
+						if (blackObj.pos.x >= obstacle.pos.x) {
+							// --プレイヤーに距離と半径を引いた数を加算-- //
+							player->AddPlayerPosX(radius - len);
+						}
+
+						// --プレイヤーが障害物の左側にいたら-- //
+						else {
+							// --カメラに距離と半径を引いた数を加算-- //
+							player->AddPlayerPosX(-(radius - len));
+						}
+
+						// --状態をブースト状態に変更-- //
 						player->SetBoost();
 					}
 
