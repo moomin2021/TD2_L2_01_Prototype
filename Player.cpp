@@ -128,9 +128,9 @@ void Player::Initialize() {
 	// --プレイヤーの状態-- //
 	state = Normal;
 	xAxisState = static_cast<int>(XAxisState::Default);
-#ifdef _DEBUG
-	debug_changeDirectionMode = static_cast<int>(DirectionMode::Old);
-#endif
+//#ifdef _DEBUG
+//	debug_changeDirectionMode = static_cast<int>(DirectionMode::Old);
+//#endif
 
 	// --横移動の速度-- //
 	speedX = defaultSpeedX;
@@ -294,11 +294,11 @@ void Player::Draw() {
 	// --黒いプレイヤー描画-- //
 	DrawBoxAA(blackObj, 0x000000, true);
 
-	DrawFormatString(0, 0, 0x000000, "speedY = %f", speedY);
-	DrawFormatString(0, 20, 0x000000, "state = %d", state);
-	DrawFormatString(0, 60, 0x000000, "xAxisState = %d", xAxisState);
-	DrawFormatString(0, 80, 0x000000, "directionMode = %d : changeMode [C]", debug_changeDirectionMode);
-	DrawFormatString(0, 100, 0x000000, "isEase = %d", isEaseDraw);
+	DrawFormatString(0, 40, 0x000000, "speedY = %f", speedY);
+	DrawFormatString(0, 60, 0x000000, "state = %d", state);
+	DrawFormatString(0, 100, 0x000000, "xAxisState = %d", xAxisState);
+	DrawFormatString(0, 120, 0x000000, "directionMode = %d : changeMode [C]", debug_changeDirectionMode);
+	DrawFormatString(0, 140, 0x000000, "isEase = %d", isEaseDraw);
 
 }
 

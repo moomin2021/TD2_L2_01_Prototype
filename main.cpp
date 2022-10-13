@@ -1,6 +1,5 @@
 #include "DxLib.h"
-#include "Key.h"
-#include "GameScene.h"
+#include "SceneManager.h"
 
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "LE2A_14_タムラ_フミヤ: タイトル";
@@ -43,12 +42,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	// ゲームループで使う変数の宣言
 
-	// --クラスインスタンス取得-- //
-	Key* key = Key::GetInstance();
-	GameScene* gameScene = GameScene::GetInstance();
+	// --シーンマネージャーインスタンス取得-- //
+	SceneManager* sceneManager = SceneManager::GetInstance();
 
-	// --クラス初期化-- //
-	gameScene->Initialize();
+	// --シーンマネージャー初期化処理-- //
+	sceneManager->Initialize();
 
 	// ゲームループ
 	while (true) {
@@ -58,16 +56,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// 更新処理
 
-		// --キーボード入力更新-- //
-		key->Update();
-
-		// --ゲームシーン更新処理-- //
-		gameScene->Update();
+		// --シーンマネージャー更新処理-- //
+		sceneManager->Update();
 
 		// 描画処理
 
-		// --ゲームシーン描画処理-- //
-		gameScene->Draw();
+		// --シーンマネージャー描画処理-- //
+		sceneManager->Draw();
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
@@ -88,8 +83,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	}
 
 	// --メモリ解放-- //
-	key->Release();
-	gameScene->Release();
+	sceneManager->Release();
 
 	// Dxライブラリ終了処理
 	DxLib_End();
