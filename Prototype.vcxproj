@@ -140,8 +140,12 @@
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="ResultScene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="StageSelectScene.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
@@ -152,8 +156,12 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="ResulrScene.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="StageManager.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="StageSelectScene.h" />
+    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="Vector2.h" />
   </ItemGroup>
