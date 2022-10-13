@@ -148,10 +148,12 @@ void Player::Update() {
 		// --向きが右だったら左に変更-- //
 		if (direction == RIGHT) {
 			direction = LEFT;
-#ifdef _DEBUG
-			if (debug_changeDirectionMode == static_cast<int>(DirectionMode::New)) {
+#ifdef _DEBUG // デバッグ限定
+			if (debug_changeDirectionMode == static_cast<int>(DirectionMode::New)) { // デバッグ用[SPACE]
 				xAxisState = static_cast<int>(XAxisState::Boost);
 				boostStartTime = GetNowCount();
+				isEaseDraw = true;
+				easeStartTime = GetNowCount();
 			}
 #endif
 		}
@@ -163,6 +165,8 @@ void Player::Update() {
 			if (debug_changeDirectionMode == static_cast<int>(DirectionMode::New)) {
 				xAxisState = static_cast<int>(XAxisState::Boost);
 				boostStartTime = GetNowCount();
+				isEaseDraw = true;
+				easeStartTime = GetNowCount();
 			}
 #endif
 		}
@@ -260,6 +264,24 @@ void Player::Update() {
 
 // --描画処理-- //
 void Player::Draw() {
+	if (isEaseDraw == true) {
+		// --ブースト状態になってからの経過時間-- //
+		float nowTime = (GetNowCount() - easeStartTime) / 1000.0f;
+
+		DrawFormatString(200, 40, 0x000000, "nowTime = %f", nowTime);
+
+		whiteObj.radius = 27;
+		blackObj.radius = 27;
+
+		// --指定されているブースト時間が過ぎたら-- //
+		if (0.1f <= nowTime) {
+			// --ブースト状態から通常状態に変更-- //
+			isEaseDraw = false;
+			whiteObj.radius = 32;
+			blackObj.radius = 32;
+		}
+
+	}
 
 	// --白いプレイヤー描画-- //
 	DrawBoxAA(whiteObj, 0xFFFFFF, true);
@@ -271,6 +293,8 @@ void Player::Draw() {
 	DrawFormatString(0, 20, 0x000000, "state = %d", state);
 	DrawFormatString(0, 60, 0x000000, "xAxisState = %d", xAxisState);
 	DrawFormatString(0, 80, 0x000000, "directionMode = %d : changeMode [C]", debug_changeDirectionMode);
+	DrawFormatString(0, 100, 0x000000, "isEase = %d", isEaseDraw);
+
 }
 
 // --白いオブジェクトの参照-- //

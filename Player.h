@@ -94,6 +94,7 @@ private:
 #ifdef _DEBUG
 	bool debug_changeDirectionMode;
 #endif
+	bool isEaseDraw = false;
 
 	// --横移動速度の基礎値-- //
 	const float defaultSpeedX;
@@ -118,6 +119,9 @@ private:
 
 	// --ブーストが始まった時の時間-- //
 	int boostStartTime;
+
+	//
+	int easeStartTime = 0.0f;
 
 	// --ブースト時の初期スピード-- //
 	const float defaultBoostSpeedY;
