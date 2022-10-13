@@ -50,6 +50,12 @@ public:
 	// --CSVを読み込む-- //
 	void LoadCSV(std::string path);
 
+	// --読み込んだCSVの行数を参照-- //
+	int GetLine();
+
+	// --ブロックサイズを参照-- //
+	int GetBlockSize();
+
 private:
 
 	 // --コンストラクタ-- //

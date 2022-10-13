@@ -56,6 +56,7 @@ GameScene::~GameScene() {
 void GameScene::Initialize() {
 	stageManager->Initialize();
 	stageManager->LoadCSV("proto.csv");
+	camera->Initialize((stageManager->GetLine() * stageManager->blockSize) - 800);
 	// --プレイヤー-- //
 	player->Initialize();
 }
@@ -66,7 +67,7 @@ void GameScene::Update() {
 		stageManager->Initialize();
 		stageManager->LoadCSV("proto.csv");
 		player->Initialize();
-		camera->Initialize();
+		camera->Initialize((stageManager->GetLine() * stageManager->blockSize) - 800);
 	}
 
 	// --プレイヤー-- //

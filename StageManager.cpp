@@ -115,3 +115,8 @@ void StageManager::LoadCSV(string path)
 
 	lineCounter = loopCount;
 }
+
+int StageManager::GetLine() { return lineCounter; }
+
+// --ブロックサイズを参照-- //
+int StageManager::GetBlockSize() { return blockSize; }

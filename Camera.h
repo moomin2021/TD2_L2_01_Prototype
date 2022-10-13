@@ -25,7 +25,7 @@ public:
 	~Camera();
 
 	// --‰Šú‰»ˆ—-- //
-	void Initialize();
+	void Initialize(int scrollY);
 
 	// --XVˆ—-- //
 	void Update();
