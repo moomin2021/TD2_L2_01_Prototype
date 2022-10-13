@@ -86,5 +86,5 @@ void GameScene::Draw() {
 	stageManager->Draw();
 	player->Draw();
 
-	DrawFormatString(0, 0, 0x000000, "[R]でリセット");
+	DrawFormatString(200, 0, 0x000000, "[R]でリセット");
 }
