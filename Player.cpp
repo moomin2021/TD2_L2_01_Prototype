@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Camera.h"
 #include "StageManager.h"
+#include "Util.h"
 
 // --黒-- //
 #define BLACK 0x000000
@@ -12,6 +13,10 @@
 // --向き-- //
 #define LEFT -1
 #define RIGHT 1
+
+// --方向転換時のサイズ-- //
+#define MAX_SIZE_P 32;
+#define MIN_SIZE_P 27;
 
 // --オブジェクトの描画用の関数-- //
 void DrawBoxAA(Object obj, unsigned int color, bool fillFlag) {
@@ -270,17 +275,17 @@ void Player::Draw() {
 
 		DrawFormatString(200, 40, 0x000000, "nowTime = %f", nowTime);
 
-		whiteObj.radius = 27;
-		blackObj.radius = 27;
+		// 
+		whiteObj.radius = MIN_SIZE_P;
+		blackObj.radius = MIN_SIZE_P;
 
 		// --指定されているブースト時間が過ぎたら-- //
 		if (0.1f <= nowTime) {
 			// --ブースト状態から通常状態に変更-- //
 			isEaseDraw = false;
-			whiteObj.radius = 32;
-			blackObj.radius = 32;
+			whiteObj.radius = MAX_SIZE_P;
+			blackObj.radius = MAX_SIZE_P;
 		}
-
 	}
 
 	// --白いプレイヤー描画-- //
