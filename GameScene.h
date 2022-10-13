@@ -28,8 +28,8 @@ private:
 	// --当たり判定
 	Collision* col;
 
-	// 
-	StageManager* stageManager_ = nullptr;
+	// --ステージマネージャー
+	StageManager* stageManager;
 #pragma endregion
 
 	/// --メンバ変数END-- ///

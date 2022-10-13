@@ -36,7 +36,7 @@ Camera::~Camera() {
 
 // --‰Šú‰»ˆ—-- //
 void Camera::Initialize() {
-
+	scrollY = 2400;
 }
 
 // --XVˆ—-- //

@@ -236,7 +236,7 @@ void Player::Update() {
 		// --ブースト状態になってからの経過時間-- //
 		float nowTime = (GetNowCount() - boostStartTime) / 1000.0f;
 
-		DrawFormatString(0, 40, 0x000000, "nowTime = %f", nowTime);
+		//DrawFormatString(0, 40, 0x000000, "nowTime = %f", nowTime);
 
 		// --指定されているブースト時間が過ぎたら-- //
 		if (boostTime <= nowTime) {

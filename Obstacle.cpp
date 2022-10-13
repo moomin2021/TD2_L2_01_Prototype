@@ -3,7 +3,7 @@
 #include "Camera.h"
 
 // --コンストラクタ
-Obstacle::Obstacle(Vector2 pos, unsigned short int color, unsigned short int shape) {
+Obstacle::Obstacle(Vector2 pos, int color, int shape) {
 	// --座標
 	this->pos = pos;
 

@@ -129,21 +129,6 @@ private:
 	// --ノックバック時の初期スピード-- //
 	const float defaultKnockSpeedY;
 
-	// Collision()
-	Vertex vPosW;
-	Vertex vPosB;
-	Vertex vElemsW;
-	Vertex vElemsB;
-
-	const Vertex minVElems_ = {};
-	const Vertex maxVElems_ =
-	{
-		{StageManager::elemsX_ - 1, StageManager::elemsY_ - 1},
-		{StageManager::elemsX_ - 1, StageManager::elemsY_ - 1},
-		{StageManager::elemsX_ - 1, StageManager::elemsY_ - 1},
-		{StageManager::elemsX_ - 1, StageManager::elemsY_ - 1}
-	};
-
 	/// --メンバ変数END-- ///
 	/// --------------- ///
 	/// --メンバ関数-- ///
