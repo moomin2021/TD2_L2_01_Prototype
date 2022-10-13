@@ -109,3 +109,24 @@ void Collision::Update() {
 	oldWhiteBox = { {player->GetWhiteObj().pos.x, player->GetWhiteObj().pos.y  + Camera::GetScroll()}, 32, 32 };
 	oldBlackBox = { {player->GetBlackObj().pos.x, player->GetBlackObj().pos.y  + Camera::GetScroll()}, 32, 32 };
 }
+
+// --更新処理-- //
+//void Collision::Update() {
+//	// --プレイヤーの当たり判定フラグがONだったら-- //
+//	if (player->GetCollisionFlag() == true) {
+//		// --黒と白のプレイヤーの座標と半径の情報を格納-- //
+//		Box blackObj = { {player->GetBlackObj().pos.x, player->GetBlackObj().pos.y + Camera::GetScroll()}, player->GetBlackObj().radius, player->GetBlackObj().radius };
+//		Box whiteObj = { {player->GetWhiteObj().pos.x, player->GetWhiteObj().pos.y + Camera::GetScroll()}, player->GetWhiteObj().radius, player->GetWhiteObj().radius };
+//
+//		// --障害物の数分当たり判定をとる-- //
+//		for (int i = 0; i < stage->obstacles.size(); i++) {
+//			// --障害物の座標と半径を格納-- //
+//			Box obstacle = { stage->obstacles[i].GetPos(), stage->obstacles[i].GetRadiusX(), stage->obstacles[i].GetRadiusY() };
+//
+//			// --
+//			if (BoxCollision(whiteObj, obstacle) || BoxCollision(blackObj, obstacle)) {
+//
+//			}
+//		}
+//	}
+//}
