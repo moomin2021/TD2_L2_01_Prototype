@@ -9,24 +9,19 @@ enum struct ShapeType {
 	LongWallet,	// 覆いつくすほどの横向き長方形
 };
 
-// --コンストラクタ
-Obstacle::Obstacle(Vector2 pos, int color, int shape) {
+// --コンストラクタ-- //
+Obstacle::Obstacle(Vector2 pos, int blockType) {
 	// --座標
-	this->pos = pos;
+	pos_ = pos;
 
-	// --色
-	this->color = 0;
-	if (color == 1) this->color = 0xFFFFFF;
-	else if (color == 2) this->color = 0x000000;
-
-	// --形
-	this->shape = shape;
+	// --ブロックの種類
+	blockType_ = blockType;
 
 	// --X軸の半径
-	radiusX = 0.0f;
+	radiusX_ = 32.0f;
 
 	// --Y軸の変形
-	radiusY = 0.0f;
+	radiusY_ = 32.0f;
 }
 
 // --デストラクタ
@@ -36,19 +31,7 @@ Obstacle::~Obstacle() {
 
 // --初期化処理
 void Obstacle::Initialize() {
-	// --形状によって半径を変える
-	if (shape == static_cast<int>(ShapeType::Default)) {
-		radiusX = 160;
-		radiusY = 96;
-	}
-	else if (shape == static_cast<int>(ShapeType::Iphone)) {
-		radiusX = 96;
-		radiusY = 160;
-	}
-	else if (shape == static_cast<int>(ShapeType::LongWallet)) {
-		radiusX = 640;
-		radiusY = 256;
-	}
+	
 }
 
 // --更新処理
@@ -58,17 +41,33 @@ void Obstacle::Update() {
 
 // --描画処理
 void Obstacle::Draw() {
-	DrawBoxAA(pos.x - radiusX, pos.y - radiusY - Camera::GetScroll(), pos.x + radiusX, pos.y + radiusY - Camera::GetScroll(), color, true);
+
+	if (blockType_ == 1) {
+		DrawBoxAA(pos_.x - radiusX_, pos_.y - radiusY_ - Camera::GetScroll(), pos_.x + radiusX_, pos_.y + radiusY_ - Camera::GetScroll(), 0x000000, true);
+		DrawBoxAA(pos_.x - radiusX_, pos_.y - radiusY_ - Camera::GetScroll(), pos_.x + radiusX_, pos_.y + radiusY_ - Camera::GetScroll(), 0xFFFFFF, false);
+	}
+
+	else if (blockType_ == 2) {
+		DrawBoxAA(pos_.x - radiusX_, pos_.y - radiusY_ - Camera::GetScroll(), pos_.x + radiusX_, pos_.y + radiusY_ - Camera::GetScroll(), 0x000000, true);
+		DrawBoxAA(pos_.x - radiusX_, pos_.y - radiusY_ - Camera::GetScroll(), pos_.x + radiusX_, pos_.y + radiusY_ - Camera::GetScroll(), 0xFFFFFF, false);
+		DrawCircleAA(pos_.x, pos_.y - Camera::GetScroll(), radiusX_ - 5, 50, 0xFFFF00, true);
+		DrawCircleAA(pos_.x, pos_.y - Camera::GetScroll(), radiusX_ - 5, 50, 0x000000, false);
+	}
+
+	else if (blockType_ == 3) {
+		DrawCircleAA(pos_.x, pos_.y - Camera::GetScroll(), radiusX_ - 5, 50, 0xFFFF00, true);
+		DrawCircleAA(pos_.x, pos_.y - Camera::GetScroll(), radiusX_ - 5, 50, 0x000000, false);
+	}
 }
 
 // --障害物の座標を参照
-Vector2 Obstacle::GetPos() { return pos; }
+Vector2 Obstacle::GetPos() { return pos_; }
 
 // --障害物のX軸の半径を参照
-float Obstacle::GetRadiusX() { return radiusX; }
+float Obstacle::GetRadiusX() { return radiusX_; }
 
 // --障害物のY軸の半径を参照
-float Obstacle::GetRadiusY() { return radiusY; }
+float Obstacle::GetRadiusY() { return radiusY_; }
 
-// --色を参照
-int Obstacle::GetColor() { return color; }
+// --ブロックの種類を参照
+int Obstacle::GetBlockType() { return blockType_; }

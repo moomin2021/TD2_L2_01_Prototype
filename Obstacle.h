@@ -7,26 +7,23 @@ public:
 
 private:
 	// --座標
-	Vector2 pos;
+	Vector2 pos_;
 
-	// --色
-	int color;
-
-	// --形
-	unsigned short int shape;
+	// --ブロックの種類
+	int blockType_;
 
 	// --X軸の半径
-	float radiusX;
+	float radiusX_;
 
 	// --Y軸の変形
-	float radiusY;
+	float radiusY_;
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///
 	/// --メンバ関数-- ///
 public:
 	// --コンストラクタ-- //
-	Obstacle(Vector2 pos, int color, int shape);
+	Obstacle(Vector2 pos, int blockType);
 
 	// --デストラクタ-- //
 	~Obstacle();
@@ -43,14 +40,14 @@ public:
 	// --障害物の座標を参照
 	Vector2 GetPos();
 
-	// --色を参照
-	int GetColor();
-
 	// --障害物のX軸の半径を参照
 	float GetRadiusX();
 
 	// --障害物のY軸の半径を参照
 	float GetRadiusY();
+
+	// --ブロックの種類を参照
+	int GetBlockType();
 
 private:
 

@@ -5,11 +5,12 @@
 #include <vector>
 #include "Obstacle.h"
 
-enum struct BlockId
+enum BlockId
 {
 	None,   // 0
-	White,  // 1
-	Black   // 2
+	Block,
+	CoinBlock,
+	Coin
 };
 
 class StageManager {
@@ -27,6 +28,12 @@ public:
 private:
 	// --インスタンス-- //
 	static StageManager* myInstance;
+
+	// --最大コイン数-- //
+	int maxCoin_ = 0;
+
+	// --現在のコイン数-- //
+	int coin_ = 0;
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///
@@ -55,6 +62,9 @@ public:
 
 	// --ブロックサイズを参照-- //
 	int GetBlockSize();
+
+	// --コインの数に1追加-- //
+	void AddCoin();
 
 private:
 

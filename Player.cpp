@@ -74,11 +74,9 @@ Player::Player() :
 	key = Key::GetInstance();
 	stageManager_ = StageManager::GetInstance();
 
-	// --白いプレイヤーオブジェクト-- //
-	whiteObj = { {300.0f, 700.0f}, 32.0f };
-
-	// --黒いプレイヤーオブジェクト-- //
-	blackObj = { {900.0f, 700.0f}, 32.0f };
+	// --プレイヤーオブジェクト-- //
+	player_[0] = { {300.0f, 700.0f}, 32.0f };
+	player_[1] = { {900.0f, 700.0f}, 32.0f };
 
 	// --当たり判定が有効か
 	isCollision = true;
@@ -116,11 +114,9 @@ Player::~Player() {
 
 // --初期化処理-- //
 void Player::Initialize() {
-	// --白いプレイヤーオブジェクト-- //
-	whiteObj = { {320.0f, 700.0f}, 32.0f };
-
-	// --黒いプレイヤーオブジェクト-- //
-	blackObj = { {960.0f, 700.0f}, 32.0f };
+	// --プレイヤーオブジェクト-- //
+	player_[0] = { {300.0f, 700.0f}, 32.0f };
+	player_[1] = { {900.0f, 700.0f}, 32.0f };
 
 	// --当たり判定が有効か
 	isCollision = true;
@@ -198,15 +194,15 @@ void Player::Update() {
 		}
 
 		// --プレイヤーオブジェクトのX座標に速度を加算-- //
-		whiteObj.pos.x += 2 * speedX * direction;
-		blackObj.pos.x += 2 * speedX * direction;
+		player_[0].pos.x += 2 * speedX * direction;
+		player_[1].pos.x += 2 * speedX * direction;
 	}
 
 	// --通常状態だったら-- //
 	if (state == Normal) {
 		// --プレイヤーオブジェクトのX座標に速度を加算-- //
-		whiteObj.pos.x += speedX * direction;
-		blackObj.pos.x += speedX * direction;
+		player_[0].pos.x += speedX * direction;
+		player_[1].pos.x += speedX * direction;
 	}
 
 	// --ノックバック状態だったら-- //
@@ -226,8 +222,8 @@ void Player::Update() {
 		//}
 
 		// --プレイヤーオブジェクトのX座標に速度を加算-- //
-		whiteObj.pos.x += speedX * direction;
-		blackObj.pos.x += speedX * direction;
+		player_[0].pos.x += speedX * direction;
+		player_[1].pos.x += speedX * direction;
 
 		speedX += 0.2f;
 
@@ -250,19 +246,19 @@ void Player::Update() {
 		}
 
 		// --プレイヤーオブジェクトのX座標に速度を加算-- //
-		whiteObj.pos.x += speedX * direction;
-		blackObj.pos.x += speedX * direction;
+		player_[0].pos.x += speedX * direction;
+		player_[1].pos.x += speedX * direction;
 	}
 
 	// --プレイヤーの移動分スクロール-- //
 	Camera::AddScroll(-speedY);
 
 	// --一定まで行くとプレイヤーの座標を反対側に変更-- //
-	if (whiteObj.pos.x >= 960.0f) whiteObj.pos.x -= 1280.0f;
-	else if (whiteObj.pos.x <= -320.0f) whiteObj.pos.x += 1280.0f;
+	if (player_[0].pos.x >= 960.0f) player_[0].pos.x -= 1280.0f;
+	else if (player_[0].pos.x <= -320.0f) player_[0].pos.x += 1280.0f;
 
-	if (blackObj.pos.x >= 960.0f) blackObj.pos.x -= 1280.0f;
-	else if (blackObj.pos.x <= -320.0f) blackObj.pos.x += 1280.0f;
+	if (player_[1].pos.x >= 960.0f) player_[1].pos.x -= 1280.0f;
+	else if (player_[1].pos.x <= -320.0f) player_[1].pos.x += 1280.0f;
 
 	//Collision();
 }
@@ -276,23 +272,23 @@ void Player::Draw() {
 		DrawFormatString(200, 40, 0x000000, "nowTime = %f", nowTime);
 
 		// 
-		whiteObj.radius = MIN_SIZE_P;
-		blackObj.radius = MIN_SIZE_P;
+		player_[0].radius = MIN_SIZE_P;
+		player_[1].radius = MIN_SIZE_P;
 
 		// --指定されているブースト時間が過ぎたら-- //
 		if (0.1f <= nowTime) {
 			// --ブースト状態から通常状態に変更-- //
 			isEaseDraw = false;
-			whiteObj.radius = MAX_SIZE_P;
-			blackObj.radius = MAX_SIZE_P;
+			player_[0].radius = MAX_SIZE_P;
+			player_[1].radius = MAX_SIZE_P;
 		}
 	}
 
 	// --白いプレイヤー描画-- //
-	DrawBoxAA(whiteObj, 0xFFFFFF, true);
+	DrawBoxAA(player_[0], 0xFFFFFF, true);
 
 	// --黒いプレイヤー描画-- //
-	DrawBoxAA(blackObj, 0x000000, true);
+	DrawBoxAA(player_[1], 0xFFFFFF, true);
 
 	DrawFormatString(0, 40, 0x000000, "speedY = %f", speedY);
 	DrawFormatString(0, 60, 0x000000, "state = %d", state);
@@ -303,10 +299,10 @@ void Player::Draw() {
 }
 
 // --白いオブジェクトの参照-- //
-Object Player::GetWhiteObj() { return whiteObj; }
+Object Player::GetPlayer1Obj() { return player_[0]; }
 
 // --黒いオブジェクトの参照-- //
-Object Player::GetBlackObj() { return blackObj; }
+Object Player::GetPlayer2Obj() { return player_[1]; }
 
 // --プレイヤーの状態を変更-- //
 int Player::GetState() { return state; }
@@ -316,6 +312,7 @@ void Player::SetNormal() {
 	// --Y軸の速度を規定値に設定-- //
 	speedY = defaultSpeedY;
 
+	// --X軸の速度を規定値に設定-- //
 	speedX = defaultSpeedX;
 
 	// --通常状態に変更-- //
@@ -366,6 +363,6 @@ float Player::GetSpeedX() { return speedX; }
 
 // --白黒プレイヤーの座標Xに加算-- //
 void Player::AddPlayerPosX(float value) {
-	whiteObj.pos.x += value;
-	blackObj.pos.x += value;
+	player_[0].pos.x += value;
+	player_[1].pos.x += value;
 }

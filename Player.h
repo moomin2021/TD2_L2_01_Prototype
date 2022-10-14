@@ -71,11 +71,8 @@ struct Vertex {
 class Player {
 	/// --メンバ変数-- ///
 public:
-	// --白いプレイヤーオブジェクト-- //
-	Object whiteObj;
-
-	// --黒いプレイヤーオブジェクト-- //
-	Object blackObj;
+	// --プレイヤーオブジェクト-- //
+	Object player_[2];
 
 private:
 	// --インスタンス-- //
@@ -152,10 +149,10 @@ public:
 	void Draw();
 
 	// --白いオブジェクトの参照-- //
-	Object GetWhiteObj();
+	Object GetPlayer1Obj();
 
 	// --黒いオブジェクトの参照-- //
-	Object GetBlackObj();
+	Object GetPlayer2Obj();
 
 	// --白黒プレイヤーの座標Xに加算-- //
 	void AddPlayerPosX(float value);

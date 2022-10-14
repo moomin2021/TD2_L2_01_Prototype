@@ -48,6 +48,12 @@ void StageManager::Initialize()
 {
 	// --障害物を削除-- //
 	obstacles.clear();
+
+	// --最大コイン数-- //
+	maxCoin_ = 0;
+
+	// --現在のコイン数-- //
+	coin_ = 0;
 }
 
 void StageManager::Update()
@@ -56,6 +62,8 @@ void StageManager::Update()
 
 void StageManager::Draw()
 {
+	DrawFormatString(500, 0, 0x000000, "コイン%d/%d", coin_, maxCoin_);
+
 	// --障害物の描画
 	for (int i = 0; i < obstacles.size(); i++) {
 		obstacles[i].Draw();
@@ -87,17 +95,27 @@ void StageManager::LoadCSV(string path)
 		// --X軸のマス数をカウント
 		int cellNumberX = 0;
 
+		// --[,]区切りで読み込む、読み込んだ文字列をtmpに格納する-- //
 		while (getline(line_stream, tmp, ',')) {
-			// --色を読み取る
-			int color = static_cast<int>(Sign(stoi(tmp)) * stoi(tmp) / 100) % 10;
-			
 			// --形状を読み取る
-			int shape = stoi(tmp) % 100;
+			int blockType = stoi(tmp);
 
 			// --読み取った数字が0以外なら障害物を生成する
-			if (stoi(tmp) != 0) {
-				Obstacle objTmp({ static_cast<float>(cellNumberX * blockSize + 32), static_cast<float>(loopCount * blockSize + 32) }, color, shape);
+			if (blockType != None) {
+				Obstacle objTmp({ static_cast<float>(cellNumberX * blockSize + 32), static_cast<float>(loopCount * blockSize + 32) }, blockType);
 				obstacles.push_back(objTmp);
+
+				// --読みった数字がコインブロックだったら-- //
+				if (blockType == CoinBlock) {
+					// --最大コインに1追加-- //
+					maxCoin_++;
+				}
+
+				// --読みった数字がコインだったら-- //
+				else if (blockType == Coin) {
+					// --最大コインに1追加-- //
+					maxCoin_++;
+				}
 			}
 
 			// --X軸のマス数をカウント
@@ -120,3 +138,6 @@ int StageManager::GetLine() { return lineCounter; }
 
 // --ブロックサイズを参照-- //
 int StageManager::GetBlockSize() { return blockSize; }
+
+// --コインの数に1追加-- //
+void StageManager::AddCoin() { coin_++; }

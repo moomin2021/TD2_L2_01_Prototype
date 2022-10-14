@@ -22,8 +22,7 @@ private:
 
 	StageManager* stage;
 
-	Box oldWhiteBox;
-	Box oldBlackBox;
+	Box oldPlayerObj[2];
 
 	/// --ƒƒ“ƒo•Ï”END-- ///
 	/// --------------- ///
