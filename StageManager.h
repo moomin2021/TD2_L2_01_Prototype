@@ -8,9 +8,10 @@
 enum BlockId
 {
 	None,   // 0
-	Block,
-	CoinBlock,
-	Coin
+	Block,// -> ただのブロック
+	CoinBlock,// -> コインブロック
+	Coin,// -> コイン
+	DeathBlock// -> 即死ブロック
 };
 
 class StageManager {

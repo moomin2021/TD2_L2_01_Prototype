@@ -6,7 +6,8 @@
 enum State {
 	Normal,// -> 通常状態
 	Knock,// --> ノックバック状態
-	Boost// ---> ブースト状態
+	Boost,// ---> ブースト状態
+	Death// --死亡状態
 };
 
 enum struct XAxisState {
@@ -20,53 +21,6 @@ enum struct DirectionMode {
 	New
 };
 #endif
-
-struct Vertex {
-	Vector2 leftTop;
-	Vector2 leftBottom;
-	Vector2 rightTop;
-	Vector2 rightBottom;
-
-	const bool operator==(const Vertex& vtx) const
-	{
-		return (leftTop.x == vtx.leftTop.x && leftTop.y == vtx.leftTop.y &&
-			leftBottom.x == vtx.leftBottom.x && leftBottom.y == vtx.leftBottom.y &&
-			rightTop.x == vtx.rightTop.x && rightTop.y == vtx.rightTop.y &&
-			rightBottom.x == vtx.rightBottom.x && rightBottom.y == rightBottom.y);
-	}
-
-	const bool operator<(const Vertex& vtx) const
-	{
-		return (leftTop.x < vtx.leftTop.x && leftTop.y < vtx.leftTop.y &&
-			leftBottom.x < vtx.leftBottom.x && leftBottom.y < vtx.leftBottom.y &&
-			rightTop.x < vtx.rightTop.x && rightTop.y < vtx.rightTop.y &&
-			rightBottom.x < vtx.rightBottom.x && rightBottom.y < rightBottom.y);
-	}
-
-	const bool operator<=(const Vertex& vtx) const
-	{
-		return (leftTop.x <= vtx.leftTop.x&& leftTop.y <= vtx.leftTop.y&&
-			leftBottom.x <= vtx.leftBottom.x&& leftBottom.y <= vtx.leftBottom.y&&
-			rightTop.x <= vtx.rightTop.x&& rightTop.y <= vtx.rightTop.y&&
-			rightBottom.x <= vtx.rightBottom.x&& rightBottom.y <= rightBottom.y);
-	}
-
-	const bool operator>(const Vertex& vtx) const
-	{
-		return (leftTop.x > vtx.leftTop.x&& leftTop.y > vtx.leftTop.y&&
-			leftBottom.x > vtx.leftBottom.x&& leftBottom.y > vtx.leftBottom.y&&
-			rightTop.x > vtx.rightTop.x&& rightTop.y > vtx.rightTop.y&&
-			rightBottom.x > vtx.rightBottom.x&& rightBottom.y > rightBottom.y);
-	}
-
-	const bool operator>=(const Vertex& vtx) const
-	{
-		return (leftTop.x >= vtx.leftTop.x && leftTop.y >= vtx.leftTop.y &&
-			leftBottom.x >= vtx.leftBottom.x && leftBottom.y >= vtx.leftBottom.y &&
-			rightTop.x >= vtx.rightTop.x && rightTop.y >= vtx.rightTop.y &&
-			rightBottom.x >= vtx.rightBottom.x && rightBottom.y >= rightBottom.y);
-	}
-};
 
 class Player {
 	/// --メンバ変数-- ///
@@ -168,6 +122,9 @@ public:
 
 	// --ブースト状態に変更-- //
 	void SetBoost();
+
+	// --死亡状態に変更-- //
+	void SetDeath();
 
 	// --当たり判定フラグを参照
 	bool GetCollisionFlag();

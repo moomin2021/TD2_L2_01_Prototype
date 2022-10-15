@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Camera.h"
 #include "StageManager.h"
+#include "SceneManager.h"
 #include "Util.h"
 
 // --•-- //
@@ -351,6 +352,11 @@ void Player::SetBoost() {
 	state = Boost;
 
 	boostStartTime = GetNowCount();
+}
+
+// --€–Só‘Ô‚É•ÏX-- //
+void Player::SetDeath() {
+	SceneManager::SetScene(RESULTSCENE);
 }
 
 bool Player::GetCollisionFlag() { return isCollision; }

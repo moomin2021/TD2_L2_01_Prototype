@@ -82,7 +82,7 @@ void SceneManager::Update() {
 
 	// --リザルトシーンの更新処理-- //
 	else if (scene == RESULTSCENE) {
-		resultScene->Draw();
+		resultScene->Update();
 	}
 
 	// --シーン変更がされたら-- //

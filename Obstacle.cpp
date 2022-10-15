@@ -58,6 +58,11 @@ void Obstacle::Draw() {
 		DrawCircleAA(pos_.x, pos_.y - Camera::GetScroll(), radiusX_ - 5, 50, 0xFFFF00, true);
 		DrawCircleAA(pos_.x, pos_.y - Camera::GetScroll(), radiusX_ - 5, 50, 0x000000, false);
 	}
+
+	else if (blockType_ == 4) {
+		DrawBoxAA(pos_.x - radiusX_, pos_.y - radiusY_ - Camera::GetScroll(), pos_.x + radiusX_, pos_.y + radiusY_ - Camera::GetScroll(), 0xFF0000, true);
+		DrawBoxAA(pos_.x - radiusX_, pos_.y - radiusY_ - Camera::GetScroll(), pos_.x + radiusX_, pos_.y + radiusY_ - Camera::GetScroll(), 0xFFFFFF, false);
+	}
 }
 
 // --è·äQï®ÇÃç¿ïWÇéQè∆

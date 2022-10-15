@@ -31,7 +31,7 @@ GameScene::GameScene() {
 	key = Key::GetInstance();
 
 	// --プレイヤー-- //
-	player = Player::GetInstance();
+	player_ = Player::GetInstance();
 
 	// --カメラ-- //
 	camera = Camera::GetInstance();
@@ -48,7 +48,7 @@ GameScene::GameScene() {
 // --デストラクタ-- //
 GameScene::~GameScene() {
 	// --メモリ解放-- //
-	player->Release();
+	player_->Release();
 	camera->Release();
 }
 
@@ -58,7 +58,7 @@ void GameScene::Initialize() {
 	stageManager->LoadCSV("proto.csv");
 	camera->Initialize((stageManager->GetLine() * stageManager->blockSize_) - 800);
 	// --プレイヤー-- //
-	player->Initialize();
+	player_->Initialize();
 }
 
 // --更新処理-- //
@@ -66,12 +66,12 @@ void GameScene::Update() {
 	if (key->IsTrigger(KEY_INPUT_R)) {
 		stageManager->Initialize();
 		stageManager->LoadCSV("proto.csv");
-		player->Initialize();
+		player_->Initialize();
 		camera->Initialize((stageManager->GetLine() * stageManager->blockSize_) - 800);
 	}
 
 	// --プレイヤー-- //
-	player->Update();
+	player_->Update();
 
 	// --当たり判定
 	col->Update();
@@ -84,7 +84,7 @@ void GameScene::Draw() {
 	}
 
 	stageManager->Draw();
-	player->Draw();
+	player_->Draw();
 
 	DrawFormatString(200, 0, 0x000000, "[R]でリセット");
 }

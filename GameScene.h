@@ -20,7 +20,7 @@ private:
 	Key * key;
 
 	// --プレイヤー-- //
-	Player* player;
+	Player* player_;
 
 	// --カメラ-- //
 	Camera* camera;

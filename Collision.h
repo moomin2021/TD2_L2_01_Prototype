@@ -18,11 +18,11 @@ private:
 	// --インスタンス-- //
 	static Collision* myInstance_;
 
-	Player* player;
+	Player* player_;
 
-	StageManager* stage;
+	StageManager* stage_;
 
-	Box oldPlayerObj[2];
+	Box oldPlayerObj_[2];
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///

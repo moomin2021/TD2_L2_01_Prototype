@@ -1,4 +1,6 @@
 #include "ResulrScene.h"
+#include "DxLib.h"
+#include "SceneManager.h"
 
 // --インスタンスにNULLを代入-- //
 ResultScene* ResultScene::myInstance_ = nullptr;
@@ -23,7 +25,12 @@ void ResultScene::Release() {
 
 // --コンストラクタ-- //
 ResultScene::ResultScene() {
+#pragma region クラス定義
 
+	// --キーボードクラス-- //
+	key = Key::GetInstance();
+
+#pragma endregion
 }
 
 // --デストラクタ-- //
@@ -38,10 +45,14 @@ void ResultScene::Initialize() {
 
 // --更新処理-- //
 void ResultScene::Update() {
-
+	// --[SPACE]を押したら-- //
+	if (key->IsTrigger(KEY_INPUT_SPACE)) {
+		// --ステージセレクトシーンに変更-- //
+		SceneManager::SetScene(STAGESELECTSCENE);
+	}
 }
 
 // --描画処理-- //
 void ResultScene::Draw() {
-
+	DrawFormatString(0, 20, 0x000000, "[SPACE]を押すと次のシーンへ");
 }
