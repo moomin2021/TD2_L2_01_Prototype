@@ -11,7 +11,7 @@ public:
 
 private:
 	// --インスタンス-- //
-	static GameScene* myInstance;
+	static GameScene* myInstance_;
 	
 
 #pragma region クラス宣言

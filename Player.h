@@ -76,7 +76,7 @@ public:
 
 private:
 	// --インスタンス-- //
-	static Player* myInstance;
+	static Player* myInstance_;
 
 	// --クラス宣言-- //
 	Key* key;

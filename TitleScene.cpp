@@ -3,24 +3,24 @@
 #include "SceneManager.h"
 
 // --インスタンスにNULLを代入-- //
-TitleScene* TitleScene::myInstance = nullptr;
+TitleScene* TitleScene::myInstance_ = nullptr;
 
 // --インスタンス読み込み-- //
 TitleScene* TitleScene::GetInstance() {
 	// --インスタンスが無かったら生成する-- //
-	if (myInstance == nullptr) myInstance = new TitleScene();
+	if (myInstance_ == nullptr) myInstance_ = new TitleScene();
 
 	// --インスタンスを返す-- //
-	return myInstance;
+	return myInstance_;
 }
 
 // --メモリ解放-- //
 void TitleScene::Release() {
 	// --メモリ解放-- //
-	delete myInstance;
+	delete myInstance_;
 
 	// --NULLを代入-- //
-	myInstance = nullptr;
+	myInstance_ = nullptr;
 }
 
 // --コンストラクタ-- //

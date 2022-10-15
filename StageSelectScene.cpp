@@ -3,24 +3,24 @@
 #include "SceneManager.h"
 
 // --インスタンスにNULLを代入-- //
-StageSelectScene* StageSelectScene::myInstance = nullptr;
+StageSelectScene* StageSelectScene::myInstance_ = nullptr;
 
 // --インスタンス読み込み-- //
 StageSelectScene* StageSelectScene::GetInstance() {
 	// --インスタンスが無かったら生成する-- //
-	if (myInstance == nullptr) myInstance = new StageSelectScene();
+	if (myInstance_ == nullptr) myInstance_ = new StageSelectScene();
 
 	// --インスタンスを返す-- //
-	return myInstance;
+	return myInstance_;
 }
 
 // --メモリ解放-- //
 void StageSelectScene::Release() {
 	// --メモリ解放-- //
-	delete myInstance;
+	delete myInstance_;
 
 	// --NULLを代入-- //
-	myInstance = nullptr;
+	myInstance_ = nullptr;
 }
 
 // --コンストラクタ-- //

@@ -17,17 +17,17 @@ class StageManager {
 	/// --メンバ変数-- ///
 public:
 	// --障害物クラス宣言-- //
-	std::vector<Obstacle> obstacles;
+	std::vector<Obstacle> obstacles_;
 
 	// --1マスのサイズ-- //
-	const int blockSize;
+	const int blockSize_;
 
 	// csv行数
-	int lineCounter;
+	int lineCounter_;
 
 private:
 	// --インスタンス-- //
-	static StageManager* myInstance;
+	static StageManager* myInstance_;
 
 	// --最大コイン数-- //
 	int maxCoin_ = 0;

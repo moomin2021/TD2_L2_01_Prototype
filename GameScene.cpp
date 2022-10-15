@@ -3,24 +3,24 @@
 #include "Camera.h"
 
 // --インスタンスにNULLを代入-- //
-GameScene* GameScene::myInstance = nullptr;
+GameScene* GameScene::myInstance_ = nullptr;
 
 // --インスタンス読み込み-- //
 GameScene* GameScene::GetInstance() {
 	// --インスタンスが無かったら生成する-- //
-	if (myInstance == nullptr) myInstance = new GameScene();
+	if (myInstance_ == nullptr) myInstance_ = new GameScene();
 
 	// --インスタンスを返す-- //
-	return myInstance;
+	return myInstance_;
 }
 
 // --メモリ解放-- //
 void GameScene::Release() {
 	// --メモリ解放-- //
-	delete myInstance;
+	delete myInstance_;
 
 	// --NULLを代入-- //
-	myInstance = nullptr;
+	myInstance_ = nullptr;
 }
 
 // --コンストラクタ-- //
@@ -56,7 +56,7 @@ GameScene::~GameScene() {
 void GameScene::Initialize() {
 	stageManager->Initialize();
 	stageManager->LoadCSV("proto.csv");
-	camera->Initialize((stageManager->GetLine() * stageManager->blockSize) - 800);
+	camera->Initialize((stageManager->GetLine() * stageManager->blockSize_) - 800);
 	// --プレイヤー-- //
 	player->Initialize();
 }
@@ -67,7 +67,7 @@ void GameScene::Update() {
 		stageManager->Initialize();
 		stageManager->LoadCSV("proto.csv");
 		player->Initialize();
-		camera->Initialize((stageManager->GetLine() * stageManager->blockSize) - 800);
+		camera->Initialize((stageManager->GetLine() * stageManager->blockSize_) - 800);
 	}
 
 	// --プレイヤー-- //

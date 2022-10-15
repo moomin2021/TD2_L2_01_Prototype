@@ -16,7 +16,7 @@ public:
 
 private:
 	// --インスタンス-- //
-	static Collision* myInstance;
+	static Collision* myInstance_;
 
 	Player* player;
 

@@ -18,7 +18,7 @@ public:
 
 private:
 	// --インスタンス-- //
-	static SceneManager* myInstance;
+	static SceneManager* myInstance_;
 
 	// --シーンの初期化フラグ-- //
 	static bool isSceneChange;

@@ -6,7 +6,7 @@ public:
 
 private:
 	// --インスタンス-- //
-	static Camera* myInstance;
+	static Camera* myInstance_;
 
 	// --スクロール-- //
 	static float scrollY;

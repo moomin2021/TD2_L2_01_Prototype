@@ -7,7 +7,7 @@ public:
 
 private:
 	// --インスタンス-- //
-	static TitleScene* myInstance;
+	static TitleScene* myInstance_;
 
 #pragma region クラス定義
 

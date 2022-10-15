@@ -9,7 +9,7 @@ private:
 	char oldkeys[256] = {};
 
 	// --インスタンス-- //
-	static Key* myInstance;
+	static Key* myInstance_;
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///

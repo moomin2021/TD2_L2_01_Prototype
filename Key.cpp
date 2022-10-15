@@ -2,24 +2,24 @@
 #include"DxLib.h"
 
 // --インスタンスにNULLを代入-- //
-Key* Key::myInstance = nullptr;
+Key* Key::myInstance_ = nullptr;
 
 // --インスタンス読み込み-- //
 Key* Key::GetInstance() {
 	// --インスタンスが無かったら生成する-- //
-	if (myInstance == nullptr) myInstance = new Key();
+	if (myInstance_ == nullptr) myInstance_ = new Key();
 
 	// --インスタンスを返す-- //
-	return myInstance;
+	return myInstance_;
 }
 
 // --メモリ解放-- //
 void Key::Release() {
 	// --メモリ解放-- //
-	delete myInstance;
+	delete myInstance_;
 
 	// --NULLを代入-- //
-	myInstance = nullptr;
+	myInstance_ = nullptr;
 }
 
 // --コンストラクタ-- //

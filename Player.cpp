@@ -32,24 +32,24 @@ void DrawBoxAA(Object obj, unsigned int color, bool fillFlag) {
 }
 
 // --インスタンスにNULLを代入-- //
-Player* Player::myInstance = nullptr;
+Player* Player::myInstance_ = nullptr;
 
 // --インスタンス読み込み-- //
 Player* Player::GetInstance() {
 	// --インスタンスが無かったら生成する-- //
-	if (myInstance == nullptr) myInstance = new Player();
+	if (myInstance_ == nullptr) myInstance_ = new Player();
 
 	// --インスタンスを返す-- //
-	return myInstance;
+	return myInstance_;
 }
 
 // --メモリ解放-- //
 void Player::Release() {
 	// --メモリ解放-- //
-	delete myInstance;
+	delete myInstance_;
 
 	// --NULLを代入-- //
-	myInstance = nullptr;
+	myInstance_ = nullptr;
 }
 
 // --コンストラクタ-- //

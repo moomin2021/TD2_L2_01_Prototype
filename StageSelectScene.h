@@ -7,7 +7,7 @@ public:
 
 private:
 	// --インスタンス-- //
-	static StageSelectScene* myInstance;
+	static StageSelectScene* myInstance_;
 
 #pragma region クラス宣言
 

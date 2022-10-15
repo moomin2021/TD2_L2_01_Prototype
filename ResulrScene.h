@@ -6,7 +6,7 @@ public:
 
 private:
 	// --インスタンス-- //
-	static ResultScene* myInstance;
+	static ResultScene* myInstance_;
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///

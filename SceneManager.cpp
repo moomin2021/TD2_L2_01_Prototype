@@ -2,7 +2,7 @@
 #include "DxLib.h"
 
 // --インスタンスにNULLを代入-- //
-SceneManager* SceneManager::myInstance = nullptr;
+SceneManager* SceneManager::myInstance_ = nullptr;
 
 // --シーンの初期化-- //
 int SceneManager::scene = TITLESCENE;
@@ -13,19 +13,19 @@ bool SceneManager::isSceneChange = false;
 // --インスタンス読み込み-- //
 SceneManager* SceneManager::GetInstance() {
 	// --インスタンスが無かったら生成する-- //
-	if (myInstance == nullptr) myInstance = new SceneManager();
+	if (myInstance_ == nullptr) myInstance_ = new SceneManager();
 
 	// --インスタンスを返す-- //
-	return myInstance;
+	return myInstance_;
 }
 
 // --メモリ解放-- //
 void SceneManager::Release() {
 	// --メモリ解放-- //
-	delete myInstance;
+	delete myInstance_;
 
 	// --NULLを代入-- //
-	myInstance = nullptr;
+	myInstance_ = nullptr;
 }
 
 // --コンストラクタ-- //
