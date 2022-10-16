@@ -61,7 +61,7 @@ public:
 	void LoadCSV();
 
 	// --読み込んだCSVの行数を参照-- //
-	int GetLine();
+	int GetLineCount();
 
 	// --ブロックサイズを参照-- //
 	int GetBlockSize();
