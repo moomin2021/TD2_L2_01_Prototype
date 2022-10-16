@@ -26,7 +26,7 @@ private:
 #pragma region クラスの宣言
 
 	// --キーボード入力-- //
-	Key* key;
+	Key* key_;
 
 	// --タイトルシーン-- //
 	TitleScene* titleScene;

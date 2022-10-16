@@ -74,12 +74,12 @@ void StageManager::Draw()
 	}
 }
 
-void StageManager::LoadCSV(string path)
+void StageManager::LoadCSV()
 {
 	lineCounter_ = 0;
 
 	// --読み込むCSVファイルを開く-- //
-	ifstream ifs(path);
+	ifstream ifs(path_);
 
 	// --読み込んだCSVファイルの1行を一時的に格納する変数-- //
 	string line;
@@ -145,3 +145,10 @@ int StageManager::GetBlockSize() { return blockSize_; }
 
 // --コインの数に1追加-- //
 void StageManager::AddCoin() { coin_++; }
+
+// --読み込むファイルをセットする-- //
+void StageManager::SetCSV(int num) {
+	if (num == 1) {
+		path_ = "proto.csv";
+	}
+}

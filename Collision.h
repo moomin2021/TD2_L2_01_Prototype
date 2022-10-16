@@ -20,7 +20,7 @@ private:
 
 	Player* player_;
 
-	StageManager* stage_;
+	StageManager* stageSelectImage_;
 
 	Box oldPlayerObj_[2];
 

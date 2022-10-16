@@ -12,7 +12,7 @@ private:
 #pragma region クラス定義
 
 	// --キーボードクラス-- //
-	Key* key;
+	Key* key_;
 
 #pragma endregion
 

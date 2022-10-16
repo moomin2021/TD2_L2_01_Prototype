@@ -36,6 +36,8 @@ private:
 	// --現在のコイン数-- //
 	int coin_ = 0;
 
+	std::string path_;
+
 	/// --メンバ変数END-- ///
 	/// --------------- ///
 	/// --メンバ関数-- ///
@@ -56,7 +58,7 @@ public:
 	void Draw();
 
 	// --CSVを読み込む-- //
-	void LoadCSV(std::string path);
+	void LoadCSV();
 
 	// --読み込んだCSVの行数を参照-- //
 	int GetLine();
@@ -66,6 +68,9 @@ public:
 
 	// --コインの数に1追加-- //
 	void AddCoin();
+
+	// --読み込むファイルをセットする-- //
+	void SetCSV(int num);
 
 private:
 

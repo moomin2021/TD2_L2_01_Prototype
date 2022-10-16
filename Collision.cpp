@@ -39,7 +39,7 @@ void Collision::Release() {
 // --コンストラクタ
 Collision::Collision() {
 	player_ = Player::GetInstance();
-	stage_ = StageManager::GetInstance();
+	stageSelectImage_ = StageManager::GetInstance();
 }
 
 // --デストラクタ
@@ -62,16 +62,16 @@ void Collision::Update() {
 	playerObj[1] = { {player_->GetPlayer2Obj().pos.x, player_->GetPlayer2Obj().pos.y + Camera::GetScroll()}, player_->GetPlayer2Obj().radius, player_->GetPlayer2Obj().radius };
 
 	// --障害物の数だけ当たり判定を行う-- //
-	for (int i = 0; i < stage_->obstacles_.size(); i++) {
+	for (int i = 0; i < stageSelectImage_->obstacles_.size(); i++) {
 		// --障害物の情報を格納-- //
-		Box obstacle = { stage_->obstacles_[i].GetPos(), stage_->obstacles_[i].GetRadiusX(), stage_->obstacles_[i].GetRadiusY() };
+		Box obstacle = { stageSelectImage_->obstacles_[i].GetPos(), stageSelectImage_->obstacles_[i].GetRadiusX(), stageSelectImage_->obstacles_[i].GetRadiusY() };
 
 		// --プレイヤーの数分当たり判定を行う-- //
 		for (int j = 0; j < 2; j++) {
 			// --プレイヤーと障害物が当たっていたら-- //
 			if (BoxCollision(playerObj[j], obstacle) == true) {
 				// --プレイヤーと当たっている障害物がブロックだったら-- //
-				if (stage_->obstacles_[i].GetBlockType() == Block) {
+				if (stageSelectImage_->obstacles_[i].GetBlockType() == Block) {
 					// --プレイヤーがオブジェクトの正面から当たっていたら-- //
 					if (BoxCenterCol(oldPlayerObj_[j], obstacle) == true) {
 						// --プレイヤーの状態が通常状態だったら-- //
@@ -92,7 +92,7 @@ void Collision::Update() {
 						// --状態がブースト状態なら-- //
 						else if (player_->GetState() == Boost) {
 							// --当たった障害物を消す-- //
-							stage_->obstacles_.erase(stage_->obstacles_.begin() + i);
+							stageSelectImage_->obstacles_.erase(stageSelectImage_->obstacles_.begin() + i);
 						}
 					}
 
@@ -126,7 +126,7 @@ void Collision::Update() {
 				}
 
 				// --プレイヤーと当たっている障害物がコインブロックだったら-- //
-				else if (stage_->obstacles_[i].GetBlockType() == CoinBlock) {
+				else if (stageSelectImage_->obstacles_[i].GetBlockType() == CoinBlock) {
 					// --プレイヤーがオブジェクトの正面から当たっていたら-- //
 					if (BoxCenterCol(oldPlayerObj_[j], obstacle) == true) {
 						// --プレイヤーの状態が通常状態だったら-- //
@@ -147,10 +147,10 @@ void Collision::Update() {
 						// --状態がブースト状態なら-- //
 						else if (player_->GetState() == Boost) {
 							// --当たった障害物を消す-- //
-							stage_->obstacles_.erase(stage_->obstacles_.begin() + i);
+							stageSelectImage_->obstacles_.erase(stageSelectImage_->obstacles_.begin() + i);
 
 							// --現在のコイン数にプラス1-- //
-							stage_->AddCoin();
+							stageSelectImage_->AddCoin();
 						}
 					}
 
@@ -184,16 +184,16 @@ void Collision::Update() {
 				}
 
 				// --プレイヤーと当たっている障害物がコインだったら-- //
-				else if (stage_->obstacles_[i].GetBlockType() == Coin) {
+				else if (stageSelectImage_->obstacles_[i].GetBlockType() == Coin) {
 					// --当たった障害物を消す-- //
-					stage_->obstacles_.erase(stage_->obstacles_.begin() + i);
+					stageSelectImage_->obstacles_.erase(stageSelectImage_->obstacles_.begin() + i);
 
 					// --現在のコイン数にプラス1-- //
-					stage_->AddCoin();
+					stageSelectImage_->AddCoin();
 				}
 
 				// --プレイヤーと当たっている障害物が即死ブロックだったら-- //
-				else if (stage_->obstacles_[i].GetBlockType() == DeathBlock) {
+				else if (stageSelectImage_->obstacles_[i].GetBlockType() == DeathBlock) {
 					player_->SetDeath();
 				}
 			}

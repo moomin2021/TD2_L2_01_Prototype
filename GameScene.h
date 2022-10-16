@@ -17,7 +17,7 @@ private:
 #pragma region クラス宣言
 
 	// --キーボード入力-- //
-	Key * key;
+	Key * key_;
 
 	// --プレイヤー-- //
 	Player* player_;

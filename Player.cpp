@@ -72,7 +72,7 @@ Player::Player() :
 #pragma endregion
 {
 	// --クラス定義-- //
-	key = Key::GetInstance();
+	key_ = Key::GetInstance();
 	stageManager_ = StageManager::GetInstance();
 
 	// --プレイヤーオブジェクト-- //
@@ -146,7 +146,7 @@ void Player::Initialize() {
 void Player::Update() {
 
 	// --[SPACE]を押したら向きを変える-- //
-	if (key->IsTrigger(KEY_INPUT_SPACE)) {
+	if (key_->IsTrigger(KEY_INPUT_SPACE)) {
 		// --向きが右だったら左に変更-- //
 		if (direction == RIGHT) {
 			direction = LEFT;
@@ -175,7 +175,7 @@ void Player::Update() {
 	}
 
 #ifdef _DEBUG
-	if (key->IsTrigger(KEY_INPUT_C)) {
+	if (key_->IsTrigger(KEY_INPUT_C)) {
 		if (debug_changeDirectionMode == static_cast<int>(DirectionMode::Old)) debug_changeDirectionMode = static_cast<int>(DirectionMode::New);
 		else if (debug_changeDirectionMode == static_cast<int>(DirectionMode::New)) debug_changeDirectionMode = static_cast<int>(DirectionMode::Old);
 	}

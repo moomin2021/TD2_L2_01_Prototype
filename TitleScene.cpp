@@ -28,7 +28,7 @@ TitleScene::TitleScene() {
 #pragma region クラス定義
 
 	// --キーボードクラス-- //
-	key = Key::GetInstance();
+	key_ = Key::GetInstance();
 
 #pragma endregion
 }
@@ -46,7 +46,7 @@ void TitleScene::Initialize() {
 // --更新処理-- //
 void TitleScene::Update() {
 	// --[SPACE]を押したら-- //
-	if (key->IsTrigger(KEY_INPUT_SPACE)) {
+	if (key_->IsTrigger(KEY_INPUT_SPACE)) {
 		// --ステージセレクトシーンに変更-- //
 		SceneManager::SetScene(STAGESELECTSCENE);
 	}

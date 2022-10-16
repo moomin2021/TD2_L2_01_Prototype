@@ -28,7 +28,7 @@ GameScene::GameScene() {
 #pragma region クラス定義
 
 	// --キーボード入力-- //
-	key = Key::GetInstance();
+	key_ = Key::GetInstance();
 
 	// --プレイヤー-- //
 	player_ = Player::GetInstance();
@@ -55,7 +55,7 @@ GameScene::~GameScene() {
 // --初期化処理-- //
 void GameScene::Initialize() {
 	stageManager->Initialize();
-	stageManager->LoadCSV("proto.csv");
+	stageManager->LoadCSV();
 	camera->Initialize((stageManager->GetLine() * stageManager->blockSize_) - 800);
 	// --プレイヤー-- //
 	player_->Initialize();
@@ -63,9 +63,9 @@ void GameScene::Initialize() {
 
 // --更新処理-- //
 void GameScene::Update() {
-	if (key->IsTrigger(KEY_INPUT_R)) {
+	if (key_->IsTrigger(KEY_INPUT_R)) {
 		stageManager->Initialize();
-		stageManager->LoadCSV("proto.csv");
+		stageManager->LoadCSV();
 		player_->Initialize();
 		camera->Initialize((stageManager->GetLine() * stageManager->blockSize_) - 800);
 	}

@@ -9,6 +9,20 @@ struct Object {
 	float radius;
 };
 
+struct Image {
+	// --À•W-- //
+	Vector2 pos;
+
+	// --X²‚Ì”¼Œa-- //
+	float radiusX;
+
+	// --Y²‚Ì”¼Œa-- //
+	float radiusY;
+
+	// --‰æ‘œ‚Ìƒnƒ“ƒhƒ‹-- //
+	int handle;
+};
+
 double Sign(double a);
 
 namespace Util {

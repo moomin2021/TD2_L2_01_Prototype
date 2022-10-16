@@ -33,7 +33,7 @@ SceneManager::SceneManager() {
 #pragma region クラス定義
 
 	// --キーボード入力-- //
-	key = Key::GetInstance();
+	key_ = Key::GetInstance();
 
 	// --タイトルシーン-- //
 	titleScene = TitleScene::GetInstance();
@@ -63,7 +63,7 @@ void SceneManager::Initialize() {
 // --更新処理-- //
 void SceneManager::Update() {
 	// --キーボード入力の更新処理-- //
-	key->Update();
+	key_->Update();
 
 	// --タイトルシーンの更新処理-- //
 	if (scene == TITLESCENE) {

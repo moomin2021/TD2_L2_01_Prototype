@@ -114,3 +114,10 @@ const Vector2 operator/(const Vector2& v, float s)
     Vector2 temp(v);
     return temp /= s;
 }
+
+// --イージング-- //
+const Vector2 easeOutCubic(const Vector2& start, const Vector2& end, const float t) {
+    float time = 1 - pow(1 - t, 3);
+    return start * (1.0f - time) + end * time;
+    //return start * (1.0f - pow(1.0f - t, 3)) + end * t;
+}

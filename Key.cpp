@@ -40,10 +40,10 @@ void Key::Update()
 }
 
 // --キーが押された瞬間か-- //
-bool Key::IsTrigger(char key) { return (keys[key] && !oldkeys[key]); }
+bool Key::IsTrigger(int key_) { return (keys[key_] && !oldkeys[key_]); }
 
 // --キーが押されているか-- //
-bool Key::IsPress(char key) { return keys[key]; }
+bool Key::IsPress(int key_) { return keys[key_]; }
 
 // --キーが離された瞬間か-- //
-bool Key::IsRelease(char key) { return (!keys[key] && oldkeys[key]); }
+bool Key::IsRelease(int key_) { return (!keys[key_] && oldkeys[key_]); }

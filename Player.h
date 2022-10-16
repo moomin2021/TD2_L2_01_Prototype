@@ -33,7 +33,7 @@ private:
 	static Player* myInstance_;
 
 	// --ƒNƒ‰ƒXéŒ¾-- //
-	Key* key;
+	Key* key_;
 	StageManager* stageManager_ = nullptr;
 
 	// --“–‚½‚è”»’è‚ª—LŒø‚©
