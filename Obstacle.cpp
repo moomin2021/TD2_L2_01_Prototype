@@ -11,17 +11,11 @@ enum struct ShapeType {
 
 // --コンストラクタ-- //
 Obstacle::Obstacle(Vector2 pos, int blockType) {
-	// --座標
-	pos_ = pos;
+	// --オブジェクト-- //
+	object_ = { pos, 32.0f, 32.0f };
 
 	// --ブロックの種類
 	blockType_ = blockType;
-
-	// --X軸の半径
-	radiusX_ = 32.0f;
-
-	// --Y軸の変形
-	radiusY_ = 32.0f;
 }
 
 // --デストラクタ
@@ -43,36 +37,34 @@ void Obstacle::Update() {
 void Obstacle::Draw() {
 
 	if (blockType_ == 1) {
-		DrawBoxAA(pos_.x - radiusX_, pos_.y - radiusY_ - Camera::GetScroll(), pos_.x + radiusX_, pos_.y + radiusY_ - Camera::GetScroll(), 0x000000, true);
-		DrawBoxAA(pos_.x - radiusX_, pos_.y - radiusY_ - Camera::GetScroll(), pos_.x + radiusX_, pos_.y + radiusY_ - Camera::GetScroll(), 0xFFFFFF, false);
+		DrawBoxAA(object_.pos.x - object_.radiusX, object_.pos.y - object_.radiusY - Camera::GetScroll(), object_.pos.x + object_.radiusX, object_.pos.y + object_.radiusY - Camera::GetScroll(), 0x000000, true);
+		DrawBoxAA(object_.pos.x - object_.radiusX, object_.pos.y - object_.radiusY - Camera::GetScroll(), object_.pos.x + object_.radiusX, object_.pos.y + object_.radiusY - Camera::GetScroll(), 0xFFFFFF, false);
 	}
 
 	else if (blockType_ == 2) {
-		DrawBoxAA(pos_.x - radiusX_, pos_.y - radiusY_ - Camera::GetScroll(), pos_.x + radiusX_, pos_.y + radiusY_ - Camera::GetScroll(), 0x000000, true);
-		DrawBoxAA(pos_.x - radiusX_, pos_.y - radiusY_ - Camera::GetScroll(), pos_.x + radiusX_, pos_.y + radiusY_ - Camera::GetScroll(), 0xFFFFFF, false);
-		DrawCircleAA(pos_.x, pos_.y - Camera::GetScroll(), radiusX_ - 5, 50, 0xFFFF00, true);
-		DrawCircleAA(pos_.x, pos_.y - Camera::GetScroll(), radiusX_ - 5, 50, 0x000000, false);
+		DrawBoxAA(object_.pos.x - object_.radiusX, object_.pos.y - object_.radiusY - Camera::GetScroll(), object_.pos.x + object_.radiusX, object_.pos.y + object_.radiusY - Camera::GetScroll(), 0x000000, true);
+		DrawBoxAA(object_.pos.x - object_.radiusX, object_.pos.y - object_.radiusY - Camera::GetScroll(), object_.pos.x + object_.radiusX, object_.pos.y + object_.radiusY - Camera::GetScroll(), 0xFFFFFF, false);
+		DrawCircleAA(object_.pos.x, object_.pos.y - Camera::GetScroll(), object_.radiusX - 5, 50, 0xFFFF00, true);
+		DrawCircleAA(object_.pos.x, object_.pos.y - Camera::GetScroll(), object_.radiusX - 5, 50, 0x000000, false);
 	}
 
 	else if (blockType_ == 3) {
-		DrawCircleAA(pos_.x, pos_.y - Camera::GetScroll(), radiusX_ - 5, 50, 0xFFFF00, true);
-		DrawCircleAA(pos_.x, pos_.y - Camera::GetScroll(), radiusX_ - 5, 50, 0x000000, false);
+		DrawCircleAA(object_.pos.x, object_.pos.y - Camera::GetScroll(), object_.radiusX - 5, 50, 0xFFFF00, true);
+		DrawCircleAA(object_.pos.x, object_.pos.y - Camera::GetScroll(), object_.radiusX - 5, 50, 0x000000, false);
 	}
 
 	else if (blockType_ == 4) {
-		DrawBoxAA(pos_.x - radiusX_, pos_.y - radiusY_ - Camera::GetScroll(), pos_.x + radiusX_, pos_.y + radiusY_ - Camera::GetScroll(), 0xFF0000, true);
-		DrawBoxAA(pos_.x - radiusX_, pos_.y - radiusY_ - Camera::GetScroll(), pos_.x + radiusX_, pos_.y + radiusY_ - Camera::GetScroll(), 0xFFFFFF, false);
+		DrawBoxAA(object_.pos.x - object_.radiusX, object_.pos.y - object_.radiusY - Camera::GetScroll(), object_.pos.x + object_.radiusX, object_.pos.y + object_.radiusY - Camera::GetScroll(), 0x000000, true);
+		DrawBoxAA(object_.pos.x - object_.radiusX, object_.pos.y - object_.radiusY - Camera::GetScroll(), object_.pos.x + object_.radiusX, object_.pos.y + object_.radiusY - Camera::GetScroll(), 0xFFFFFF, false);
 	}
 }
 
-// --障害物の座標を参照
-Vector2 Obstacle::GetPos() { return pos_; }
-
-// --障害物のX軸の半径を参照
-float Obstacle::GetRadiusX() { return radiusX_; }
-
-// --障害物のY軸の半径を参照
-float Obstacle::GetRadiusY() { return radiusY_; }
+// --オブジェクトを参照-- //
+BoxObj Obstacle::GetBoxObj() {
+	return object_;
+}
 
 // --ブロックの種類を参照
-int Obstacle::GetBlockType() { return blockType_; }
+int Obstacle::GetBlockType() {
+	return blockType_;
+}

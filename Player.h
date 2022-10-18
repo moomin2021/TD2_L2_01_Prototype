@@ -25,8 +25,8 @@ enum struct DirectionMode {
 class Player {
 	/// --メンバ変数-- ///
 public:
-	// --プレイヤーオブジェクト-- //
-	Object player_[2];
+	// --オブジェクト-- //
+	BoxObj object_[2];
 
 private:
 	// --インスタンス-- //
@@ -35,9 +35,6 @@ private:
 	// --クラス宣言-- //
 	Key* key_;
 	StageManager* stageManager_ = nullptr;
-
-	// --当たり判定が有効か
-	bool isCollision;
 
 	// --プレイヤーの状態-- //
 	int state;
@@ -102,14 +99,11 @@ public:
 	// --描画処理-- //
 	void Draw();
 
-	// --白いオブジェクトの参照-- //
-	Object GetPlayer1Obj();
+	// --オブジェクト1の参照-- //
+	BoxObj GetPlayer1Obj();
 
-	// --黒いオブジェクトの参照-- //
-	Object GetPlayer2Obj();
-
-	// --白黒プレイヤーの座標Xに加算-- //
-	void AddPlayerPosX(float value);
+	// --オブジェクト1の参照-- //
+	BoxObj GetPlayer2Obj();
 
 	// --プレイヤーの状態を変更-- //
 	int GetState();
@@ -125,15 +119,6 @@ public:
 
 	// --死亡状態に変更-- //
 	void SetDeath();
-
-	// --当たり判定フラグを参照
-	bool GetCollisionFlag();
-
-	// --Y軸の速度を参照
-	float GetSpeedY();
-
-	// --X軸の速度を参照
-	float GetSpeedX();
 
 private:
 	// --コンストラクタ-- //

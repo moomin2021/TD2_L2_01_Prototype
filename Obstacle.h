@@ -6,17 +6,11 @@ class Obstacle {
 public:
 
 private:
-	// --座標
-	Vector2 pos_;
+	// --オブジェクト-- //
+	BoxObj object_;
 
 	// --ブロックの種類
 	int blockType_;
-
-	// --X軸の半径
-	float radiusX_;
-
-	// --Y軸の変形
-	float radiusY_;
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///
@@ -37,14 +31,8 @@ public:
 	// --描画処理-- //
 	void Draw();
 
-	// --障害物の座標を参照
-	Vector2 GetPos();
-
-	// --障害物のX軸の半径を参照
-	float GetRadiusX();
-
-	// --障害物のY軸の半径を参照
-	float GetRadiusY();
+	// --オブジェクトを参照-- //
+	BoxObj GetBoxObj();
 
 	// --ブロックの種類を参照
 	int GetBlockType();

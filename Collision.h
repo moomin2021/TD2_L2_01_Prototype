@@ -3,13 +3,6 @@
 #include "StageManager.h"
 #include "Util.h"
 
-struct Box {
-	Vector2 pos;
-
-	float radiusX;
-	float radiusY;
-};
-
 class Collision {
 	/// --ƒƒ“ƒo•Ï”-- ///
 public:
@@ -21,8 +14,6 @@ private:
 	Player* player_;
 
 	StageManager* stage_;
-
-	Box oldPlayerObj_[2];
 
 	/// --ƒƒ“ƒo•Ï”END-- ///
 	/// --------------- ///

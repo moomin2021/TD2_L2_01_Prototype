@@ -2,7 +2,7 @@
 #include "Camera.h"
 #include "DxLib.h"
 
-bool BoxCollision(Box box1, Box box2) {
+bool BoxCollision(BoxObj box1, BoxObj box2) {
 	if (box1.pos.x - box1.radiusX > box2.pos.x + box2.radiusX) return false;
 	if (box1.pos.x + box1.radiusX < box2.pos.x - box2.radiusX) return false;
 	if (box1.pos.y - box1.radiusY > box2.pos.y + box2.radiusY) return false;
@@ -10,13 +10,13 @@ bool BoxCollision(Box box1, Box box2) {
 	return true;
 }
 
-bool BoxCenterCol(Box box1, Box box2) {
+bool BoxCenterCol(BoxObj box1, BoxObj box2) {
 	if (box1.pos.x - box1.radiusX > box2.pos.x + box2.radiusX) return false;
 	if (box1.pos.x + box1.radiusX < box2.pos.x - box2.radiusX) return false;
 	return true;
 }
 
-int BoxXYCol(Box& box1, Box& box2) {
+int BoxXYCol(BoxObj& box1, BoxObj& box2) {
 	float len1 = abs((box1.pos.y - box1.radiusY) - (box2.pos.y + box2.radiusY));
 	float len2 = abs((box1.pos.x - box1.radiusX) - (box2.pos.x + box2.radiusX));
 	float len3 = abs((box1.pos.x + box1.radiusX) - (box2.pos.x - box2.radiusX));
@@ -64,178 +64,22 @@ void Collision::Initialize() {
 
 }
 
-//void Collision::Update() {
-//	// --フラグがtrueになると多重ループを抜ける-- //
-//	bool isActive = false;
-//
-//	// --プレイヤーの情報を格納-- //
-//	Box playerObj[2];
-//	playerObj[0] = { {player_->GetPlayer1Obj().pos.x, player_->GetPlayer1Obj().pos.y + Camera::GetScroll()}, player_->GetPlayer1Obj().radius, player_->GetPlayer1Obj().radius };
-//	playerObj[1] = { {player_->GetPlayer2Obj().pos.x, player_->GetPlayer2Obj().pos.y + Camera::GetScroll()}, player_->GetPlayer2Obj().radius, player_->GetPlayer2Obj().radius };
-//
-//	// --障害物の数だけ当たり判定を行う-- //
-//	for (int i = 0; i < stage_->obstacles_.size(); i++) {
-//		// --障害物の情報を格納-- //
-//		Box obstacle = { stage_->obstacles_[i].GetPos(), stage_->obstacles_[i].GetRadiusX(), stage_->obstacles_[i].GetRadiusY() };
-//
-//		// --プレイヤーの数分当たり判定を行う-- //
-//		for (int j = 0; j < 2; j++) {
-//			// --プレイヤーと障害物が当たっていたら-- //
-//			if (BoxCollision(playerObj[j], obstacle) == true) {
-//				// --プレイヤーと当たっている障害物がブロックだったら-- //
-//				if (stage_->obstacles_[i].GetBlockType() == Block) {
-//					// --プレイヤーがオブジェクトの正面から当たっていたら-- //
-//					if (BoxCenterCol(oldPlayerObj_[j], obstacle) == true) {
-//						// --プレイヤーの状態が通常状態だったら-- //
-//						if (player_->GetState() == Normal) {
-//							// --プレイヤーと障害物のY軸距離-- //
-//							float len = playerObj[j].pos.y - obstacle.pos.y;
-//
-//							// --プレイヤーと障害物のY軸半径を足した値-- //
-//							float radius = playerObj[j].radiusY + obstacle.radiusY;
-//
-//							// --カメラに距離と半径を引いた数を加算-- //
-//							Camera::AddScroll(radius - len);
-//
-//							// --状態をノックバック状態に変更-- //
-//							player_->SetKnock();
-//						}
-//
-//						// --状態がブースト状態なら-- //
-//						else if (player_->GetState() == Boost) {
-//							// --当たった障害物を消す-- //
-//							stage_->obstacles_.erase(stage_->obstacles_.begin() + i);
-//						}
-//					}
-//
-//					// --横から当たっていたら-- //
-//					else {
-//						// --プレイヤーと障害物のX軸距離-- //
-//						float len = abs(playerObj[j].pos.x - obstacle.pos.x);
-//
-//						// --プレイヤーと障害物のY軸半径を足した値-- //
-//						float radius = playerObj[j].radiusX + obstacle.radiusX;
-//
-//						// --プレイヤーが障害物の右側にいたら-- //
-//						if (playerObj[j].pos.x >= obstacle.pos.x) {
-//							// --プレイヤーに距離と半径を引いた数を加算-- //
-//							player_->AddPlayerPosX(radius - len);
-//						}
-//
-//						// --プレイヤーが障害物の左側にいたら-- //
-//						else {
-//							// --カメラに距離と半径を引いた数を加算-- //
-//							player_->AddPlayerPosX(-(radius - len));
-//						}
-//
-//						if (player_->GetState() != Knock) {
-//							// --状態をブースト状態に変更-- //
-//							player_->SetBoost();
-//						}
-//
-//						isActive = true;
-//
-//						break;
-//					}
-//				}
-//
-//				// --プレイヤーと当たっている障害物がコインブロックだったら-- //
-//				else if (stage_->obstacles_[i].GetBlockType() == CoinBlock) {
-//					// --プレイヤーがオブジェクトの正面から当たっていたら-- //
-//					if (BoxCenterCol(oldPlayerObj_[j], obstacle) == true) {
-//						// --プレイヤーの状態が通常状態だったら-- //
-//						if (player_->GetState() == Normal) {
-//							// --プレイヤーと障害物のY軸距離-- //
-//							float len = playerObj[j].pos.y - obstacle.pos.y;
-//
-//							// --プレイヤーと障害物のY軸半径を足した値-- //
-//							float radius = playerObj[j].radiusY + obstacle.radiusY;
-//
-//							// --カメラに距離と半径を引いた数を加算-- //
-//							Camera::AddScroll(radius - len);
-//
-//							// --状態をノックバック状態に変更-- //
-//							player_->SetKnock();
-//						}
-//
-//						// --状態がブースト状態なら-- //
-//						else if (player_->GetState() == Boost) {
-//							// --当たった障害物を消す-- //
-//							stage_->obstacles_.erase(stage_->obstacles_.begin() + i);
-//
-//							// --現在のコイン数にプラス1-- //
-//							stage_->AddCoin();
-//						}
-//					}
-//
-//					// --横から当たっていたら-- //
-//					else {
-//						// --プレイヤーと障害物のX軸距離-- //
-//						float len = abs(playerObj[j].pos.x - obstacle.pos.x);
-//
-//						// --プレイヤーと障害物のY軸半径を足した値-- //
-//						float radius = playerObj[j].radiusX + obstacle.radiusX;
-//
-//						// --プレイヤーが障害物の右側にいたら-- //
-//						if (playerObj[j].pos.x >= obstacle.pos.x) {
-//							// --プレイヤーに距離と半径を引いた数を加算-- //
-//							player_->AddPlayerPosX(radius - len);
-//						}
-//
-//						// --プレイヤーが障害物の左側にいたら-- //
-//						else {
-//							// --カメラに距離と半径を引いた数を加算-- //
-//							player_->AddPlayerPosX(-(radius - len));
-//						}
-//
-//						// --状態をブースト状態に変更-- //
-//						player_->SetBoost();
-//
-//						isActive = true;
-//
-//						break;
-//					}
-//				}
-//
-//				// --プレイヤーと当たっている障害物がコインだったら-- //
-//				else if (stage_->obstacles_[i].GetBlockType() == Coin) {
-//					// --当たった障害物を消す-- //
-//					stage_->obstacles_.erase(stage_->obstacles_.begin() + i);
-//
-//					// --現在のコイン数にプラス1-- //
-//					stage_->AddCoin();
-//				}
-//
-//				// --プレイヤーと当たっている障害物が即死ブロックだったら-- //
-//				else if (stage_->obstacles_[i].GetBlockType() == DeathBlock) {
-//					player_->SetDeath();
-//				}
-//			}
-//		}
-//
-//		// --多重ループを抜ける-- //
-//		if (isActive == true) {
-//			break;
-//		}
-//	}
-//
-//	// --次のフレームで使うためにプレイヤーの情報を格納-- //
-//	oldPlayerObj_[0] = { {player_->GetPlayer1Obj().pos.x, player_->GetPlayer1Obj().pos.y + Camera::GetScroll()}, player_->GetPlayer1Obj().radius, player_->GetPlayer1Obj().radius };
-//	oldPlayerObj_[1] = { {player_->GetPlayer2Obj().pos.x, player_->GetPlayer2Obj().pos.y + Camera::GetScroll()}, player_->GetPlayer2Obj().radius, player_->GetPlayer2Obj().radius };
-//}
-
 void Collision::Update() {
 
 	// --プレイヤーの情報を格納-- //
-	Box playerObj[2];
-	playerObj[0] = { {player_->GetPlayer1Obj().pos.x, player_->GetPlayer1Obj().pos.y + Camera::GetScroll()}, player_->GetPlayer1Obj().radius, player_->GetPlayer1Obj().radius };
-	playerObj[1] = { {player_->GetPlayer2Obj().pos.x, player_->GetPlayer2Obj().pos.y + Camera::GetScroll()}, player_->GetPlayer2Obj().radius, player_->GetPlayer2Obj().radius };
+	BoxObj playerObj[2];
+	playerObj[0] = player_->GetPlayer1Obj();
+	playerObj[1] = player_->GetPlayer2Obj();
+	playerObj[0].pos.y += Camera::GetScroll();
+	playerObj[1].pos.y += Camera::GetScroll();
 
-	// 一番近い当たっているオブジェクトの要素数-- //
-	std::vector<int> obsIndex;
-	std::vector<int> obsXY;
-	int closestObsIndex = 0;
-	float length = 100.0f;
+	// --プレイヤーと衝突した障害物のデータ-- //
+	std::vector<int> obsIndex;// -> 衝突した要素番号を記録
+	std::vector<int> obsXY;// ----> 衝突した障害物どの方向から衝突したか記録
+	int closestObsIndex = 0;// ---> 衝突したなかで一番近い障害物の要素番号
+	float length = 100.0f;// -----> 衝突したプレイヤーと障害物の最も短い距離を記録
+
+	// --プレイヤーと障害物が衝突したか-- //
 	bool isCol = false;
 
 	// --オブジェクトの距離-- //
@@ -243,7 +87,7 @@ void Collision::Update() {
 	// --障害物の数だけ当たり判定を行う-- //
 	for (int i = 0; i < stage_->obstacles_.size(); i++) {
 		// --障害物の情報を格納-- //
-		Box obstacle = { stage_->obstacles_[i].GetPos(), stage_->obstacles_[i].GetRadiusX(), stage_->obstacles_[i].GetRadiusY() };
+		BoxObj obstacle = stage_->obstacles_[i].GetBoxObj();
 
 		// --プレイヤーの数分当たり判定を行う-- //
 		for (int j = 0; j < 2; j++) {
@@ -251,13 +95,19 @@ void Collision::Update() {
 			if (BoxCollision(playerObj[j], obstacle) == true) {
 				isCol = true;
 				obsIndex.push_back(i);
+
+				// --衝突した障害物がコインなら-- //
 				if (stage_->obstacles_[i].GetBlockType() == Coin) {
 					obsXY.push_back(0);
 				}
+
+				// --衝突した障害物が即死ブロックだった-- //
 				else if (stage_->obstacles_[i].GetBlockType() == DeathBlock) {
 					player_->SetDeath();
 					return;
 				}
+
+				// --衝突した障害物がそれ以外なら-- //
 				else {
 					obsXY.push_back(BoxXYCol(playerObj[j], obstacle));
 					if (length > abs(Vector2(obstacle.pos - playerObj[j].pos).length())) {
@@ -269,13 +119,10 @@ void Collision::Update() {
 		}
 	}
 
+	// --衝突したなら-- //
 	if (isCol == true) {
 
-		//float nyum;
-		//if (fmodf(playerObj[0].pos.x, 0.1f) != 0) {
-		//	nyum = fmodf(playerObj[0].pos.x, 0.1f);
-		//}
-
+		// --縦横どちらから当たったかを集計-- //
 		int xCol = 0;
 		int yCol = 0;
 		for (int i = 0; i < obsXY.size(); i++) {
@@ -283,10 +130,15 @@ void Collision::Update() {
 			else if (obsXY[i] == 2) xCol += 1;
 		}
 
+		// --プレイヤーがブースト状態なら-- //
 		if (player_->GetState() == Boost) {
+			// --一回でも横から衝突していたらブースト状態にする-- //
 			if (xCol > 0) player_->SetBoost();
 
+			// --衝突した障害物分ループ-- //
 			for (int i = obsIndex.size() - 1; i >= 0; i--) {
+
+				// --正面から当たっていたら-- //
 				if (obsXY[i] == 1) {
 					if (stage_->obstacles_[obsIndex[i]].GetBlockType() == CoinBlock) {
 						// --現在のコイン数にプラス1-- //
@@ -297,6 +149,7 @@ void Collision::Update() {
 					obsXY.erase(obsXY.begin() + i);
 				}
 
+				// --衝突したのがコインなら-- //
 				else if (obsXY[i] == 0) {
 					// --現在のコイン数にプラス1-- //
 					stage_->AddCoin();
@@ -307,8 +160,13 @@ void Collision::Update() {
 			}
 		}
 
+
+		// --プレイヤーが通常状態なら-- //
 		else if (player_->GetState() == Normal) {
+			// --プレイヤーに一番近い障害物に衝突したのが正面からなら
 			if (obsXY[closestObsIndex] == 1) player_->SetKnock();
+
+			// --衝突したのが横からなら-- //
 			else if(obsXY[closestObsIndex] == 2) player_->SetBoost();
 
 			for (int i = obsIndex.size() - 1; i >= 0; i--) {
@@ -322,10 +180,17 @@ void Collision::Update() {
 			}
 		}
 
+		// --押し戻し処理-- //
 		for (int i = 0; i < obsIndex.size(); i++) {
 			for (int j = 0; j < 2; j++) {
+				// --最新のプレイヤーの情報格納-- //
+				playerObj[0] = player_->GetPlayer1Obj();
+				playerObj[1] = player_->GetPlayer2Obj();
+				playerObj[0].pos.y += Camera::GetScroll();
+				playerObj[1].pos.y += Camera::GetScroll();
+
 				// --障害物の情報を格納-- //
-				Box obstacle = { stage_->obstacles_[obsIndex[i]].GetPos(), stage_->obstacles_[obsIndex[i]].GetRadiusX(), stage_->obstacles_[obsIndex[i]].GetRadiusY() };
+				BoxObj obstacle = stage_->obstacles_[obsIndex[i]].GetBoxObj();
 
 				// --プレイヤーと障害物が当たっていたら-- //
 				if (BoxCollision(playerObj[j], obstacle) == true) {
@@ -339,17 +204,15 @@ void Collision::Update() {
 						// --プレイヤーが障害物の右側にいたら-- //
 						if (playerObj[j].pos.x >= obstacle.pos.x) {
 							// --プレイヤーに距離と半径を引いた数を加算-- //
-							//player_->AddPlayerPosX(radius - len);
-							player_->player_[0].pos.x += radius - len;
-							player_->player_[1].pos.x += radius - len;
+							player_->object_[0].pos.x += radius - len;
+							player_->object_[1].pos.x += radius - len;
 						}
 
 						// --プレイヤーが障害物の左側にいたら-- //
 						else if(playerObj[j].pos.x < obstacle.pos.x) {
 							// --カメラに距離と半径を引いた数を加算-- //
-							//player_->AddPlayerPosX(-(radius - len));
-							player_->player_[0].pos.x -= radius - len;
-							player_->player_[1].pos.x -= radius - len;
+							player_->object_[0].pos.x -= radius - len;
+							player_->object_[1].pos.x -= radius - len;
 						}
 					}
 
@@ -364,9 +227,6 @@ void Collision::Update() {
 						Camera::AddScroll(radius - len);
 					}
 				}
-
-				playerObj[0] = { {player_->GetPlayer1Obj().pos.x, player_->GetPlayer1Obj().pos.y + Camera::GetScroll()}, player_->GetPlayer1Obj().radius, player_->GetPlayer1Obj().radius };
-				playerObj[1] = { {player_->GetPlayer2Obj().pos.x, player_->GetPlayer2Obj().pos.y + Camera::GetScroll()}, player_->GetPlayer2Obj().radius, player_->GetPlayer2Obj().radius };
 			}
 		}
 	}

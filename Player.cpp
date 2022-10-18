@@ -20,16 +20,16 @@
 #define MIN_SIZE_P 27;
 
 // --オブジェクトの描画用の関数-- //
-void DrawBoxAA(Object obj, unsigned int color, bool fillFlag) {
+void DrawBoxAA(BoxObj obj, unsigned int color, bool fillFlag) {
 	DrawBoxAA(
-		obj.pos.x - obj.radius, obj.pos.y - obj.radius,
-		obj.pos.x + obj.radius, obj.pos.y + obj.radius,
+		obj.pos.x - obj.radiusX, obj.pos.y - obj.radiusY,
+		obj.pos.x + obj.radiusX, obj.pos.y + obj.radiusY,
 		color, fillFlag);
 
-	DrawLineAA(obj.pos.x - obj.radius, obj.pos.y - obj.radius, obj.pos.x + obj.radius, obj.pos.y - obj.radius, color ^ 0xFFFFFF, 3);
-	DrawLineAA(obj.pos.x - obj.radius, obj.pos.y + obj.radius, obj.pos.x + obj.radius, obj.pos.y + obj.radius, color ^ 0xFFFFFF, 3);
-	DrawLineAA(obj.pos.x - obj.radius, obj.pos.y - obj.radius, obj.pos.x - obj.radius, obj.pos.y + obj.radius, color ^ 0xFFFFFF, 3);
-	DrawLineAA(obj.pos.x + obj.radius, obj.pos.y - obj.radius, obj.pos.x + obj.radius, obj.pos.y + obj.radius, color ^ 0xFFFFFF, 3);
+	DrawLineAA(obj.pos.x - obj.radiusX, obj.pos.y - obj.radiusY, obj.pos.x + obj.radiusX, obj.pos.y - obj.radiusY, color ^ 0xFFFFFF, 3);
+	DrawLineAA(obj.pos.x - obj.radiusX, obj.pos.y + obj.radiusY, obj.pos.x + obj.radiusX, obj.pos.y + obj.radiusY, color ^ 0xFFFFFF, 3);
+	DrawLineAA(obj.pos.x - obj.radiusX, obj.pos.y - obj.radiusY, obj.pos.x - obj.radiusX, obj.pos.y + obj.radiusY, color ^ 0xFFFFFF, 3);
+	DrawLineAA(obj.pos.x + obj.radiusX, obj.pos.y - obj.radiusY, obj.pos.x + obj.radiusX, obj.pos.y + obj.radiusY, color ^ 0xFFFFFF, 3);
 }
 
 // --インスタンスにNULLを代入-- //
@@ -76,11 +76,8 @@ Player::Player() :
 	stageManager_ = StageManager::GetInstance();
 
 	// --プレイヤーオブジェクト-- //
-	player_[0] = { {300.0f, 700.0f}, 32.0f };
-	player_[1] = { {900.0f, 700.0f}, 32.0f };
-
-	// --当たり判定が有効か
-	isCollision = true;
+	object_[0] = { {300.0f, 700.0f}, 32.0f, 32.0f };
+	object_[1] = { {900.0f, 700.0f}, 32.0f, 32.0f };
 
 	// --プレイヤーの状態-- //
 	state = Normal;
@@ -116,11 +113,8 @@ Player::~Player() {
 // --初期化処理-- //
 void Player::Initialize() {
 	// --プレイヤーオブジェクト-- //
-	player_[0] = { {300.0f, 700.0f}, 32.0f };
-	player_[1] = { {900.0f, 700.0f}, 32.0f };
-
-	// --当たり判定が有効か
-	isCollision = true;
+	object_[0] = { {300.0f, 700.0f}, 32.0f, 32.0f };
+	object_[1] = { {900.0f, 700.0f}, 32.0f, 32.0f };
 
 	// --プレイヤーの状態-- //
 	state = Normal;
@@ -181,6 +175,51 @@ void Player::Update() {
 	}
 #endif
 
+	// --通常状態だったら-- //
+	if (state == Normal) {
+		speedX += 0.2f;
+
+		if (speedX >= defaultSpeedX) {
+			speedX = defaultSpeedX;
+		}
+
+		// --速度を加算-- //
+		speedY += 0.4f;
+
+		if (speedY >= defaultSpeedY) {
+			speedY = defaultSpeedY;
+		}
+	}
+
+	// --ノックバック状態だったら-- //
+	else if (state == Knock) {
+		// --速度を加算-- //
+		speedY += 0.4f;
+
+		// --Y軸の速度が基礎値を越したら通常状態に変更-- //
+		if (speedY > 0) {
+			SetNormal();
+		}
+
+		speedX += 0.2f;
+
+		if (speedX >= defaultSpeedX) {
+			speedX = defaultSpeedX;
+		}
+	}
+
+	// --ブースト状態だったら-- //
+	else if (state == Boost) {
+		// --ブースト状態になってからの経過時間-- //
+		float nowTime = (GetNowCount() - boostStartTime) / 1000.0f;
+
+		// --指定されているブースト時間が過ぎたら-- //
+		if (boostTime <= nowTime) {
+			// --ブースト状態から通常状態に変更-- //
+			SetNormal();
+		}
+	}
+
 	// --x軸のstateがBoostだったら-- //
 	if (xAxisState == static_cast<int>(XAxisState::Boost)) {
 		// --ブースト状態になってからの経過時間-- //
@@ -195,71 +234,24 @@ void Player::Update() {
 		}
 
 		// --プレイヤーオブジェクトのX座標に速度を加算-- //
-		player_[0].pos.x += 2 * speedX * direction;
-		player_[1].pos.x += 2 * speedX * direction;
+		object_[0].pos.x += 2 * speedX * direction;
+		object_[1].pos.x += 2 * speedX * direction;
 	}
-
-	// --通常状態だったら-- //
-	if (state == Normal) {
+	else {
 		// --プレイヤーオブジェクトのX座標に速度を加算-- //
-		player_[0].pos.x += speedX * direction;
-		player_[1].pos.x += speedX * direction;
-	}
-
-	// --ノックバック状態だったら-- //
-	else if (state == Knock) {
-		// --速度を加算-- //
-		speedY += 0.4f;
-
-		// --Y軸の速度が基礎値を越したら通常状態に変更-- //
-		if (speedY > 0) {
-			SetNormal();
-		}
-
-		//if (speedY >= 0.0f) {
-		//	// --プレイヤーオブジェクトのX座標に速度を加算-- //
-		//	whiteObj.pos.x += speedX * direction;
-		//	blackObj.pos.x += speedX * direction;
-		//}
-
-		speedX += 0.2f;
-
-		if (speedX >= defaultSpeedX) {
-			speedX = defaultSpeedX;
-		}
-
-		// --プレイヤーオブジェクトのX座標に速度を加算-- //
-		player_[0].pos.x += speedX * direction;
-		player_[1].pos.x += speedX * direction;
-	}
-
-	// --ブースト状態だったら-- //
-	else if (state == Boost) {
-		// --ブースト状態になってからの経過時間-- //
-		float nowTime = (GetNowCount() - boostStartTime) / 1000.0f;
-
-		//DrawFormatString(0, 40, 0x000000, "nowTime = %f", nowTime);
-
-		// --指定されているブースト時間が過ぎたら-- //
-		if (boostTime <= nowTime) {
-			// --ブースト状態から通常状態に変更-- //
-			SetNormal();
-		}
-
-		// --プレイヤーオブジェクトのX座標に速度を加算-- //
-		player_[0].pos.x += speedX * direction;
-		player_[1].pos.x += speedX * direction;
+		object_[0].pos.x += speedX * direction;
+		object_[1].pos.x += speedX * direction;
 	}
 
 	// --プレイヤーの移動分スクロール-- //
 	Camera::AddScroll(-speedY);
 
 	// --一定まで行くとプレイヤーの座標を反対側に変更-- //
-	if (player_[0].pos.x >= 960.0f) player_[0].pos.x -= 1280.0f;
-	else if (player_[0].pos.x <= -320.0f) player_[0].pos.x += 1280.0f;
+	if (object_[0].pos.x >= 960.0f) object_[0].pos.x -= 1280.0f;
+	else if (object_[0].pos.x <= -320.0f) object_[0].pos.x += 1280.0f;
 
-	if (player_[1].pos.x >= 960.0f) player_[1].pos.x -= 1280.0f;
-	else if (player_[1].pos.x <= -320.0f) player_[1].pos.x += 1280.0f;
+	if (object_[1].pos.x >= 960.0f) object_[1].pos.x -= 1280.0f;
+	else if (object_[1].pos.x <= -320.0f) object_[1].pos.x += 1280.0f;
 	//Collision();
 }
 
@@ -272,55 +264,60 @@ void Player::Draw() {
 		DrawFormatString(200, 40, 0x000000, "nowTime = %f", nowTime);
 
 		// 
-		player_[0].radius = MIN_SIZE_P;
-		player_[1].radius = MIN_SIZE_P;
+		object_[0].radiusX = MIN_SIZE_P;
+		object_[1].radiusX = MIN_SIZE_P;
 
 		// --指定されているブースト時間が過ぎたら-- //
 		if (0.1f <= nowTime) {
 			// --ブースト状態から通常状態に変更-- //
 			isEaseDraw = false;
-			player_[0].radius = MAX_SIZE_P;
-			player_[1].radius = MAX_SIZE_P;
+			object_[0].radiusX = MAX_SIZE_P;
+			object_[1].radiusX = MAX_SIZE_P;
 		}
 	}
 
-	// --白いプレイヤー描画-- //
-	DrawBoxAA(player_[0], 0xFFFFFF, true);
+	// --ノックバック状態なら
+	if (state == Knock) {
+		// --オブジェクト1描画-- //
+		DrawBoxAA(object_[0], 0x000000, true);
 
-	// --黒いプレイヤー描画-- //
-	DrawBoxAA(player_[1], 0xFFFFFF, true);
+		// --オブジェクト2描画-- //
+		DrawBoxAA(object_[1], 0x000000, true);
+	}
+	else {
+		// --オブジェクト1描画-- //
+		DrawBoxAA(object_[0], 0xFFFFFF, true);
+
+		// --オブジェクト2描画-- //
+		DrawBoxAA(object_[1], 0xFFFFFF, true);
+	}
 
 	DrawFormatString(0, 40, 0x000000, "speedY = %f", speedY);
 	DrawFormatString(0, 60, 0x000000, "state = %d", state);
 	DrawFormatString(0, 100, 0x000000, "xAxisState = %d", xAxisState);
 	DrawFormatString(0, 120, 0x000000, "directionMode = %d : changeMode [C]", debug_changeDirectionMode);
 	DrawFormatString(0, 140, 0x000000, "isEase = %d", isEaseDraw);
-	DrawFormatString(0, 160, 0x000000, "Pos = (%f, %f)", player_[0].pos.x, player_[0].pos.y);
+	DrawFormatString(0, 160, 0x000000, "Pos = (%f, %f)", object_[0].pos.x, object_[0].pos.y);
 
 }
 
 // --白いオブジェクトの参照-- //
-Object Player::GetPlayer1Obj() { return player_[0]; }
+BoxObj Player::GetPlayer1Obj() { return object_[0]; }
 
 // --黒いオブジェクトの参照-- //
-Object Player::GetPlayer2Obj() { return player_[1]; }
+BoxObj Player::GetPlayer2Obj() { return object_[1]; }
 
 // --プレイヤーの状態を変更-- //
 int Player::GetState() { return state; }
 
 // --通常状態に変更-- //
 void Player::SetNormal() {
-	// --Y軸の速度を規定値に設定-- //
-	speedY = defaultSpeedY;
 
 	// --X軸の速度を規定値に設定-- //
 	speedX = defaultSpeedX;
 
 	// --通常状態に変更-- //
 	state = Normal;
-
-	// --当たり判定をONにする
-	isCollision = true;
 }
 
 // --ノックバックに変更-- //
@@ -332,9 +329,6 @@ void Player::SetKnock() {
 	state = Knock;
 
 	speedX = 0.4f;
-
-	// --当たり判定をOFFにする
-	isCollision = false;
 }
 
 // --ブースト状態に変更-- //
@@ -357,18 +351,4 @@ void Player::SetBoost() {
 // --死亡状態に変更-- //
 void Player::SetDeath() {
 	SceneManager::SetScene(RESULTSCENE);
-}
-
-bool Player::GetCollisionFlag() { return isCollision; }
-
-// --Y軸の速度を参照
-float Player::GetSpeedY() { return speedY; }
-
-// --X軸の速度を参照
-float Player::GetSpeedX() { return speedX; }
-
-// --白黒プレイヤーの座標Xに加算-- //
-void Player::AddPlayerPosX(float value) {
-	player_[0].pos.x += value;
-	player_[1].pos.x += value;
 }
