@@ -99,7 +99,7 @@ Player::Player() :
 	speedY = defaultSpeedY;
 
 	// --ブーストの時間[s]-- //
-	boostTime = 1.0f;
+	boostTime = 0.5f;
 
 	// --ブーストの経過時間[s]-- //
 	boostTimer = 0.0f;
@@ -209,10 +209,10 @@ void Player::Update() {
 	// --ノックバック状態だったら-- //
 	else if (state == Knock) {
 		// --速度を加算-- //
-		speedY += 0.40f;
+		speedY += 0.4f;
 
 		// --Y軸の速度が基礎値を越したら通常状態に変更-- //
-		if (speedY >= defaultSpeedY) {
+		if (speedY > 0) {
 			SetNormal();
 		}
 
@@ -222,15 +222,15 @@ void Player::Update() {
 		//	blackObj.pos.x += speedX * direction;
 		//}
 
-		// --プレイヤーオブジェクトのX座標に速度を加算-- //
-		player_[0].pos.x += speedX * direction;
-		player_[1].pos.x += speedX * direction;
-
 		speedX += 0.2f;
 
 		if (speedX >= defaultSpeedX) {
 			speedX = defaultSpeedX;
 		}
+
+		// --プレイヤーオブジェクトのX座標に速度を加算-- //
+		player_[0].pos.x += speedX * direction;
+		player_[1].pos.x += speedX * direction;
 	}
 
 	// --ブースト状態だったら-- //
@@ -260,7 +260,6 @@ void Player::Update() {
 
 	if (player_[1].pos.x >= 960.0f) player_[1].pos.x -= 1280.0f;
 	else if (player_[1].pos.x <= -320.0f) player_[1].pos.x += 1280.0f;
-
 	//Collision();
 }
 
@@ -296,6 +295,7 @@ void Player::Draw() {
 	DrawFormatString(0, 100, 0x000000, "xAxisState = %d", xAxisState);
 	DrawFormatString(0, 120, 0x000000, "directionMode = %d : changeMode [C]", debug_changeDirectionMode);
 	DrawFormatString(0, 140, 0x000000, "isEase = %d", isEaseDraw);
+	DrawFormatString(0, 160, 0x000000, "Pos = (%f, %f)", player_[0].pos.x, player_[0].pos.y);
 
 }
 
