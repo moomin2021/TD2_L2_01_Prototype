@@ -11,32 +11,33 @@ namespace {
 }
 
 // --インスタンスにNULLを代入-- //
-StageManager* StageManager::myInstance = nullptr;
+StageManager* StageManager::myInstance_ = nullptr;
 
 // --インスタンス読み込み-- //
 StageManager* StageManager::GetInstance() {
 	// --インスタンスが無かったら生成する-- //
-	if (myInstance == nullptr) myInstance = new StageManager();
+	if (myInstance_ == nullptr) myInstance_ = new StageManager();
 
 	// --インスタンスを返す-- //
-	return myInstance;
+	return myInstance_;
 }
 
 // --メモリ解放-- //
 void StageManager::Release() {
 	// --メモリ解放-- //
-	delete myInstance;
+	delete myInstance_;
 
 	// --NULLを代入-- //
-	myInstance = nullptr;
+	myInstance_ = nullptr;
 }
 
 // --コンストラクタ-- //
 StageManager::StageManager() :
 	// --1マスのサイズ-- //
-	blockSize(64)
+	blockSize_(64)
 {
-
+	// --CSVの行数-- //
+	lineCounter_ = 0;
 }
 
 // --デストラクタ-- //
@@ -47,7 +48,16 @@ StageManager::~StageManager()
 void StageManager::Initialize()
 {
 	// --障害物を削除-- //
-	obstacles.clear();
+	obstacles_.clear();
+
+	// --最大コイン数-- //
+	maxCoin_ = 0;
+
+	// --現在のコイン数-- //
+	coin_ = 0;
+
+	// --CSVの行数-- //
+	lineCounter_ = 0;
 }
 
 void StageManager::Update()
@@ -56,18 +66,20 @@ void StageManager::Update()
 
 void StageManager::Draw()
 {
+	DrawFormatString(500, 0, 0x000000, "コイン%d/%d", coin_, maxCoin_);
+
 	// --障害物の描画
-	for (int i = 0; i < obstacles.size(); i++) {
-		obstacles[i].Draw();
+	for (int i = 0; i < obstacles_.size(); i++) {
+		obstacles_[i].Draw();
 	}
 }
 
-void StageManager::LoadCSV(string path)
+void StageManager::LoadCSV()
 {
-	lineCounter = 0;
+	lineCounter_ = 0;
 
 	// --読み込むCSVファイルを開く-- //
-	ifstream ifs(path);
+	ifstream ifs(path_);
 
 	// --読み込んだCSVファイルの1行を一時的に格納する変数-- //
 	string line;
@@ -87,17 +99,27 @@ void StageManager::LoadCSV(string path)
 		// --X軸のマス数をカウント
 		int cellNumberX = 0;
 
+		// --[,]区切りで読み込む、読み込んだ文字列をtmpに格納する-- //
 		while (getline(line_stream, tmp, ',')) {
-			// --色を読み取る
-			int color = static_cast<int>(Sign(stoi(tmp)) * stoi(tmp) / 100) % 10;
-			
 			// --形状を読み取る
-			int shape = stoi(tmp) % 100;
+			int blockType = stoi(tmp);
 
 			// --読み取った数字が0以外なら障害物を生成する
-			if (stoi(tmp) != 0) {
-				Obstacle objTmp({ static_cast<float>(cellNumberX * blockSize + 32), static_cast<float>(loopCount * blockSize + 32) }, color, shape);
-				obstacles.push_back(objTmp);
+			if (blockType != None) {
+				Obstacle objTmp({ static_cast<float>(cellNumberX * blockSize_ + 32), static_cast<float>(loopCount * blockSize_ + 32) }, blockType);
+				obstacles_.push_back(objTmp);
+
+				// --読みった数字がコインブロックだったら-- //
+				if (blockType == CoinBlock) {
+					// --最大コインに1追加-- //
+					maxCoin_++;
+				}
+
+				// --読みった数字がコインだったら-- //
+				else if (blockType == Coin) {
+					// --最大コインに1追加-- //
+					maxCoin_++;
+				}
 			}
 
 			// --X軸のマス数をカウント
@@ -109,14 +131,24 @@ void StageManager::LoadCSV(string path)
 	}
 
 	// --障害物の初期化
-	for (int i = 0; i < obstacles.size(); i++) {
-		obstacles[i].Initialize();
+	for (int i = 0; i < obstacles_.size(); i++) {
+		obstacles_[i].Initialize();
 	}
 
-	lineCounter = loopCount;
+	lineCounter_ = loopCount;
 }
 
-int StageManager::GetLine() { return lineCounter; }
+int StageManager::GetLineCount() { return lineCounter_; }
 
 // --ブロックサイズを参照-- //
-int StageManager::GetBlockSize() { return blockSize; }
+int StageManager::GetBlockSize() { return blockSize_; }
+
+// --コインの数に1追加-- //
+void StageManager::AddCoin() { coin_++; }
+
+// --読み込むファイルをセットする-- //
+void StageManager::SetCSV(int num) {
+	if (num == 1) {
+		path_ = "proto.csv";
+	}
+}

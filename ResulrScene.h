@@ -1,4 +1,5 @@
 #pragma once
+#include "Key.h"
 
 class ResultScene {
 	/// --メンバ変数-- ///
@@ -6,7 +7,14 @@ public:
 
 private:
 	// --インスタンス-- //
-	static ResultScene* myInstance;
+	static ResultScene* myInstance_;
+
+#pragma region クラス定義
+
+	// --キーボードクラス-- //
+	Key* key_;
+
+#pragma endregion
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///

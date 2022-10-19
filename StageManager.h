@@ -5,28 +5,38 @@
 #include <vector>
 #include "Obstacle.h"
 
-enum struct BlockId
+enum BlockId
 {
 	None,   // 0
-	White,  // 1
-	Black   // 2
+	Block,// -> ただのブロック
+	CoinBlock,// -> コインブロック
+	Coin,// -> コイン
+	DeathBlock// -> 即死ブロック
 };
 
 class StageManager {
 	/// --メンバ変数-- ///
 public:
 	// --障害物クラス宣言-- //
-	std::vector<Obstacle> obstacles;
+	std::vector<Obstacle> obstacles_;
 
 	// --1マスのサイズ-- //
-	const int blockSize;
+	const int blockSize_;
 
 	// csv行数
-	int lineCounter;
+	int lineCounter_;
 
 private:
 	// --インスタンス-- //
-	static StageManager* myInstance;
+	static StageManager* myInstance_;
+
+	// --最大コイン数-- //
+	int maxCoin_ = 0;
+
+	// --現在のコイン数-- //
+	int coin_ = 0;
+
+	std::string path_;
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///
@@ -48,13 +58,19 @@ public:
 	void Draw();
 
 	// --CSVを読み込む-- //
-	void LoadCSV(std::string path);
+	void LoadCSV();
 
 	// --読み込んだCSVの行数を参照-- //
-	int GetLine();
+	int GetLineCount();
 
 	// --ブロックサイズを参照-- //
 	int GetBlockSize();
+
+	// --コインの数に1追加-- //
+	void AddCoin();
+
+	// --読み込むファイルをセットする-- //
+	void SetCSV(int num);
 
 private:
 

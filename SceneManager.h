@@ -18,7 +18,7 @@ public:
 
 private:
 	// --インスタンス-- //
-	static SceneManager* myInstance;
+	static SceneManager* myInstance_;
 
 	// --シーンの初期化フラグ-- //
 	static bool isSceneChange;
@@ -26,7 +26,7 @@ private:
 #pragma region クラスの宣言
 
 	// --キーボード入力-- //
-	Key* key;
+	Key* key_;
 
 	// --タイトルシーン-- //
 	TitleScene* titleScene;

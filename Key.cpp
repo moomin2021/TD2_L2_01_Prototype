@@ -2,24 +2,24 @@
 #include"DxLib.h"
 
 // --インスタンスにNULLを代入-- //
-Key* Key::myInstance = nullptr;
+Key* Key::myInstance_ = nullptr;
 
 // --インスタンス読み込み-- //
 Key* Key::GetInstance() {
 	// --インスタンスが無かったら生成する-- //
-	if (myInstance == nullptr) myInstance = new Key();
+	if (myInstance_ == nullptr) myInstance_ = new Key();
 
 	// --インスタンスを返す-- //
-	return myInstance;
+	return myInstance_;
 }
 
 // --メモリ解放-- //
 void Key::Release() {
 	// --メモリ解放-- //
-	delete myInstance;
+	delete myInstance_;
 
 	// --NULLを代入-- //
-	myInstance = nullptr;
+	myInstance_ = nullptr;
 }
 
 // --コンストラクタ-- //
@@ -40,10 +40,10 @@ void Key::Update()
 }
 
 // --キーが押された瞬間か-- //
-bool Key::IsTrigger(char key) { return (keys[key] && !oldkeys[key]); }
+bool Key::IsTrigger(int key_) { return (keys[key_] && !oldkeys[key_]); }
 
 // --キーが押されているか-- //
-bool Key::IsPress(char key) { return keys[key]; }
+bool Key::IsPress(int key_) { return keys[key_]; }
 
 // --キーが離された瞬間か-- //
-bool Key::IsRelease(char key) { return (!keys[key] && oldkeys[key]); }
+bool Key::IsRelease(int key_) { return (!keys[key_] && oldkeys[key_]); }

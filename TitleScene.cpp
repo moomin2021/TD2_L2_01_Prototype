@@ -3,24 +3,24 @@
 #include "SceneManager.h"
 
 // --インスタンスにNULLを代入-- //
-TitleScene* TitleScene::myInstance = nullptr;
+TitleScene* TitleScene::myInstance_ = nullptr;
 
 // --インスタンス読み込み-- //
 TitleScene* TitleScene::GetInstance() {
 	// --インスタンスが無かったら生成する-- //
-	if (myInstance == nullptr) myInstance = new TitleScene();
+	if (myInstance_ == nullptr) myInstance_ = new TitleScene();
 
 	// --インスタンスを返す-- //
-	return myInstance;
+	return myInstance_;
 }
 
 // --メモリ解放-- //
 void TitleScene::Release() {
 	// --メモリ解放-- //
-	delete myInstance;
+	delete myInstance_;
 
 	// --NULLを代入-- //
-	myInstance = nullptr;
+	myInstance_ = nullptr;
 }
 
 // --コンストラクタ-- //
@@ -28,7 +28,7 @@ TitleScene::TitleScene() {
 #pragma region クラス定義
 
 	// --キーボードクラス-- //
-	key = Key::GetInstance();
+	key_ = Key::GetInstance();
 
 #pragma endregion
 }
@@ -46,7 +46,7 @@ void TitleScene::Initialize() {
 // --更新処理-- //
 void TitleScene::Update() {
 	// --[SPACE]を押したら-- //
-	if (key->IsTrigger(KEY_INPUT_SPACE)) {
+	if (key_->IsTrigger(KEY_INPUT_SPACE)) {
 		// --ステージセレクトシーンに変更-- //
 		SceneManager::SetScene(STAGESELECTSCENE);
 	}

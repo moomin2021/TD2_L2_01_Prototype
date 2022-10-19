@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 // --インスタンスにNULLを代入-- //
-Camera* Camera::myInstance = nullptr;
+Camera* Camera::myInstance_ = nullptr;
 
 // --スクロール値-- //
 float Camera::scrollY = 2400;
@@ -9,19 +9,19 @@ float Camera::scrollY = 2400;
 // --インスタンス読み込み-- //
 Camera* Camera::GetInstance() {
 	// --インスタンスが無かったら生成する-- //
-	if (myInstance == nullptr) myInstance = new Camera();
+	if (myInstance_ == nullptr) myInstance_ = new Camera();
 
 	// --インスタンスを返す-- //
-	return myInstance;
+	return myInstance_;
 }
 
 // --メモリ解放-- //
 void Camera::Release() {
 	// --メモリ解放-- //
-	delete myInstance;
+	delete myInstance_;
 
 	// --NULLを代入-- //
-	myInstance = nullptr;
+	myInstance_ = nullptr;
 }
 
 // --コンストラクタ-- //

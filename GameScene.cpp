@@ -3,24 +3,24 @@
 #include "Camera.h"
 
 // --インスタンスにNULLを代入-- //
-GameScene* GameScene::myInstance = nullptr;
+GameScene* GameScene::myInstance_ = nullptr;
 
 // --インスタンス読み込み-- //
 GameScene* GameScene::GetInstance() {
 	// --インスタンスが無かったら生成する-- //
-	if (myInstance == nullptr) myInstance = new GameScene();
+	if (myInstance_ == nullptr) myInstance_ = new GameScene();
 
 	// --インスタンスを返す-- //
-	return myInstance;
+	return myInstance_;
 }
 
 // --メモリ解放-- //
 void GameScene::Release() {
 	// --メモリ解放-- //
-	delete myInstance;
+	delete myInstance_;
 
 	// --NULLを代入-- //
-	myInstance = nullptr;
+	myInstance_ = nullptr;
 }
 
 // --コンストラクタ-- //
@@ -28,10 +28,10 @@ GameScene::GameScene() {
 #pragma region クラス定義
 
 	// --キーボード入力-- //
-	key = Key::GetInstance();
+	key_ = Key::GetInstance();
 
 	// --プレイヤー-- //
-	player = Player::GetInstance();
+	player_ = Player::GetInstance();
 
 	// --カメラ-- //
 	camera = Camera::GetInstance();
@@ -48,32 +48,30 @@ GameScene::GameScene() {
 // --デストラクタ-- //
 GameScene::~GameScene() {
 	// --メモリ解放-- //
-	player->Release();
+	player_->Release();
 	camera->Release();
 }
 
 // --初期化処理-- //
 void GameScene::Initialize() {
 	stageManager->Initialize();
-	stageManager->LoadCSV("proto.csv");
-	camera->Initialize((stageManager->GetLine() * stageManager->blockSize) - 800);
+	stageManager->LoadCSV();
+	camera->Initialize((stageManager->GetLineCount() * stageManager->blockSize_) - 800);
 	// --プレイヤー-- //
-	player->Initialize();
-
-	effect_.Activate();
+	player_->Initialize();
 }
 
 // --更新処理-- //
 void GameScene::Update() {
-	if (key->IsTrigger(KEY_INPUT_R)) {
+	if (key_->IsTrigger(KEY_INPUT_R)) {
 		stageManager->Initialize();
-		stageManager->LoadCSV("proto.csv");
-		player->Initialize();
-		camera->Initialize((stageManager->GetLine() * stageManager->blockSize) - 800);
+		stageManager->LoadCSV();
+		player_->Initialize();
+		camera->Initialize((stageManager->GetLineCount() * stageManager->blockSize_) - 800);
 	}
 
 	// --プレイヤー-- //
-	player->Update();
+	player_->Update();
 
 	// --当たり判定
 	col->Update();
@@ -86,7 +84,7 @@ void GameScene::Draw() {
 	}
 
 	stageManager->Draw();
-	player->Draw();
+	player_->Draw();
 
 	effect_.SceneChange();
 

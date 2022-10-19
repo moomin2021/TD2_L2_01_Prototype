@@ -13,16 +13,16 @@ public:
 
 private:
 	// --インスタンス-- //
-	static GameScene* myInstance;
+	static GameScene* myInstance_;
 	
 
 #pragma region クラス宣言
 
 	// --キーボード入力-- //
-	Key * key;
+	Key * key_;
 
 	// --プレイヤー-- //
-	Player* player;
+	Player* player_;
 
 	// --カメラ-- //
 	Camera* camera;

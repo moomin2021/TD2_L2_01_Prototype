@@ -9,7 +9,7 @@ private:
 	char oldkeys[256] = {};
 
 	// --インスタンス-- //
-	static Key* myInstance;
+	static Key* myInstance_;
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///
@@ -27,15 +27,15 @@ public:
 	/// <summary>
 	/// キーが押された瞬間か
 	/// </summary>
-	bool IsTrigger(char key);
+	bool IsTrigger(int key_);
 	/// <summary>
 	/// キーが押されているか
 	/// </summary>
-	bool IsPress(char key);
+	bool IsPress(int key_);
 	/// <summary>
 	/// キーが離された瞬間か
 	/// </summary>
-	bool IsRelease(char key);
+	bool IsRelease(int key_);
 
 private:
 	// --コンストラクタ-- //

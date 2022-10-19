@@ -1,12 +1,27 @@
 #pragma once
 #include "Vector2.h"
 
-struct Object {
+struct BoxObj {
 	// --À•W-- //
 	Vector2 pos;
 
 	// --”¼Œa-- //
-	float radius;
+	float radiusX;// -> X²
+	float radiusY;// -> Y²
+};
+
+struct Image {
+	// --À•W-- //
+	Vector2 pos;
+
+	// --X²‚Ì”¼Œa-- //
+	float radiusX;
+
+	// --Y²‚Ì”¼Œa-- //
+	float radiusY;
+
+	// --‰æ‘œ‚Ìƒnƒ“ƒhƒ‹-- //
+	int handle;
 };
 
 double Sign(double a);

@@ -3,27 +3,17 @@
 #include "StageManager.h"
 #include "Util.h"
 
-struct Box {
-	Vector2 pos;
-
-	float radiusX;
-	float radiusY;
-};
-
 class Collision {
 	/// --メンバ変数-- ///
 public:
 
 private:
 	// --インスタンス-- //
-	static Collision* myInstance;
+	static Collision* myInstance_;
 
-	Player* player;
+	Player* player_;
 
-	StageManager* stage;
-
-	Box oldWhiteBox;
-	Box oldBlackBox;
+	StageManager* stage_;
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///

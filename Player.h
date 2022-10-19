@@ -6,7 +6,8 @@
 enum State {
 	Normal,// -> 通常状態
 	Knock,// --> ノックバック状態
-	Boost// ---> ブースト状態
+	Boost,// ---> ブースト状態
+	Death// --死亡状態
 };
 
 enum struct XAxisState {
@@ -21,72 +22,19 @@ enum struct DirectionMode {
 };
 #endif
 
-struct Vertex {
-	Vector2 leftTop;
-	Vector2 leftBottom;
-	Vector2 rightTop;
-	Vector2 rightBottom;
-
-	const bool operator==(const Vertex& vtx) const
-	{
-		return (leftTop.x == vtx.leftTop.x && leftTop.y == vtx.leftTop.y &&
-			leftBottom.x == vtx.leftBottom.x && leftBottom.y == vtx.leftBottom.y &&
-			rightTop.x == vtx.rightTop.x && rightTop.y == vtx.rightTop.y &&
-			rightBottom.x == vtx.rightBottom.x && rightBottom.y == rightBottom.y);
-	}
-
-	const bool operator<(const Vertex& vtx) const
-	{
-		return (leftTop.x < vtx.leftTop.x && leftTop.y < vtx.leftTop.y &&
-			leftBottom.x < vtx.leftBottom.x && leftBottom.y < vtx.leftBottom.y &&
-			rightTop.x < vtx.rightTop.x && rightTop.y < vtx.rightTop.y &&
-			rightBottom.x < vtx.rightBottom.x && rightBottom.y < rightBottom.y);
-	}
-
-	const bool operator<=(const Vertex& vtx) const
-	{
-		return (leftTop.x <= vtx.leftTop.x&& leftTop.y <= vtx.leftTop.y&&
-			leftBottom.x <= vtx.leftBottom.x&& leftBottom.y <= vtx.leftBottom.y&&
-			rightTop.x <= vtx.rightTop.x&& rightTop.y <= vtx.rightTop.y&&
-			rightBottom.x <= vtx.rightBottom.x&& rightBottom.y <= rightBottom.y);
-	}
-
-	const bool operator>(const Vertex& vtx) const
-	{
-		return (leftTop.x > vtx.leftTop.x&& leftTop.y > vtx.leftTop.y&&
-			leftBottom.x > vtx.leftBottom.x&& leftBottom.y > vtx.leftBottom.y&&
-			rightTop.x > vtx.rightTop.x&& rightTop.y > vtx.rightTop.y&&
-			rightBottom.x > vtx.rightBottom.x&& rightBottom.y > rightBottom.y);
-	}
-
-	const bool operator>=(const Vertex& vtx) const
-	{
-		return (leftTop.x >= vtx.leftTop.x && leftTop.y >= vtx.leftTop.y &&
-			leftBottom.x >= vtx.leftBottom.x && leftBottom.y >= vtx.leftBottom.y &&
-			rightTop.x >= vtx.rightTop.x && rightTop.y >= vtx.rightTop.y &&
-			rightBottom.x >= vtx.rightBottom.x && rightBottom.y >= rightBottom.y);
-	}
-};
-
 class Player {
 	/// --メンバ変数-- ///
 public:
-	// --白いプレイヤーオブジェクト-- //
-	Object whiteObj;
-
-	// --黒いプレイヤーオブジェクト-- //
-	Object blackObj;
+	// --オブジェクト-- //
+	BoxObj object_[2];
 
 private:
 	// --インスタンス-- //
-	static Player* myInstance;
+	static Player* myInstance_;
 
 	// --クラス宣言-- //
-	Key* key;
+	Key* key_;
 	StageManager* stageManager_ = nullptr;
-
-	// --当たり判定が有効か
-	bool isCollision;
 
 	// --プレイヤーの状態-- //
 	int state;
@@ -151,14 +99,11 @@ public:
 	// --描画処理-- //
 	void Draw();
 
-	// --白いオブジェクトの参照-- //
-	Object GetWhiteObj();
+	// --オブジェクト1の参照-- //
+	BoxObj GetPlayer1Obj();
 
-	// --黒いオブジェクトの参照-- //
-	Object GetBlackObj();
-
-	// --白黒プレイヤーの座標Xに加算-- //
-	void AddPlayerPosX(float value);
+	// --オブジェクト1の参照-- //
+	BoxObj GetPlayer2Obj();
 
 	// --プレイヤーの状態を変更-- //
 	int GetState();
@@ -172,14 +117,8 @@ public:
 	// --ブースト状態に変更-- //
 	void SetBoost();
 
-	// --当たり判定フラグを参照
-	bool GetCollisionFlag();
-
-	// --Y軸の速度を参照
-	float GetSpeedY();
-
-	// --X軸の速度を参照
-	float GetSpeedX();
+	// --死亡状態に変更-- //
+	void SetDeath();
 
 private:
 	// --コンストラクタ-- //

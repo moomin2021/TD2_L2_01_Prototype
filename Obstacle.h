@@ -6,27 +6,18 @@ class Obstacle {
 public:
 
 private:
-	// --座標
-	Vector2 pos;
+	// --オブジェクト-- //
+	BoxObj object_;
 
-	// --色
-	int color;
-
-	// --形
-	unsigned short int shape;
-
-	// --X軸の半径
-	float radiusX;
-
-	// --Y軸の変形
-	float radiusY;
+	// --ブロックの種類
+	int blockType_;
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///
 	/// --メンバ関数-- ///
 public:
 	// --コンストラクタ-- //
-	Obstacle(Vector2 pos, int color, int shape);
+	Obstacle(Vector2 pos, int blockType);
 
 	// --デストラクタ-- //
 	~Obstacle();
@@ -40,17 +31,11 @@ public:
 	// --描画処理-- //
 	void Draw();
 
-	// --障害物の座標を参照
-	Vector2 GetPos();
+	// --オブジェクトを参照-- //
+	BoxObj GetBoxObj();
 
-	// --色を参照
-	int GetColor();
-
-	// --障害物のX軸の半径を参照
-	float GetRadiusX();
-
-	// --障害物のY軸の半径を参照
-	float GetRadiusY();
+	// --ブロックの種類を参照
+	int GetBlockType();
 
 private:
 
