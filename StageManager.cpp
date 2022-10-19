@@ -149,6 +149,8 @@ void StageManager::AddCoin() { coin_++; }
 // --読み込むファイルをセットする-- //
 void StageManager::SetCSV(int num) {
 	if (num == 1) {
-		path_ = "proto.csv";
+		path_ = "csv/check_progress_gimic1.csv";
+	}else if (num == 2) {
+		path_ = "csv/check_progress_gimic2.csv";
 	}
 }
