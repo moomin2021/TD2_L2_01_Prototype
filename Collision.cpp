@@ -18,11 +18,16 @@ bool BoxCenterCol(BoxObj box1, BoxObj box2) {
 
 int BoxXYCol(BoxObj& box1, BoxObj& box2) {
 	float len1 = abs((box1.pos.y - box1.radiusY) - (box2.pos.y + box2.radiusY));
-	float len2 = abs((box1.pos.x - box1.radiusX) - (box2.pos.x + box2.radiusX));
-	float len3 = abs((box1.pos.x + box1.radiusX) - (box2.pos.x - box2.radiusX));
+	float len2 = abs((box1.pos.y + box1.radiusY) - (box2.pos.y - box2.radiusY));
+	float len3 = abs((box1.pos.x - box1.radiusX) - (box2.pos.x + box2.radiusX));
+	float len4 = abs((box1.pos.x + box1.radiusX) - (box2.pos.x - box2.radiusX));
 
-	if (len1 < len2) {
-		if (len1 < len3) return 1;
+	if (len1 < len3) {
+		if (len1 < len4) return 1;
+	}
+
+	if (len2 < len3) {
+		if (len2 < len4) return 3;
 	}
 	return 2;
 }
@@ -180,6 +185,18 @@ void Collision::Update() {
 			}
 		}
 
+		else if (player_->GetState() == Knock) {
+			for (int i = obsIndex.size() - 1; i >= 0; i--) {
+				if (obsXY[i] == 0) {
+					// --現在のコイン数にプラス1-- //
+					stage_->AddCoin();
+					stage_->obstacles_.erase(stage_->obstacles_.begin() + obsIndex[i]);
+					obsIndex.erase(obsIndex.begin() + i);
+					obsXY.erase(obsXY.begin() + i);
+				}
+			}
+		}
+
 		// --押し戻し処理-- //
 		for (int i = 0; i < obsIndex.size(); i++) {
 			for (int j = 0; j < 2; j++) {
@@ -218,13 +235,22 @@ void Collision::Update() {
 
 					else if (player_->GetState() != Boost) {
 						// --プレイヤーと障害物のY軸距離-- //
-						float len = playerObj[j].pos.y - obstacle.pos.y;
+						float len = abs(playerObj[j].pos.y - obstacle.pos.y);
 
 						// --プレイヤーと障害物のY軸半径を足した値-- //
 						float radius = playerObj[j].radiusY + obstacle.radiusY;
 
-						// --カメラに距離と半径を引いた数を加算-- //
-						Camera::AddScroll(radius - len);
+						// --プレイヤーが障害物の下側にいたら-- //
+						if (playerObj[j].pos.y >= obstacle.pos.y) {
+							// --カメラに距離と半径を引いた数を加算-- //
+							Camera::AddScroll(radius - len);
+						}
+
+						// --プレイヤーが障害物の左側にいたら-- //
+						else if (playerObj[j].pos.y < obstacle.pos.y) {
+							// --カメラに距離と半径を引いた数を加算-- //
+							Camera::AddScroll(-(radius - len));
+						}
 					}
 				}
 			}
