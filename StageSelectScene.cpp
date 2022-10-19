@@ -69,7 +69,30 @@ StageSelectScene::~StageSelectScene() {
 
 // --初期化処理-- //
 void StageSelectScene::Initialize() {
+	// --画像の情報-- //
+	for (int i = 0; i < 10; i++) {
+		stageSelectImage_[i].pos = {320.0f, 400.0f + (i * 250.0f)};
+		easeStartPos_[i] = { 320.0f, 400.0f + (i * 250.0f) };
+		easeEndPos_[i] = { 320.0f, 400.0f + (i * 250.0f) };
+	}
 
+	// --時間計測に必要なデータ変数-- //
+	nowCount_ = 0;
+	startCount_ = 0;
+
+	// --スクロールしてからの経過時間-- //
+	nowScrollTime_ = 0.0f;
+
+	// --現在選んでいるステージ-- //
+	selectStage_ = 1;
+
+	float len[10];
+	for (int i = 0; i < 10; i++) {
+		len[i] = abs(400.0f - stageSelectImage_[i].pos.y);
+		len[i] = Util::Clamp(len[i] / 600.0f, 1.0f, 0.0f);
+		stageSelectImage_[i].radiusX = 100 * (1.0f - len[i]);
+		stageSelectImage_[i].radiusY = 100 * (1.0f - len[i]);
+	}
 }
 
 // --更新処理-- //

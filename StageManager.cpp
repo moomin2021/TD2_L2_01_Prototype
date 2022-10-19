@@ -157,4 +157,7 @@ void StageManager::SetCSV(int num) {
 	else if (num == 3) {
 		path_ = "csv/check_progress_gimic3.csv";
 	}
+	else if (num == 4) {
+		path_ = "csv/check_progress_gimic4.csv";
+	}
 }

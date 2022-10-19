@@ -76,8 +76,8 @@ Player::Player() :
 	stageManager_ = StageManager::GetInstance();
 
 	// --プレイヤーオブジェクト-- //
-	object_[0] = { {300.0f, 700.0f}, 32.0f, 32.0f };
-	object_[1] = { {900.0f, 700.0f}, 32.0f, 32.0f };
+	object_[0] = { {300.0f, 700.0f}, 24.0f, 24.0f };
+	object_[1] = { {900.0f, 700.0f}, 24.0f, 24.0f };
 
 	// --プレイヤーの状態-- //
 	state = Normal;
@@ -113,8 +113,8 @@ Player::~Player() {
 // --初期化処理-- //
 void Player::Initialize() {
 	// --プレイヤーオブジェクト-- //
-	object_[0] = { {300.0f, 700.0f}, 32.0f, 32.0f };
-	object_[1] = { {900.0f, 700.0f}, 32.0f, 32.0f };
+	object_[0] = { {300.0f, 700.0f}, 24.0f, 24.0f };
+	object_[1] = { {900.0f, 700.0f}, 24.0f, 24.0f };
 
 	// --プレイヤーの状態-- //
 	state = Normal;
