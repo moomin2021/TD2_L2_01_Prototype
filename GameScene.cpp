@@ -59,6 +59,8 @@ void GameScene::Initialize() {
 	camera->Initialize((stageManager->GetLine() * stageManager->blockSize) - 800);
 	// --プレイヤー-- //
 	player->Initialize();
+
+	effect_.Activate();
 }
 
 // --更新処理-- //
@@ -85,6 +87,8 @@ void GameScene::Draw() {
 
 	stageManager->Draw();
 	player->Draw();
+
+	effect_.SceneChange();
 
 	DrawFormatString(200, 0, 0x000000, "[R]でリセット");
 }

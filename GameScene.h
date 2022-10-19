@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "Camera.h"
 #include "Collision.h"
+#include "Particle.h"
+#include "Effect.h"
 
 class GameScene {
 	/// --メンバ変数-- ///
@@ -31,6 +33,8 @@ private:
 	// --ステージマネージャー
 	StageManager* stageManager;
 #pragma endregion
+
+	Effect effect_{static_cast<int>(EffectType::LTtoRB2)};
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///
