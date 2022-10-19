@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "DxLib.h"
 #include "Camera.h"
+#include "SceneManager.h"
 
 // --インスタンスにNULLを代入-- //
 GameScene* GameScene::myInstance_ = nullptr;
@@ -70,6 +71,11 @@ void GameScene::Update() {
 		camera->Initialize((stageManager->GetLineCount() * stageManager->blockSize_) - 800);
 	}
 
+	// --ゲームシーンへ-- //
+	if (key_->IsTrigger(KEY_INPUT_Q)) {
+		SceneManager::SetScene(STAGESELECTSCENE);
+	}
+
 	// --プレイヤー-- //
 	player_->Update();
 
@@ -87,4 +93,5 @@ void GameScene::Draw() {
 	player_->Draw();
 
 	DrawFormatString(200, 0, 0x000000, "[R]でリセット");
+	DrawFormatString(200, 20, 0x000000, "[Q]でステージセレクトへ");
 }
