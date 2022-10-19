@@ -150,7 +150,11 @@ void StageManager::AddCoin() { coin_++; }
 void StageManager::SetCSV(int num) {
 	if (num == 1) {
 		path_ = "csv/check_progress_gimic1.csv";
-	}else if (num == 2) {
+	}
+	else if (num == 2) {
 		path_ = "csv/check_progress_gimic2.csv";
+	}
+	else if (num == 3) {
+		path_ = "csv/check_progress_gimic3.csv";
 	}
 }

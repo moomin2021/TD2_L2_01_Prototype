@@ -33,9 +33,6 @@ private:
 	// --ステージマネージャー
 	StageManager* stageManager;
 #pragma endregion
-
-	Effect effect_{static_cast<int>(EffectType::LTtoRB2)};
-
 	/// --メンバ変数END-- ///
 	/// --------------- ///
 	/// --メンバ関数-- ///

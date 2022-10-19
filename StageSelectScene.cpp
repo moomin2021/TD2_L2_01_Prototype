@@ -76,6 +76,8 @@ void StageSelectScene::Initialize() {
 void StageSelectScene::Update() {
 	// --[SPACE]‚ð‰Ÿ‚µ‚½‚ç-- //
 	if (key_->IsTrigger(KEY_INPUT_SPACE)) {
+		//effect_.Activate();
+		//Sleep(4 * 1000);
 		stage_->SetCSV(selectStage_);
 		SceneManager::SetScene(GAMESCENE);
 	}
@@ -151,4 +153,6 @@ void StageSelectScene::Draw() {
 			stageSelectImage_[i].pos.x + stageSelectImage_[i].radiusX, stageSelectImage_[i].pos.y + stageSelectImage_[i].radiusY,
 			stageSelectImage_[i].handle, false);
 	}
+
+	effect_.SceneChange();
 }

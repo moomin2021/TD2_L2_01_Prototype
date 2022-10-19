@@ -43,6 +43,9 @@ private:
 
 	// --ステージ画像の座標-- //
 
+	//
+	//Effect effect_{ static_cast<int>(EffectType::LTtoRB2) };
+
 	/// --メンバ変数END-- ///
 	/// --------------- ///
 	/// --メンバ関数-- ///

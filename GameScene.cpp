@@ -92,8 +92,6 @@ void GameScene::Draw() {
 	stageManager->Draw();
 	player_->Draw();
 
-	effect_.SceneChange();
-
 	DrawFormatString(200, 0, 0x000000, "[R]でリセット");
 	DrawFormatString(200, 20, 0x000000, "[Q]でステージセレクトへ");
 }

@@ -3,7 +3,7 @@
 #include <vector>
 
 #define WWIDTH 640
-#define WHEIGHT 800
+#define WHEIGHT 768
 #define PRADIUS 32
 
 class Effect
