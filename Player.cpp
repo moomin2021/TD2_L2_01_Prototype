@@ -61,10 +61,10 @@ Player::Player() :
 	defaultSpeedX(5.0f),
 
 	// --縦移動速度の基礎値-- //
-	defaultSpeedY(10.0f),
+	defaultSpeedY(5.0f),
 
 	// --ブースト時の初期スピード-- //
-	defaultBoostSpeedY(20.0f),
+	defaultBoostSpeedY(13.0f),
 
 	// --ノックバック時の初期スピード-- //
 	defaultKnockSpeedY(-10.0f)
@@ -315,6 +315,7 @@ void Player::SetNormal() {
 
 	// --X軸の速度を規定値に設定-- //
 	speedX = defaultSpeedX;
+	speedY = defaultSpeedX;
 
 	// --通常状態に変更-- //
 	state = Normal;
@@ -335,6 +336,7 @@ void Player::SetKnock() {
 void Player::SetBoost() {
 	// --Y軸の速度をブースト時の規定値に設定-- //
 	speedY = defaultBoostSpeedY;
+	speedX = defaultBoostSpeedY;
 
 	// --向きが右だったら左に変更-- //
 	if (direction == RIGHT) direction = LEFT;
