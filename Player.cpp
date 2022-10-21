@@ -15,9 +15,8 @@
 #define LEFT -1
 #define RIGHT 1
 
-// --方向転換時のサイズ-- //
-#define MAX_SIZE_P 32;
-#define MIN_SIZE_P 27;
+#define UP -1
+#define DOWN 1
 
 // --オブジェクトの描画用の関数-- //
 void DrawBoxAA(BoxObj obj, unsigned int color, bool fillFlag) {
@@ -55,54 +54,68 @@ void Player::Release() {
 
 // --コンストラクタ-- //
 Player::Player() :
-#pragma region 定数メンバの初期化
+#pragma region プレイヤーの速度変数
+	// --Y軸基本速度-- //
+	defSpeedY_(5.0f),
 
-	// --横移動速度の基礎値-- //
-	defaultSpeedX(5.0f),
+	// --Y軸の最高速度-- //
+	maxSpeedY_(30.0f),
 
-	// --縦移動速度の基礎値-- //
-	defaultSpeedY(5.0f),
+	// --Y軸の最低速度-- //
+	minSpeedY_(5.0f),
 
-	// --ブースト時の初期スピード-- //
-	defaultBoostSpeedY(13.0f),
+	// --X座標の最高座標-- //
+	maxPosX_(616.0f),
 
-	// --ノックバック時の初期スピード-- //
-	defaultKnockSpeedY(-10.0f)
+	// --X座標の最低座標-- //
+	minPosX_(24.0f),
 
+	// --壁キックの速度-- //
+	wallKickSpeedX_(20.0f),
+
+	// --回転状態の時間[s]-- //
+	rotateTime_(0.5f),
+
+	// --Y軸の減速値-- //
+	decelerationY_(0.2f),
+
+	// --Y軸の加速値-- //
+	accelerationY_(5.0f)
 #pragma endregion
 {
-	// --クラス定義-- //
+#pragma region クラス定義
+	// --キーボード入力-- //
 	key_ = Key::GetInstance();
+
+	// --ステージ管理-- //
 	stageManager_ = StageManager::GetInstance();
+#pragma endregion
 
 	// --プレイヤーオブジェクト-- //
-	object_[0] = { {300.0f, 700.0f}, 24.0f, 24.0f };
-	object_[1] = { {900.0f, 700.0f}, 24.0f, 24.0f };
+	object_ = { {24.0f, 100.0f}, 24.0f, 24.0f };
 
 	// --プレイヤーの状態-- //
-	state = Normal;
-	xAxisState = static_cast<int>(XAxisState::Default);
-#ifdef _DEBUG
-	debug_changeDirectionMode = static_cast<int>(DirectionMode::Old);
-#endif
+	state_ = NormalWallHit;
 
-	// --横移動の速度-- //
-	speedX = defaultSpeedX;
+	// --速度-- //
+	speedX_ = 0.0f;// -------> X軸
+	speedY_ = minSpeedY_;// -> Y軸
+
+	// --空中にいるか-- //
+	isAir_ = false;
+
+	// --空中キックができるか-- //
+	isAirKickActive_ = true;
 
 	// --移動する向き-- //
-	direction = RIGHT;
-
-	// --縦移動の速度-- //
-	speedY = defaultSpeedY;
-
-	// --ブーストの時間[s]-- //
-	boostTime = 0.5f;
+	directionX_ = LEFT;
+	directionY_ = DOWN;
 
 	// --ブーストの経過時間[s]-- //
-	boostTimer = 0.0f;
+	rotateTimer_ = 0.0f;
 
 	// --ブーストが始まった時の時間-- //
-	boostStartTime = 0;
+	rotateStartTime_ = 0;
 }
 
 // --デストラクタ-- //
@@ -113,244 +126,194 @@ Player::~Player() {
 // --初期化処理-- //
 void Player::Initialize() {
 	// --プレイヤーオブジェクト-- //
-	object_[0] = { {300.0f, 700.0f}, 24.0f, 24.0f };
-	object_[1] = { {900.0f, 700.0f}, 24.0f, 24.0f };
+	object_ = { {minPosX_, 100.0f}, 24.0f, 24.0f };
 
 	// --プレイヤーの状態-- //
-	state = Normal;
-	xAxisState = static_cast<int>(XAxisState::Default);
-//#ifdef _DEBUG
-//	debug_changeDirectionMode = static_cast<int>(DirectionMode::Old);
-//#endif
+	state_ = NormalWallHit;
 
-	// --横移動の速度-- //
-	speedX = defaultSpeedX;
+	// --速度-- //
+	speedX_ = 0.0f;
+	speedY_ = defSpeedY_;
 
 	// --移動する向き-- //
-	direction = RIGHT;
-
-	// --縦移動の速度-- //
-	speedY = 10.0f;
+	directionX_ = LEFT;
+	directionY_ = DOWN;
 
 	// --ブーストの経過時間[s]-- //
-	boostTimer = 0.0f;
+	rotateTimer_ = 0.0f;
+
+	// --ブーストが始まった時の時間-- //
+	rotateStartTime_ = 0;
+
+	// --空中にいるか-- //
+	isAir_ = false;
+
+	// --空中キックができるか-- //
+	isAirKickActive_ = true;
 }
 
 // --更新処理-- //
 void Player::Update() {
 
-	// --[SPACE]を押したら向きを変える-- //
-	if (key_->IsTrigger(KEY_INPUT_SPACE)) {
-		// --向きが右だったら左に変更-- //
-		if (direction == RIGHT) {
-			direction = LEFT;
-#ifdef _DEBUG // デバッグ限定
-			if (debug_changeDirectionMode == static_cast<int>(DirectionMode::New)) { // デバッグ用[SPACE]
-				xAxisState = static_cast<int>(XAxisState::Boost);
-				boostStartTime = GetNowCount();
-				isEaseDraw = true;
-				easeStartTime = GetNowCount();
+#pragma region 通常状態かつ壁伝い中の処理
+	if (state_ == NormalWallHit) {
+		// --[SPACE]を押したら-- //
+		if (key_->IsTrigger(KEY_INPUT_SPACE)) {
+			// --左右の向きを変える-- //
+			ChangeDireX();
+
+			// --状態を変える-- //
+			state_ = NormalAir;// -> 通常状態かつ空中
+
+			// --X軸の速度を変える-- //
+			speedX_ = wallKickSpeedX_;// --壁キックしたときの速度-- //
+
+			// --Y軸の移動方向が上だったら-- //
+			if (directionY_ == UP) {
+				speedY_ -= accelerationY_;
 			}
-#endif
-		}
 
-		// --向きが左だったら右に変更-- //
-		else if (direction == LEFT) {
-			direction = RIGHT;
-#ifdef _DEBUG
-			if (debug_changeDirectionMode == static_cast<int>(DirectionMode::New)) {
-				xAxisState = static_cast<int>(XAxisState::Boost);
-				boostStartTime = GetNowCount();
-				isEaseDraw = true;
-				easeStartTime = GetNowCount();
+			// --Y軸の移動方向が下だったら-- //
+			else if (directionY_ == DOWN) {
+				speedY_ += accelerationY_;
 			}
-#endif
+		}
+
+		// --減速処理-- //
+		if (directionY_ == DOWN) {
+			speedY_ -= decelerationY_;
+			speedY_ = Util::Clamp(speedY_, maxSpeedY_, minSpeedY_);
+		}
+
+		else if (directionY_ == UP) {
+			speedY_ -= decelerationY_;
+			if (speedY_ <= 0) {
+				directionY_ = DOWN;
+			}
 		}
 	}
+#pragma endregion
 
-#ifdef _DEBUG
-	if (key_->IsTrigger(KEY_INPUT_C)) {
-		if (debug_changeDirectionMode == static_cast<int>(DirectionMode::Old)) debug_changeDirectionMode = static_cast<int>(DirectionMode::New);
-		else if (debug_changeDirectionMode == static_cast<int>(DirectionMode::New)) debug_changeDirectionMode = static_cast<int>(DirectionMode::Old);
+#pragma region 通常状態かつ空中にいる
+	else if (state_ == NormalAir) {
+		
 	}
-#endif
+#pragma endregion
 
-	// --通常状態だったら-- //
-	if (state == Normal) {
-		speedX += 0.2f;
+#pragma region 回転状態かつ壁伝い中
+	else if (state_ == RotateWallHit) {
+		// --[SPACE]を押したら-- //
+		if (key_->IsTrigger(KEY_INPUT_SPACE)) {
+			// --左右の向きを変える-- //
+			ChangeDireX();
 
-		if (speedX >= defaultSpeedX) {
-			speedX = defaultSpeedX;
+			// --状態を変える-- //
+			state_ = NormalAir;// -> 通常状態かつ空中
+
+			// --X軸の速度を変える-- //
+			speedX_ = wallKickSpeedX_;// --壁キックしたときの速度-- //
 		}
 
-		// --速度を加算-- //
-		speedY += 0.4f;
-
-		if (speedY >= defaultSpeedY) {
-			speedY = defaultSpeedY;
-		}
-	}
-
-	// --ノックバック状態だったら-- //
-	else if (state == Knock) {
-		// --速度を加算-- //
-		speedY += 0.4f;
-
-		// --Y軸の速度が基礎値を越したら通常状態に変更-- //
-		if (speedY > 0) {
-			SetNormal();
-		}
-
-		speedX += 0.2f;
-
-		if (speedX >= defaultSpeedX) {
-			speedX = defaultSpeedX;
-		}
-	}
-
-	// --ブースト状態だったら-- //
-	else if (state == Boost) {
 		// --ブースト状態になってからの経過時間-- //
-		float nowTime = (GetNowCount() - boostStartTime) / 1000.0f;
+		float nowTime = (GetNowCount() - rotateStartTime_) / 1000.0f;
 
 		// --指定されているブースト時間が過ぎたら-- //
-		if (boostTime <= nowTime) {
+		if (rotateTime_ <= nowTime) {
 			// --ブースト状態から通常状態に変更-- //
-			SetNormal();
+			state_ = NormalWallHit;
 		}
 	}
+#pragma endregion
 
-	// --x軸のstateがBoostだったら-- //
-	if (xAxisState == static_cast<int>(XAxisState::Boost)) {
+#pragma region 回転状態かつ空中にいる
+	else if (state_ == RotateAir) {
 		// --ブースト状態になってからの経過時間-- //
-		float nowTime = (GetNowCount() - boostStartTime) / 1000.0f;
-
-		DrawFormatString(0, 40, 0x000000, "nowTime = %f", nowTime);
+		float nowTime = (GetNowCount() - rotateStartTime_) / 1000.0f;
 
 		// --指定されているブースト時間が過ぎたら-- //
-		if (0.1f <= nowTime) {
+		if (rotateTime_ <= nowTime) {
 			// --ブースト状態から通常状態に変更-- //
-			xAxisState = static_cast<int>(XAxisState::Default);
+			state_ = NormalAir;
 		}
+	}
+#pragma endregion
 
-		// --プレイヤーオブジェクトのX座標に速度を加算-- //
-		object_[0].pos.x += 2 * speedX * direction;
-		object_[1].pos.x += 2 * speedX * direction;
-	}
-	else {
-		// --プレイヤーオブジェクトのX座標に速度を加算-- //
-		object_[0].pos.x += speedX * direction;
-		object_[1].pos.x += speedX * direction;
-	}
+	// --プレイヤーのX軸に加算-- //
+	object_.pos.x += speedX_ * directionX_;
 
 	// --プレイヤーの移動分スクロール-- //
-	Camera::AddScroll(-speedY);
+	Camera::AddScroll(speedY_ * directionY_);
 
-	// --一定まで行くとプレイヤーの座標を反対側に変更-- //
-	if (object_[0].pos.x >= 960.0f) object_[0].pos.x -= 1280.0f;
-	else if (object_[0].pos.x <= -320.0f) object_[0].pos.x += 1280.0f;
+	// --x座標が最低座標以下になったら-- //
+	if (object_.pos.x < minPosX_) {
+		// --x座標を変更-- //
+		object_.pos.x = minPosX_;
 
-	if (object_[1].pos.x >= 960.0f) object_[1].pos.x -= 1280.0f;
-	else if (object_[1].pos.x <= -320.0f) object_[1].pos.x += 1280.0f;
-	//Collision();
+		// --状態を変更-- //
+		state_ = NormalWallHit;// -> 通常状態かつ壁伝い中
+
+		// --X軸の速度を変える-- //
+		speedX_ = 0.0f;// -> 動かないように
+	}
+
+	// --x座標が最高座標以上になったら-- //
+	else if (object_.pos.x > maxPosX_) {
+		// --X座標を変更-- //
+		object_.pos.x = maxPosX_;
+
+		// --状態を変更-- //
+		state_ = NormalWallHit;// -> 通常状態かつ壁伝い中
+
+		// --X軸の速度を変える-- //
+		speedX_ = 0.0f;// -> 動かないように
+	}
 }
 
 // --描画処理-- //
 void Player::Draw() {
-	if (isEaseDraw == true) {
-		// --ブースト状態になってからの経過時間-- //
-		float nowTime = (GetNowCount() - easeStartTime) / 1000.0f;
 
-		DrawFormatString(200, 40, 0x000000, "nowTime = %f", nowTime);
+	DrawBoxAA(object_, BLACK, true);
 
-		// 
-		object_[0].radiusX = MIN_SIZE_P;
-		object_[1].radiusX = MIN_SIZE_P;
-
-		// --指定されているブースト時間が過ぎたら-- //
-		if (0.1f <= nowTime) {
-			// --ブースト状態から通常状態に変更-- //
-			isEaseDraw = false;
-			object_[0].radiusX = MAX_SIZE_P;
-			object_[1].radiusX = MAX_SIZE_P;
-		}
-	}
-
-	// --ノックバック状態なら
-	if (state == Knock) {
-		// --オブジェクト1描画-- //
-		DrawBoxAA(object_[0], 0x000000, true);
-
-		// --オブジェクト2描画-- //
-		DrawBoxAA(object_[1], 0x000000, true);
-	}
-	else {
-		// --オブジェクト1描画-- //
-		DrawBoxAA(object_[0], 0xFFFFFF, true);
-
-		// --オブジェクト2描画-- //
-		DrawBoxAA(object_[1], 0xFFFFFF, true);
-	}
-
-	DrawFormatString(0, 40, 0x000000, "speedY = %f", speedY);
-	DrawFormatString(0, 60, 0x000000, "state = %d", state);
-	DrawFormatString(0, 100, 0x000000, "xAxisState = %d", xAxisState);
-	DrawFormatString(0, 120, 0x000000, "directionMode = %d : changeMode [C]", debug_changeDirectionMode);
-	DrawFormatString(0, 140, 0x000000, "isEase = %d", isEaseDraw);
-	DrawFormatString(0, 160, 0x000000, "Pos = (%f, %f)", object_[0].pos.x, object_[0].pos.y);
+	DrawFormatString(0, 40, WHITE, "speedX_ : %f", speedX_);
+	DrawFormatString(0, 60, WHITE, "speedY_ : %f", speedY_);
+	DrawFormatString(0, 80, WHITE, "direX : %d", directionX_);
+	DrawFormatString(0, 100, WHITE, "Pos : (%f, %f)", object_.pos.x, object_.pos.y);
+	DrawFormatString(0, 120, WHITE, "Scroll : %f", Camera::GetScroll());
 
 }
 
-// --白いオブジェクトの参照-- //
-BoxObj Player::GetPlayer1Obj() { return object_[0]; }
-
-// --黒いオブジェクトの参照-- //
-BoxObj Player::GetPlayer2Obj() { return object_[1]; }
+// --オブジェクトの参照-- //
+BoxObj Player::GetBoxObj() { return object_; }
 
 // --プレイヤーの状態を変更-- //
-int Player::GetState() { return state; }
+int Player::GetState() { return state_; }
 
-// --通常状態に変更-- //
-void Player::SetNormal() {
-
-	// --X軸の速度を規定値に設定-- //
-	speedX = defaultSpeedX;
-	speedY = defaultSpeedX;
-
-	// --通常状態に変更-- //
-	state = Normal;
-}
-
-// --ノックバックに変更-- //
-void Player::SetKnock() {
-	// --Y軸の速度をノックバック時の速度に設定-- //
-	speedY = defaultKnockSpeedY;
-
-	// --通常状態に変更-- //
-	state = Knock;
-
-	speedX = 0.4f;
-}
-
-// --ブースト状態に変更-- //
-void Player::SetBoost() {
-	// --Y軸の速度をブースト時の規定値に設定-- //
-	speedY = defaultBoostSpeedY;
-	speedX = defaultBoostSpeedY;
-
-	// --向きが右だったら左に変更-- //
-	if (direction == RIGHT) direction = LEFT;
-
-	// --向きが左だったら右に変更-- //
-	else if (direction == LEFT) direction = RIGHT;
-
-	// --ブースト状態に変更-- //
-	state = Boost;
-
-	boostStartTime = GetNowCount();
-}
-
+// --プレイヤーの状態を変更-- //
+void Player::SetState(int state) { state_ = state; }
+//
 // --死亡状態に変更-- //
 void Player::SetDeath() {
 	SceneManager::SetScene(RESULTSCENE);
+}
+
+float& Player::GetSpeedX() { return speedX_; }
+float& Player::GetSpeedY() { return speedY_; }
+
+// --X軸の向きを変える-- //
+void Player::ChangeDireX() {
+	if (directionX_ == LEFT) directionX_ = RIGHT;
+	else directionX_ = LEFT;
+}
+
+void Player::ChangeDireY() {
+	if (directionY_ == UP) directionY_ = DOWN;
+	else directionY_ = UP;
+}
+
+// --回転状態にする-- //
+void Player::SetRotate() {
+	speedY_ = maxSpeedY_;
+
+	state_ = RotateAir;
+	rotateStartTime_ = GetNowCount();
 }

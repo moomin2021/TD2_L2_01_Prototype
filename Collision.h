@@ -15,6 +15,14 @@ private:
 
 	StageManager* stage_;
 
+	BoxObj oldObj_;
+
+	// --当たり判定をとるか-- //
+	bool isCollision_ = true;
+
+	// --ブロックのサイズ-- //
+	float blockSize_ = 64.0f;
+
 	/// --メンバ変数END-- ///
 	/// --------------- ///
 	/// --メンバ関数-- ///

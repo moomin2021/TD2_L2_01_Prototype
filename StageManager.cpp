@@ -109,14 +109,8 @@ void StageManager::LoadCSV()
 				Obstacle objTmp({ static_cast<float>(cellNumberX * blockSize_ + 32), static_cast<float>(loopCount * blockSize_ + 32) }, blockType);
 				obstacles_.push_back(objTmp);
 
-				// --読みった数字がコインブロックだったら-- //
-				if (blockType == CoinBlock) {
-					// --最大コインに1追加-- //
-					maxCoin_++;
-				}
-
 				// --読みった数字がコインだったら-- //
-				else if (blockType == Coin) {
+				if (blockType == Coin) {
 					// --最大コインに1追加-- //
 					maxCoin_++;
 				}
@@ -159,5 +153,8 @@ void StageManager::SetCSV(int num) {
 	}
 	else if (num == 4) {
 		path_ = "csv/check_progress_gimic4.csv";
+	}
+	else if (num == 5) {
+		path_ = "csv/check_progress_gimic5.csv";
 	}
 }

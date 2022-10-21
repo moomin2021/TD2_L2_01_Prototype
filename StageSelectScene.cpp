@@ -177,5 +177,5 @@ void StageSelectScene::Draw() {
 			stageSelectImage_[i].handle, false);
 	}
 
-	effect_.SceneChange();
+	//effect_.SceneChange();
 }

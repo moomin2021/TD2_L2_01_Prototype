@@ -7,17 +7,19 @@
 
 enum BlockId
 {
-	None,   // 0
-	Block,// -> ただのブロック
-	CoinBlock,// -> コインブロック
+	None,   // -> なにもなし
 	Coin,// -> コイン
-	DeathBlock// -> 即死ブロック
+	BoundBlock,// -> バウンドブロック
+	DeathBlock// -> デスブロック
 };
 
 class StageManager {
 	/// --メンバ変数-- ///
 public:
-	// --障害物クラス宣言-- //
+	// --マップ-- //
+	std::vector<int[10]> map_;
+
+	// --オブジェクト-- //
 	std::vector<Obstacle> obstacles_;
 
 	// --1マスのサイズ-- //
@@ -36,6 +38,7 @@ private:
 	// --現在のコイン数-- //
 	int coin_ = 0;
 
+	// --読み込むCSVのパス-- //
 	std::string path_;
 
 	/// --メンバ変数END-- ///

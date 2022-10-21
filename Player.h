@@ -4,78 +4,82 @@
 #include "StageManager.h"
 
 enum State {
-	Normal,// -> 通常状態
-	Knock,// --> ノックバック状態
-	Boost,// ---> ブースト状態
+	NormalWallHit,// -> 通常状態で壁伝い中
+	NormalAir,// -> 通常状態で空中にいる
+	RotateWallHit,// -> 回転状態で壁伝い中
+	RotateAir,// -> 回転状態で空中にいる
 	Death// --死亡状態
 };
-
-enum struct XAxisState {
-	Default,
-	Boost
-};
-
-#ifdef _DEBUG
-enum struct DirectionMode {
-	Old,
-	New
-};
-#endif
 
 class Player {
 	/// --メンバ変数-- ///
 public:
 	// --オブジェクト-- //
-	BoxObj object_[2];
+	BoxObj object_;
 
 private:
 	// --インスタンス-- //
 	static Player* myInstance_;
 
-	// --クラス宣言-- //
+#pragma region クラス宣言
+	// --キーボード入力-- //
 	Key* key_;
-	StageManager* stageManager_ = nullptr;
+
+	// --ステージ管理-- //
+	StageManager* stageManager_;
+#pragma endregion
 
 	// --プレイヤーの状態-- //
-	int state;
-	bool xAxisState;
-#ifdef _DEBUG
-	bool debug_changeDirectionMode;
-#endif
-	bool isEaseDraw = false;
+	int state_;
 
-	// --横移動速度の基礎値-- //
-	const float defaultSpeedX;
+#pragma region プレイヤーの速度変数
+	// --実際に加算する速度変数-- //
+	float speedX_;// -> X軸
+	float speedY_;// -> Y軸
+	const float defSpeedY_;// -> Y軸基本速度
 
-	// --横移動の速度-- //
-	float speedX;
+	// --Y軸の最高速度-- //
+	const float maxSpeedY_;
 
-	// --移動する向き-- //
-	int direction;
+	// --Y軸の最低速度-- //
+	const float minSpeedY_;
 
-	// --縦移動速度の基礎値-- //
-	const float defaultSpeedY;
+	// --壁キックの速度-- //
+	const float wallKickSpeedX_;
 
-	// --縦移動の速度-- //
-	float speedY;
+	// --Y軸に減速速値-- //
+	const float decelerationY_;
 
+	// --Y軸の加速値-- //
+	const float accelerationY_;
+#pragma endregion
+
+#pragma region ブースト時間変数
 	// --ブーストの時間[s]-- //
-	float boostTime;
+	const float rotateTime_;
 
 	// --ブーストの経過時間[s]-- //
-	float boostTimer;
+	float rotateTimer_;
 
 	// --ブーストが始まった時の時間-- //
-	int boostStartTime;
+	int rotateStartTime_;
+#pragma endregion
 
-	//
-	int easeStartTime = 0.0f;
+	// --X座標の最高座標-- //
+	const float maxPosX_;
 
-	// --ブースト時の初期スピード-- //
-	const float defaultBoostSpeedY;
+	// --X座標の最低座標-- //
+	const float minPosX_;
 
-	// --ノックバック時の初期スピード-- //
-	const float defaultKnockSpeedY;
+	// --空中にいるか-- //
+	bool isAir_;
+
+	// --空中キックができるか-- //
+	bool isAirKickActive_;
+
+	// --移動する向き-- //
+	float directionX_;
+	float directionY_;
 
 	/// --メンバ変数END-- ///
 	/// --------------- ///
@@ -99,26 +103,33 @@ public:
 	// --描画処理-- //
 	void Draw();
 
-	// --オブジェクト1の参照-- //
-	BoxObj GetPlayer1Obj();
+	// --オブジェクトの参照-- //
+	BoxObj GetBoxObj();
 
-	// --オブジェクト1の参照-- //
-	BoxObj GetPlayer2Obj();
+	// --プレイヤーの状態を参照-- //
+	int GetState();
 
 	// --プレイヤーの状態を変更-- //
-	int GetState();
+	void SetState(int state);
+
+	float& GetSpeedX();
+	float& GetSpeedY();
 
 	// --通常状態に変更-- //
 	void SetNormal();
-
-	// --ノックバックに変更-- //
-	void SetKnock();
 
 	// --ブースト状態に変更-- //
 	void SetBoost();
 
 	// --死亡状態に変更-- //
 	void SetDeath();
+
+	// --X軸の向きを変える-- //
+	void ChangeDireX();
+	void ChangeDireY();
+
+	// --回転状態にする-- //
+	void SetRotate();
 
 private:
 	// --コンストラクタ-- //

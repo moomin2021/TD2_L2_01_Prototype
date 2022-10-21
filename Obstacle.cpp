@@ -1,6 +1,7 @@
 #include "Obstacle.h"
 #include "DxLib.h"
 #include "Camera.h"
+#include "StageManager.h"
 
 enum struct ShapeType {
 	None,		// ñ≥å¯
@@ -36,26 +37,19 @@ void Obstacle::Update() {
 // --ï`âÊèàóù
 void Obstacle::Draw() {
 
-	if (blockType_ == 1) {
+	if (blockType_ == BoundBlock) {
 		DrawBoxAA(object_.pos.x - object_.radiusX, object_.pos.y - object_.radiusY - Camera::GetScroll(), object_.pos.x + object_.radiusX, object_.pos.y + object_.radiusY - Camera::GetScroll(), 0x000000, true);
 		DrawBoxAA(object_.pos.x - object_.radiusX, object_.pos.y - object_.radiusY - Camera::GetScroll(), object_.pos.x + object_.radiusX, object_.pos.y + object_.radiusY - Camera::GetScroll(), 0xFFFFFF, false);
 	}
 
-	else if (blockType_ == 2) {
-		DrawBoxAA(object_.pos.x - object_.radiusX, object_.pos.y - object_.radiusY - Camera::GetScroll(), object_.pos.x + object_.radiusX, object_.pos.y + object_.radiusY - Camera::GetScroll(), 0x000000, true);
+	else if (blockType_ == DeathBlock) {
+		DrawBoxAA(object_.pos.x - object_.radiusX, object_.pos.y - object_.radiusY - Camera::GetScroll(), object_.pos.x + object_.radiusX, object_.pos.y + object_.radiusY - Camera::GetScroll(), 0xFF0000, true);
 		DrawBoxAA(object_.pos.x - object_.radiusX, object_.pos.y - object_.radiusY - Camera::GetScroll(), object_.pos.x + object_.radiusX, object_.pos.y + object_.radiusY - Camera::GetScroll(), 0xFFFFFF, false);
+	}
+
+	else if (blockType_ == Coin) {
 		DrawCircleAA(object_.pos.x, object_.pos.y - Camera::GetScroll(), object_.radiusX - 5, 50, 0xFFFF00, true);
 		DrawCircleAA(object_.pos.x, object_.pos.y - Camera::GetScroll(), object_.radiusX - 5, 50, 0x000000, false);
-	}
-
-	else if (blockType_ == 3) {
-		DrawCircleAA(object_.pos.x, object_.pos.y - Camera::GetScroll(), object_.radiusX - 5, 50, 0xFFFF00, true);
-		DrawCircleAA(object_.pos.x, object_.pos.y - Camera::GetScroll(), object_.radiusX - 5, 50, 0x000000, false);
-	}
-
-	else if (blockType_ == 4) {
-		DrawBoxAA(object_.pos.x - object_.radiusX, object_.pos.y - object_.radiusY - Camera::GetScroll(), object_.pos.x + object_.radiusX, object_.pos.y + object_.radiusY - Camera::GetScroll(), 0x000000, true);
-		DrawBoxAA(object_.pos.x - object_.radiusX, object_.pos.y - object_.radiusY - Camera::GetScroll(), object_.pos.x + object_.radiusX, object_.pos.y + object_.radiusY - Camera::GetScroll(), 0xFFFFFF, false);
 	}
 }
 
